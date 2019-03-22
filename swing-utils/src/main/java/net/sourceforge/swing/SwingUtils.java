@@ -36,6 +36,8 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.swing;
 
+import com.sun.java.accessibility.util.Translator;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Window;
@@ -43,8 +45,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JWindow;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.util.logging.OutputController;
 
 /**
  * Swing / AWT utility class
@@ -102,7 +102,7 @@ public final class SwingUtils {
 
     public static void checkEDT() {
         if (!isEventDispatchThread()) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, new Exception("EDT violation"));
+            //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, new Exception("EDT violation"));
         }
     }
 
@@ -160,9 +160,9 @@ public final class SwingUtils {
             try {
                 callOnAppContext(doRun);
             } catch (InterruptedException ie) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ie);
+               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ie);
             } catch (InvocationTargetException ite) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ite);
+               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ite);
             }
         }
     }
@@ -176,8 +176,8 @@ public final class SwingUtils {
                         window = new JWindow().getOwner();
                         window.setName("getOrCreateWindowOwner");
                     } catch (Exception ex) {
-                        OutputController.getLogger().log(ex);
-                        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.R("HEADLESS_MISSCONFIGURED"));
+                        //OutputController.getLogger().log(ex);
+                        //OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.R("HEADLESS_MISSCONFIGURED"));
                     }
                 }
             });

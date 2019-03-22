@@ -18,6 +18,7 @@
     <modules>
         <module>jnlp</module>
         <module>xml-parser</module>
+        <module>swing-utils</module>
         <module>icedtea-web</module>
     </modules>
 
