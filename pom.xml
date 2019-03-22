@@ -16,7 +16,8 @@
     </properties>
 
     <modules>
-        <module>netx</module>
+        <module>jnlp</module>
+        <module>icedtea-web</module>
     </modules>
 
 </project>
