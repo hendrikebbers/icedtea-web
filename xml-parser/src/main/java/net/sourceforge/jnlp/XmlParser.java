@@ -37,7 +37,7 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+//import static net.sourceforge.jnlp.runtime.Translator.R;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -45,7 +45,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import net.sourceforge.jnlp.util.logging.OutputController;
+//import net.sourceforge.jnlp.util.logging.OutputController;
 
 import net.sourceforge.nanoxml.XMLElement;
 
@@ -107,7 +107,8 @@ class XMLParser {
                             try {
                                 pout.close();
                             } catch (IOException ioe) {
-                                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+                                throw new RuntimeException("Error in XML parser", ioe);
+                                //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
                             }
                         }
                     }).start();
@@ -115,7 +116,7 @@ class XMLParser {
             Node jnlpNode = new Node(xml);
             return jnlpNode;
         } catch (Exception ex) {
-            throw new ParseException(R("PBadXML"), ex);
+            throw new ParseException("PBadXML", ex);
         }
     }
 

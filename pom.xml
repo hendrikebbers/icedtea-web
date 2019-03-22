@@ -17,6 +17,7 @@
 
     <modules>
         <module>jnlp</module>
+        <module>xml-parser</module>
         <module>icedtea-web</module>
     </modules>
 

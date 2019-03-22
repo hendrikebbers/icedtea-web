@@ -16,8 +16,8 @@
 
 package net.sourceforge.jnlp;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.runtime.Translator;
+//import net.sourceforge.jnlp.runtime.JNLPRuntime;
+//import net.sourceforge.jnlp.runtime.Translator;
 
 /**
  * Thrown to indicate that an error has occurred while parsing a
@@ -74,21 +74,21 @@ public class ParseException extends Exception {
     private static String getParserSettingsMessage() {
         final String tail = ""
                 + " "
-                + Translator.R("TAGSOUPtail")
+                + "TAGSOUPtail"
                 + " ";
         if (expected == UsedParsers.NORMAL && used == UsedParsers.NORMAL) {
             //warn about xml mode
-            return Translator.R("TAGSOUPnotUsed", OptionsDefinitions.OPTIONS.XML.option)+tail;
+            return tail;
         }
         if (expected == UsedParsers.MALFORMED && used != UsedParsers.MALFORMED) {
             //warn about TagSoup
-            return Translator.R("TAGSOUPbroken") + tail;
+            return"TAGSOUPbroken" + tail;
         }
-        if (JNLPRuntime.isDebug()) {
+       // if (JNLPRuntime.isDebug()) {
             return expected + " " + used + "; ";
-        } else {
-            return "";
-        }
+       // } else {
+       //     return "";
+       // }
     }
 
 }

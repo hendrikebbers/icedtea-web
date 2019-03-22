@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import net.sourceforge.jnlp.util.logging.OutputController;
+//import net.sourceforge.jnlp.util.logging.OutputController;
 
 /**
  * XMLElement is a representation of an XML object. The object is able to parse
@@ -1262,7 +1262,7 @@ public class XMLElement {
                     out.print(ch);
                     out.flush();
                     if (ch == 10) {
-                        OutputController.getLogger().log(line.toString());
+                        //OutputController.getLogger().log(line.toString());
                         line = new StringBuilder("line: " + newline + " ");
                         newline++;
                     } else {
@@ -1307,7 +1307,7 @@ public class XMLElement {
                 else {
                     out.print(ch);
                     if (ch == 10) {
-                        OutputController.getLogger().log(line.toString());
+                        //OutputController.getLogger().log(line.toString());
                         line = new StringBuilder("line: " + newline + " ");
                         newline++;
                     } else {
@@ -1320,10 +1320,11 @@ public class XMLElement {
         } catch (Exception e) {
             // Print the stack trace here -- xml.parseFromReader() will
             // throw the ParseException if something goes wrong.
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            throw new RuntimeException("Error in XML", e);
+            //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
         } finally {
-            OutputController.getLogger().log("");//force new line in all cases
-            OutputController.getLogger().log(line.toString()); //flush remaining line
+            //OutputController.getLogger().log("");//force new line in all cases
+            //OutputController.getLogger().log(line.toString()); //flush remaining line
 
         }
     }
