@@ -11,18 +11,14 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>xml-parser</artifactId>
+    <artifactId>application</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>icedtea-web</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.ccil.cowan.tagsoup</groupId>
-            <artifactId>tagsoup</artifactId>
-            <version>1.2</version>
-        </dependency>
     </dependencies>
+
 </project>

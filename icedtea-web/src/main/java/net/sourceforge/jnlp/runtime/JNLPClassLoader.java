@@ -86,10 +86,10 @@ import net.sourceforge.jnlp.security.JNLPAppVerifier;
 import net.sourceforge.jnlp.security.PluginAppVerifier;
 import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletTrustConfirmation;
 import net.sourceforge.jnlp.tools.JarCertVerifier;
+import net.sourceforge.jnlp.util.JNLPFileUtilities;
 import net.sourceforge.jnlp.util.JarFile;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -386,7 +386,7 @@ public class JNLPClassLoader extends URLClassLoader {
     }
 
     private void setSecurity() throws LaunchException {
-        URL codebase = UrlUtils.guessCodeBase(file);
+        URL codebase = JNLPFileUtilities.guessCodeBase(file);
         this.security = securityDelegate.getClassLoaderSecurity(codebase);
     }
 

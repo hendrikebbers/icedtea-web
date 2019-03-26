@@ -59,8 +59,8 @@ import net.sourceforge.jnlp.security.SecurityDialogs;
 import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
 import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
 import net.sourceforge.jnlp.util.ClasspathMatcher.ClasspathMatchers;
+import net.sourceforge.jnlp.util.JNLPFileUtilities;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -240,7 +240,7 @@ public class ManifestAttributesChecker {
             return;
         }
         final Object securityType = security.getSecurityType();
-        final URL codebase = UrlUtils.guessCodeBase(file);
+        final URL codebase = JNLPFileUtilities.guessCodeBase(file);
         final ClasspathMatchers codebaseAtt = file.getManifestsAttributes().getCodebase();
         if (codebaseAtt == null) {
             LOG.debug(R("CBCheckNoEntry"));

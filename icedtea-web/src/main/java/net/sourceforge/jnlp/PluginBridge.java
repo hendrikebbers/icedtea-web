@@ -41,8 +41,7 @@ import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.jnlp.util.replacements.BASE64Decoder;
+import net.sourceforge.jnlp.util.encoding.BASE64Decoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

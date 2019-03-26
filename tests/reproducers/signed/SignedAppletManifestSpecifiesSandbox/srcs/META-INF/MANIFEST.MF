@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Permissions: sandbox
-Application-Library-Allowable-Codebase: http://localhost
-Application-Name: SignedAppletManifestSpecifiesSandbox
-

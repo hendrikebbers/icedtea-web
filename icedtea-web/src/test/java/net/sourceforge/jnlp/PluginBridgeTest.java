@@ -26,7 +26,7 @@ import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
-import net.sourceforge.jnlp.util.replacements.BASE64Encoder;
+import net.sourceforge.jnlp.util.encoding.BASE64Encoder;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

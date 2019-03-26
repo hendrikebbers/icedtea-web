@@ -21,6 +21,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>xml-parser</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -30,26 +35,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.ccil.cowan.tagsoup</groupId>
-            <artifactId>tagsoup</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.vatbub</groupId>
             <artifactId>mslinks</artifactId>
             <version>1.0.5</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.26</version>
-        </dependency>
+
 
 
         <dependency>

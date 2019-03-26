@@ -56,9 +56,7 @@ import java.util.Enumeration;
 import java.util.Random;
 
 import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.services.XPrintService;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.jnlp.util.replacements.BASE64Encoder;
+import net.sourceforge.jnlp.util.encoding.BASE64Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
