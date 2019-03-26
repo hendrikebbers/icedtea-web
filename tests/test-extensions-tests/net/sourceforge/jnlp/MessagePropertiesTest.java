@@ -35,12 +35,13 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version.
 */
 
-package net.sourceforge.jnlp.tools;
+package net.sourceforge.jnlp;
+
+import net.sourceforge.jnlp.tools.MessageProperties;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Locale;
-import net.sourceforge.jnlp.tools.MessageProperties;
-import org.junit.Test;
-import org.junit.Assert;
 
 public class MessagePropertiesTest {
 
