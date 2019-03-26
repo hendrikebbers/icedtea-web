@@ -50,18 +50,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import net.sourceforge.jnlp.cache.NativeLibraryStorage;
 import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
 
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The {@code KeyStores} class allows easily accessing the various KeyStores
  * used.
  */
 public final class KeyStores {
+
+    private final static Logger LOG = LoggerFactory.getLogger(KeyStores.class);
+
 
     public static class KeyStoreWithPath {
 
@@ -143,7 +149,7 @@ public final class KeyStores {
             //to keystore, then this will not be blocker for garbage collection
             keystoresPaths.put(ks.hashCode(), location);
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
         return new KeyStoreWithPath(ks, location);
     }

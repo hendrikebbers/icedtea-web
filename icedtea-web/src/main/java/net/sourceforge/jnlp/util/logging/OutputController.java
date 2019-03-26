@@ -43,10 +43,15 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.headers.Header;
 import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
 import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -56,7 +61,9 @@ import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
  */
 public class OutputController {
 
-   public static enum Level {
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultDownloadIndicator.class);
+
+    public static enum Level {
 
         MESSAGE_ALL, // - stdout/log in all cases
         MESSAGE_DEBUG, // - stdout/log in verbose/debug mode
@@ -126,7 +133,7 @@ public class OutputController {
                     }
 
                 } catch (Throwable t) {
-                    OutputController.getLogger().log(t);
+                    LOG.error("ERROR", t);
                 }
             }
         }
@@ -372,7 +379,7 @@ public class OutputController {
         private static volatile SingleStreamLogger INSTANCE = initSystemLogger();
 
         private static SingleStreamLogger initSystemLogger() {
-            if (JNLPRuntime.isWindows()) {
+            if (OsUtil.isWindows()) {
                 return new WinSystemLog();
             } else {
                 return new UnixSystemLog();

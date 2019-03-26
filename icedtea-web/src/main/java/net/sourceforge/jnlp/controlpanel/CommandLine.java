@@ -39,6 +39,8 @@ import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextForm
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Encapsulates a command line interface to the deployment configuration.
@@ -67,6 +69,9 @@ import net.sourceforge.swing.SwingUtils;
  */
 public class CommandLine {
 
+    private final static Logger LOG = LoggerFactory.getLogger(CommandLine.class);
+
+
     public static final int ERROR = 1;
     public static final int SUCCESS = 0;
 
@@ -88,8 +93,8 @@ public class CommandLine {
         try {
             config.load(false);
         } catch (ConfigurationException | MalformedURLException e) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("RConfigurationFatal"));
-            OutputController.getLogger().log(e);
+            LOG.debug(R("RConfigurationFatal"));
+            LOG.error("ERROR", e);
         }
     }
 
@@ -182,7 +187,7 @@ public class CommandLine {
         unknownProperties.removeAll(all.keySet());
         if (unknownProperties.size() > 0) {
             for (String property : unknownProperties) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnknownProperty", property));
+                LOG.debug(R("CLUnknownProperty", property));
             }
             return ERROR;
         }
@@ -244,7 +249,7 @@ public class CommandLine {
         try {
             config.save();
         } catch (IOException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
             return ERROR;
         }
 
@@ -261,8 +266,8 @@ public class CommandLine {
             try {
                 old.getValidator().validate(value);
             } catch (IllegalArgumentException e) {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("CLIncorrectValue", old.getName(), value, old.getValidator().getPossibleValues()));
-                OutputController.getLogger().log(e);
+                LOG.debug(R("CLIncorrectValue", old.getName(), value, old.getValidator().getPossibleValues()));
+                LOG.error("ERROR", e);
                 return ERROR;
             }
         }
@@ -298,7 +303,7 @@ public class CommandLine {
             if (args.size() > 1) {
                 for (String arg : args) {
                     if (!arg.equals("all")) {
-                        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnknownCommand", arg));
+                        LOG.debug(R("CLUnknownCommand", arg));
                     }
                 }
             }
@@ -314,7 +319,7 @@ public class CommandLine {
         } else {
             for (String key : args) {
                 if (!all.containsKey(key)) {
-                    OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnknownProperty", key));
+                    LOG.debug(R("CLUnknownProperty", key));
                     return ERROR;
                 } else {
                     Setting<String> setting = all.get(key);
@@ -326,7 +331,7 @@ public class CommandLine {
         try {
             config.save();
         } catch (IOException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
             return ERROR;
         }
 
@@ -361,7 +366,7 @@ public class CommandLine {
         for (String key : args) {
             Setting<String> value = all.get(key);
             if (value == null) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLNoInfo"));
+                LOG.debug(R("CLNoInfo"));
             } else {
                 OutputController.getLogger().printOutLn(R("CLDescription", value.getDescription()));
                 OutputController.getLogger().printOutLn(R("CLValue", value.getValue()));
@@ -409,12 +414,12 @@ public class CommandLine {
 
         boolean allValid = true;
         for (Setting<String> setting : validator.getIncorrectSetting()) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLIncorrectValue", setting.getName(), setting.getValue(), setting.getValidator().getPossibleValues()));
+            LOG.debug(R("CLIncorrectValue", setting.getName(), setting.getValue(), setting.getValidator().getPossibleValues()));
             allValid = false;
         }
 
         for (Setting<String> setting : validator.getUnrecognizedSetting()) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnknownProperty", setting.getName()));
+            LOG.debug(R("CLUnknownProperty", setting.getName()));
             allValid = false;
         }
 
@@ -438,12 +443,12 @@ public class CommandLine {
         int val;
         if (hasUnrecognizedCommands()) {
             for (String unknown : optionParser.getMainArgs()) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnknownCommand", unknown));
+                LOG.debug(R("CLUnknownCommand", unknown));
             }
             handleHelpCommand();
             val = ERROR;
         } else if (getNumberOfOptions() > 1) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CLUnexpectedNumberOfCommands"));
+            LOG.debug(R("CLUnexpectedNumberOfCommands"));
             val = handleHelpCommand();
         } else if (optionParser.hasOption(OptionsDefinitions.OPTIONS.LIST)) {
             val = handleListCommand();
@@ -521,7 +526,7 @@ public class CommandLine {
                 JNLPRuntime.exit(result);
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, e);
+            LOG.error("ERROR", e);
             JNLPRuntime.exit(1);
         }
     }

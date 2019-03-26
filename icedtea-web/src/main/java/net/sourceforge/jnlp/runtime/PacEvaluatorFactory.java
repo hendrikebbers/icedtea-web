@@ -42,10 +42,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Properties;
+
+import net.sourceforge.jnlp.services.XSingleInstanceService;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class PacEvaluatorFactory {
+
+    private final static Logger LOG = LoggerFactory.getLogger(PacEvaluatorFactory.class);
+
 
     public static PacEvaluator getPacEvaluator(URL pacUrl) {
         boolean useRhino = false;
@@ -59,8 +66,8 @@ public class PacEvaluatorFactory {
             properties = new Properties();
             properties.load(in);
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "PAC provider is broken or don't exists. This is ok unless your applicatin is using JavaScript.");
-            OutputController.getLogger().log(e);
+            LOG.debug("PAC provider is broken or don't exists. This is ok unless your applicatin is using JavaScript.");
+            LOG.error("ERROR", e);
         }
 
         if (properties == null) {
@@ -78,16 +85,16 @@ public class PacEvaluatorFactory {
             } catch (ClassNotFoundException e) {
                 // ignore
             } catch (InstantiationException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             } catch (IllegalAccessException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             } catch (NoSuchMethodException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             } catch (IllegalArgumentException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             } catch (InvocationTargetException e) {
                 if (e.getCause() != null) {
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e.getCause());
+                    LOG.error("ERROR", e.getCause());
                 }
             }
         }

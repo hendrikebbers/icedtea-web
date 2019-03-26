@@ -60,8 +60,10 @@ import static net.sourceforge.jnlp.runtime.Translator.R;
 
 import net.sourceforge.jnlp.security.ConnectionFactory;
 import net.sourceforge.jnlp.util.FileUtils;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.PropertiesFile;
-import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides static methods to interact with the cache, download
@@ -72,6 +74,7 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  */
 public class CacheUtil {
 
+    private final static Logger LOG = LoggerFactory.getLogger(CacheUtil.class);
 
 
     /**
@@ -135,7 +138,7 @@ public class CacheUtil {
                  ConnectionFactory.getConnectionFactory().disconnect(conn);                
             } catch (java.io.IOException ioe) {
                 // should try to figure out the permission
-                OutputController.getLogger().log(ioe);
+                LOG.error("ERROR", ioe);
             }
         }
 
@@ -159,12 +162,12 @@ public class CacheUtil {
             return false;
         }
 
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Clearing cache directory: " + cacheDir);
+        LOG.debug("Clearing cache directory: " + cacheDir);
         lruHandler.lock();
         try {
             cacheDir = cacheDir.getCanonicalFile();
             // remove windows shortcuts before cache dir is gone
-            if (JNLPRuntime.isWindows()) {
+            if (OsUtil.isWindows()) {
                 removeWindowsShortcuts("ALL");
             }
             FileUtils.recursiveDelete(cacheDir, cacheDir);
@@ -185,7 +188,7 @@ public class CacheUtil {
             return false;
         }
 
-        OutputController.getLogger().log(OutputController.Level.WARNING_ALL, Translator.R("BXSingleCacheCleared", application));
+        LOG.debug(Translator.R("BXSingleCacheCleared", application));
         List<CacheId> ids = getCacheIds(".*", jnlpPath, domain);
         int found = 0;
         int files = 0;
@@ -196,12 +199,12 @@ public class CacheUtil {
             }
         }
         if (found == 0) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, Translator.R("BXSingleCacheClearNotFound", application));
+            LOG.error(Translator.R("BXSingleCacheClearNotFound", application));
         }
         if (found > 1) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, Translator.R("BXSingleCacheMoreThenOneId", application));
+            LOG.error(Translator.R("BXSingleCacheMoreThenOneId", application));
         }
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.R("BXSingleCacheFileCount", files));
+        LOG.debug(Translator.R("BXSingleCacheFileCount", files));
         CacheLRUWrapper.getInstance().lock();
         try {
             Files.walk(Paths.get(CacheLRUWrapper.getInstance().getCacheDir().getFile().getCanonicalPath())).filter(new Predicate<Path>() {
@@ -219,12 +222,12 @@ public class CacheUtil {
                         if (application.equalsIgnoreCase(jnlpPath) || application.equalsIgnoreCase(getDomain(path))) {
                             pf.setProperty("delete", "true");
                             pf.store();
-                            OutputController.getLogger().log("marked for deletion: " + path);
+                            LOG.debug("marked for deletion: " + path);
                         }
                     }
                 }
             });
-            if (JNLPRuntime.isWindows()) {
+            if (OsUtil.isWindows()) {
                 removeWindowsShortcuts(application.toLowerCase());
             }
             // clean the cache of entries now marked for deletion
@@ -240,7 +243,7 @@ public class CacheUtil {
 
     public static boolean checkToClearCache() {
         if (!okToClearCache()) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("CCannotClearCache"));
+            LOG.debug(R("CCannotClearCache"));
             return false;
         }
         return CacheLRUWrapper.getInstance().getCacheDir().getFile().isDirectory();
@@ -248,7 +251,7 @@ public class CacheUtil {
 
     public static void removeWindowsShortcuts(String jnlpApp)
             throws IOException {
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Clearing Windows shortcuts");
+        LOG.debug("Clearing Windows shortcuts");
         if (CacheLRUWrapper.getInstance().getWindowsShortcutList().exists()) {
             List<String> lines = Files.readAllLines(CacheLRUWrapper.getInstance().getWindowsShortcutList().toPath(), Charset.forName("UTF-8"));
             Iterator it = lines.iterator();
@@ -269,12 +272,12 @@ public class CacheUtil {
                     fDelete = true;
                 }
                 if (fDelete) {
-                    OutputController.getLogger().log("Deleting item = " + sPath);
+                    LOG.debug("Deleting item = " + sPath);
                     File scList = new File(sPath);
                     try {
                         FileUtils.recursiveDelete(scList, scList);
                     } catch (Exception e) {
-                        OutputController.getLogger().log(e);
+                        LOG.error("ERROR", e);
                     }
                 }
             }
@@ -293,7 +296,7 @@ public class CacheUtil {
          List<CacheId> items = getCacheIds(filter, jnlpPath, domain);
          if (JNLPRuntime.isDebug()) {
              for (CacheId id : items) {
-                 OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, id.getId()+" ("+id.getType()+") ["+id.files.size()+"]");
+                 LOG.debug(id.getId()+" ("+id.getType()+") ["+id.files.size()+"]");
                  for(Object[] o: id.getFiles()){
                      StringBuilder sb = new StringBuilder();
                      for (int i = 0; i < o.length; i++) {
@@ -303,12 +306,12 @@ public class CacheUtil {
                          }
                          sb.append(object.toString()).append(" ;  ");
                      }
-                     OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "  * " + sb);
+                     LOG.debug("  * " + sb);
                  }
              }
          } else {
              for (CacheId id : items) {
-                 OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, id.getId());
+                 LOG.debug(id.getId());
              }
          }
      }
@@ -380,14 +383,14 @@ public class CacheUtil {
                 FileChannel channel = fis.getChannel();
                 locking  = channel.tryLock();
                 if (locking == null) {
-                    OutputController.getLogger().log("Other instances of javaws are running");
+                    LOG.debug("Other instances of javaws are running");
                     return false;
                 }
-                OutputController.getLogger().log("No other instances of javaws are running");
+                LOG.debug("No other instances of javaws are running");
                 return true;
 
             } else {
-                OutputController.getLogger().log("No instance file found");
+                LOG.debug("No instance file found");
                 return true;
             }
         } catch (IOException e) {
@@ -397,7 +400,7 @@ public class CacheUtil {
                 try {
                     locking.release();
                 } catch (IOException ex) {
-                    OutputController.getLogger().log(ex);
+                    LOG.error("ERROR", ex);
                 }
             }
         }
@@ -423,11 +426,11 @@ public class CacheUtil {
             CacheEntry entry = new CacheEntry(source, version); // could pool this
             boolean result = entry.isCurrent(lastModifed);
 
-            OutputController.getLogger().log("isCurrent: " + source + " = " + result);
+            LOG.debug("isCurrent: " + source + " = " + result);
 
             return result;
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return isCached(source, version); // if can't connect return whether already in cache
         }
     }
@@ -448,7 +451,7 @@ public class CacheUtil {
         CacheEntry entry = new CacheEntry(source, version); // could pool this
         boolean result = entry.isCached();
 
-        OutputController.getLogger().log("isCached: " + source + " = " + result);
+        LOG.debug("isCached: " + source + " = " + result);
 
         return result;
     }
@@ -596,7 +599,7 @@ public class CacheUtil {
                             FileUtils.createRestrictedFile(pf, true); // Create the info file for marking later.
                             lruHandler.addEntry(lruHandler.generateKey(cacheFile.getPath()), cacheFile.getPath());
                         } catch (IOException ioe) {
-                            OutputController.getLogger().log(ioe);
+                            LOG.error("ERROR", ioe);
                         }
 
                         break;
@@ -792,7 +795,7 @@ public class CacheUtil {
                                   100);
             }
         } catch (InterruptedException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         } finally {
             if (listener != null)
                 indicator.disposeListener(listener);
@@ -869,7 +872,7 @@ public class CacheUtil {
                             try {
                                 FileUtils.recursiveDelete(f, f);
                             } catch (IOException e1) {
-                                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e1);
+                                LOG.error("ERROR", e1);
                             }
                         }
 

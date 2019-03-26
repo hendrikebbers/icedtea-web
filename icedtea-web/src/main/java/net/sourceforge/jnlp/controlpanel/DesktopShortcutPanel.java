@@ -34,8 +34,8 @@ import net.sourceforge.jnlp.ShortcutDesc;
 
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.controlpanel.desktopintegrationeditor.FreeDesktopIntegrationEditorFrame;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.swing.SwingUtils;
 
 /**
@@ -71,7 +71,7 @@ public class DesktopShortcutPanel extends NamedBorderPanel implements ItemListen
         JLabel description = new JLabel("<html>" + Translator.R("CPDesktopIntegrationDescription") + "<hr /></html>");
         JComboBox<ComboItem> shortcutComboOptions = new JComboBox<>();
         JButton manageIntegrationsButton = new JButton(Translator.R("CPDesktopIntegrationShowIntegrations"));
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             manageIntegrationsButton.setToolTipText(Translator.R("CPDesktopIntegrationLinuxOnly"));
             manageIntegrationsButton.setEnabled(false);
         }

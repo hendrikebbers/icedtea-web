@@ -41,9 +41,15 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 import net.sourceforge.jnlp.NetxPanel;
+import net.sourceforge.jnlp.controlpanel.ControlPanel;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AppletViewerPanelAccess extends AppletViewerPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppletViewerPanelAccess.class);
+
 
     public AppletViewerPanelAccess(URL documentURL, Map<String, String> atts) {
         // note, this is copy.
@@ -159,8 +165,8 @@ public abstract class AppletViewerPanelAccess extends AppletViewerPanel {
             fs.setAccessible(true);
             fs.set(this, a);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | SecurityException ex) {
-            OutputController.getLogger().log("Can't get/set doInit. Runing on JDK9 or higher?");
-            OutputController.getLogger().log(ex);
+            LOG.debug("Can't get/set doInit. Runing on JDK9 or higher?");
+            LOG.error("ERROR", ex);
         }
 
     }

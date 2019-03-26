@@ -44,8 +44,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -61,6 +64,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * </code></pre>
  */
 public final class FirefoxPreferencesParser {
+
+    private final static Logger LOG = LoggerFactory.getLogger(FirefoxPreferencesParser.class);
+
 
     File prefsFile = null;
     Map<String, String> prefs = null;
@@ -140,7 +146,7 @@ public final class FirefoxPreferencesParser {
         } finally {
             reader.close();
         }
-        OutputController.getLogger().log("Read " + prefs.size() + " entries from Firefox's preferences");
+        LOG.debug("Read " + prefs.size() + " entries from Firefox's preferences");
     }
 
     /**

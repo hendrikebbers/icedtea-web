@@ -42,6 +42,8 @@ import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.optionparser.InvalidArgumentException;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.jnlp.util.optionparser.UnevenParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.awt.AppContext;
 import sun.awt.SunToolkit;
 
@@ -61,6 +63,9 @@ import net.sourceforge.swing.SwingUtils;
  * @version $Revision: 1.21 $
  */
 public final class Boot implements PrivilegedAction<Void> {
+
+    private final static Logger LOG = LoggerFactory.getLogger(Boot.class);
+
 
     // todo: decide whether a spawned netx (external launch)
     // should inherit the same options as this instance (store argv?)
@@ -124,7 +129,7 @@ public final class Boot implements PrivilegedAction<Void> {
             try {
                 CertificateViewer.main(null);
             } catch (Exception e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             } finally {
                 //no matter what happens, terminate
                 return;
@@ -152,7 +157,7 @@ public final class Boot implements PrivilegedAction<Void> {
                     PropertyDesc propDesc = PropertyDesc.fromString(prop);
                     JNLPRuntime.getConfiguration().setProperty(propDesc.getKey(), propDesc.getValue());
                 } catch (LaunchException ex) {
-                    OutputController.getLogger().log(ex);
+                    LOG.error("ERROR", ex);
                 }
             }
         }
@@ -165,7 +170,7 @@ public final class Boot implements PrivilegedAction<Void> {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (Exception e) {
-                    OutputController.getLogger().log("Unable to set system look and feel");
+                    LOG.debug("Unable to set system look and feel");
                 }
                 OutputController.getLogger().printOutLn(R("BLaunchAbout"));
                 AboutDialog.display(TextsProvider.JAVAWS);
@@ -276,7 +281,7 @@ public final class Boot implements PrivilegedAction<Void> {
     }
 
     static void fatalError(String message) {
-        OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "netx: " + message);
+        LOG.debug("netx: " + message);
         JNLPRuntime.exit(1);
     }
 
@@ -290,7 +295,7 @@ public final class Boot implements PrivilegedAction<Void> {
         try {
             location = getMainFile();
         } catch (InvalidArgumentException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             fatalError("Invalid argument: " + e);
         }
 
@@ -299,7 +304,7 @@ public final class Boot implements PrivilegedAction<Void> {
             JNLPRuntime.exit(1);
         }
 
-        OutputController.getLogger().log(R("BFileLoc") + ": " + location);
+        LOG.debug(R("BFileLoc") + ": " + location);
 
         URL url = null;
 
@@ -308,13 +313,13 @@ public final class Boot implements PrivilegedAction<Void> {
             {
                 url = new File(location).toURL(); // Why use file.getCanonicalFile?
             } else if (ServiceUtil.getBasicService() != null) {
-                OutputController.getLogger().log("Warning, null basicService");
+                LOG.debug("Warning, null basicService");
                 url = new URL(ServiceUtil.getBasicService().getCodeBase(), location);
             } else {
                 url = new URL(location);
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             fatalError("Invalid jnlp file " + location);
         }
 

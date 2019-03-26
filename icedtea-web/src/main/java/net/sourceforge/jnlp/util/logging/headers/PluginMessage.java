@@ -38,9 +38,16 @@ exception statement from your version. */
 package net.sourceforge.jnlp.util.logging.headers;
 
 import java.util.Date;
+
+import net.sourceforge.jnlp.security.dialogs.MissingALACAttributePanel;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PluginMessage  implements MessageWithHeader{
+
+    private final static Logger LOG = LoggerFactory.getLogger(PluginMessage.class);
+
 
     public PluginHeader header;
     public String restOfMessage;
@@ -76,7 +83,7 @@ public class PluginMessage  implements MessageWithHeader{
             int i = orig.indexOf(p.thread2);
             restOfMessage = orig.substring(i + p.thread2.length() + 2); //+": "
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             this.wasError = true;
         }
     }

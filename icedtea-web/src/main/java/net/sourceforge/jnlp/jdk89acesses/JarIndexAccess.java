@@ -5,7 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.jar.JarFile;
+
+import net.sourceforge.jnlp.tools.CertInformation;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class to access sun.misc.JarINdex for both jdk9 and 8.
@@ -13,6 +17,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @author jvanek
  */
 public class JarIndexAccess {
+
+    private final static Logger LOG = LoggerFactory.getLogger(JarIndexAccess.class);
+
 
     private static Class<?> jarIndexClass;
     /*JarIndex*/
@@ -23,11 +30,10 @@ public class JarIndexAccess {
             jarIndexClass = Class.forName("sun.misc.JarIndex");
         } catch (ClassNotFoundException ex) {
             try {
-                OutputController.getLogger().log(ex);
-                OutputController.getLogger().log("Running jdk9+ ?");
+                LOG.error("Running jdk9+ ?", ex);
                 jarIndexClass = Class.forName("jdk.internal.util.jar.JarIndex");
             } catch (ClassNotFoundException exx) {
-                OutputController.getLogger().log(exx);
+                LOG.error("ERROR", exx);
                 throw new RuntimeException("JarIndex not found!");
             }
         }

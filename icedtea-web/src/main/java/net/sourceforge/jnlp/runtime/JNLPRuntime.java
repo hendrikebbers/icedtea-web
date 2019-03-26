@@ -61,6 +61,7 @@ import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.cache.DownloadIndicator;
+import net.sourceforge.jnlp.cache.ResourceDownloader;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
@@ -70,10 +71,13 @@ import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
 import net.sourceforge.jnlp.security.SecurityUtil;
 import net.sourceforge.jnlp.services.XServiceManagerStub;
 import net.sourceforge.jnlp.util.BasicExceptionDialog;
+import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.JavaConsole;
 import net.sourceforge.jnlp.util.logging.LogConfig;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.net.www.protocol.jar.URLJarFile;
 
 /**
@@ -96,6 +100,9 @@ import sun.net.www.protocol.jar.URLJarFile;
  * @version $Revision: 1.19 $
  */
 public class JNLPRuntime {
+
+    private final static Logger LOG = LoggerFactory.getLogger(JNLPRuntime.class);
+
 
     /**
      * java-abrt-connector can print out specific application String method, it is good to save visited urls for reproduce purposes.
@@ -135,14 +142,6 @@ public class JNLPRuntime {
 
     /** whether the runtime uses security */
     private static boolean securityEnabled = true;
-
-    /** whether debug mode is on */
-    private static boolean debug = false;
-
-    /**
-     * whether plugin debug mode is on
-     */
-    private static Boolean pluginDebug = null;
 
     /** mutex to wait on, for initialization */
     public static Object initMutex = new Object();
@@ -220,7 +219,7 @@ public class JNLPRuntime {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            OutputController.getLogger().log("Unable to set system look and feel");
+            LOG.debug("Unable to set system look and feel");
         }
 
         if (JavaConsole.canShowOnStartup(isApplication)) {
@@ -234,7 +233,7 @@ public class JNLPRuntime {
                 //where deployment.system.config points is not readable
                 throw new RuntimeException(getConfiguration().getLoadingException());
             }
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("RConfigurationError")+": "+getConfiguration().getLoadingException().getMessage());
+            LOG.debug(R("RConfigurationError")+": "+getConfiguration().getLoadingException().getMessage());
         }
 
         isWebstartApplication = isApplication;
@@ -282,8 +281,8 @@ public class JNLPRuntime {
 
             HttpsURLConnection.setDefaultSSLSocketFactory(sslSocketFactory);
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to set SSLSocketfactory (may _prevent_ access to sites that should be trusted)! Continuing anyway...");
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.debug("Unable to set SSLSocketfactory (may _prevent_ access to sites that should be trusted)! Continuing anyway...");
+            LOG.error("ERROR", e);
         }
 
         // plug in a custom authenticator and proxy selector
@@ -323,14 +322,14 @@ public class JNLPRuntime {
                 try {
                     trustManagerClass = Class.forName("net.sourceforge.jnlp.security.VariableX509TrustManagerJDK6");
                  } catch (ClassNotFoundException cnfe) {
-                     OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to find class net.sourceforge.jnlp.security.VariableX509TrustManagerJDK6");
+                     LOG.debug("Unable to find class net.sourceforge.jnlp.security.VariableX509TrustManagerJDK6");
                      return null;
                  }
             } else { // Java 7 or more (technically could be <= 1.5 but <= 1.5 is unsupported)
                 try {
                     trustManagerClass = Class.forName("net.sourceforge.jnlp.security.VariableX509TrustManagerJDK7");
                  } catch (ClassNotFoundException cnfe) {
-                     OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to find class net.sourceforge.jnlp.security.VariableX509TrustManagerJDK7");
+                     LOG.debug("Unable to find class net.sourceforge.jnlp.security.VariableX509TrustManagerJDK7");
                      return null;
                  }
             }
@@ -347,8 +346,8 @@ public class JNLPRuntime {
 
             return (TrustManager) tmCtor.newInstance();
         } catch (RuntimeException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to load JDK-specific TrustManager. Was this version of IcedTea-Web compiled with JDK 6 or 7?");
-            OutputController.getLogger().log(e);
+            LOG.debug("Unable to load JDK-specific TrustManager. Was this version of IcedTea-Web compiled with JDK 6 or 7?");
+            LOG.error("ERROR", e);
             throw e;
         }
     }
@@ -390,7 +389,7 @@ public class JNLPRuntime {
 
     public static void setOfflineForced(boolean b) {
         offlineForced = b;
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Forcing of offline set to: " + offlineForced);
+        LOG.debug("Forcing of offline set to: " + offlineForced);
     }
 
     public static boolean isOfflineForced() {
@@ -399,7 +398,7 @@ public class JNLPRuntime {
 
     public static void setOnlineDetected(boolean online) {
         onlineDetected = online;
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Detected online set to: " + onlineDetected);
+        LOG.debug("Detected online set to: " + onlineDetected);
     }
 
     public static boolean isOnlineDetected() {
@@ -434,7 +433,7 @@ public class JNLPRuntime {
         try {
             InetAddress.getByName(location.getHost());
         } catch (UnknownHostException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "The host of " + location.toExternalForm() + " file seems down, or you are simply offline.");
+            LOG.debug("The host of " + location.toExternalForm() + " file seems down, or you are simply offline.");
             return false;
         }
 
@@ -457,14 +456,14 @@ public class JNLPRuntime {
                 config.load();
                 config.copyTo(System.getProperties());
             } catch (ConfigurationException ex) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("RConfigurationError"));
+                LOG.debug(R("RConfigurationError"));
                 //mark this exceptionas we can die on it later
                 config.setLoadingException(ex);
                 //to be sure - we MUST die - http://docs.oracle.com/javase/6/docs/technotes/guides/deployment/deployment-guide/properties.html
             }catch(Exception t){
                 //all exceptions are causing InstantiatizationError so this do it much more readble
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, t);
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("RFailingToDefault"));
+                LOG.error("ERROR", t);
+                LOG.debug(R("RFailingToDefault"));
                 if (!JNLPRuntime.isHeadless()){
                     JOptionPane.showMessageDialog(null, R("RFailingToDefault")+"\n"+t.toString());
                 }
@@ -623,11 +622,7 @@ public class JNLPRuntime {
      * should be printed.
      */
     public static boolean isDebug() {
-        return isSetDebug() ||  isPluginDebug() || LogConfig.getLogConfig().isEnableLogging();
-    }
-
-     public static boolean isSetDebug() {
-        return debug;
+        return DebugUtils.isSetDebug() ||  DebugUtils.isPluginDebug() || LogConfig.getLogConfig().isEnableLogging();
     }
 
     /**
@@ -639,7 +634,7 @@ public class JNLPRuntime {
      */
     public static void setDebug(boolean enabled) {
         checkExitClass();
-        debug = enabled;
+        DebugUtils.debug = enabled;
     }
 
   
@@ -744,7 +739,7 @@ public class JNLPRuntime {
                 boolean noCheck = Boolean.valueOf(JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.IGNORE_HEADLESS_CHECK));
                 if (noCheck) {
                     headless = false;
-                    OutputController.getLogger().log(DeploymentConfiguration.IGNORE_HEADLESS_CHECK + " set to " + noCheck + ". Avoding headless check.");
+                    LOG.debug(DeploymentConfiguration.IGNORE_HEADLESS_CHECK + " set to " + noCheck + ". Avoding headless check.");
                 } else {
                     try {
                         if (GraphicsEnvironment.isHeadless()) {
@@ -752,8 +747,7 @@ public class JNLPRuntime {
                         }
                     } catch (HeadlessException ex) {
                         headless = true;
-                        OutputController.getLogger().log(ex);
-                        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.R("HEADLESS_MISSCONFIGURED"));
+                        LOG.error("ERROR", ex);
                     }
                 }
             }
@@ -761,24 +755,6 @@ public class JNLPRuntime {
         } finally {
             headlessChecked = true;
         }
-    }
-
-    /**
-     * @return {@code true} if running on Windows
-     */
-    public static boolean isWindows() {
-        String os = System.getProperty("os.name");
-        return (os != null && os.startsWith("Windows"));
-    }
-
-    /**
-     * @return {@code true} if running on a Unix or Unix-like system (including
-     * Linux and *BSD)
-     */
-    @Deprecated
-    public static boolean isUnix() {
-        String sep = System.getProperty("file.separator");
-        return (sep != null && sep.equals("/"));
     }
 
     public static void setInitialArgments(List<String> args) {
@@ -825,11 +801,11 @@ public class JNLPRuntime {
             }
             
             if (fileLock != null && fileLock.isShared()) {
-                OutputController.getLogger().log("Acquired shared lock on " +
+                LOG.debug("Acquired shared lock on " +
                             netxRunningFile.toString() + " to indicate javaws is running");
             }
         } catch (IOException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread("JNLPRuntimeShutdownHookThread") {
@@ -853,9 +829,9 @@ public class JNLPRuntime {
             fileLock.release();
             fileLock.channel().close();
             fileLock = null;
-            OutputController.getLogger().log("Release shared lock on " + PathsAndFiles.MAIN_LOCK.getFullPath());
+            LOG.debug("Release shared lock on " + PathsAndFiles.MAIN_LOCK.getFullPath());
         } catch (IOException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
         }
     }
 
@@ -889,20 +865,6 @@ public class JNLPRuntime {
 
     public static void setIgnoreHeaders(boolean ignoreHeaders) {
         JNLPRuntime.ignoreHeaders = ignoreHeaders;
-    }
-
-    private static boolean isPluginDebug() {
-        if (pluginDebug == null) {
-            try {
-                //there are cases when this itself is not allowed by security manager, and so
-                //throws exception. Under some conditions it can couse deadlock
-                pluginDebug = System.getenv().containsKey("ICEDTEAPLUGIN_DEBUG");
-            } catch (Exception ex) {
-                pluginDebug = false;
-                OutputController.getLogger().log(ex);
-            }
-        }
-        return pluginDebug;
     }
 
     public static void exit(int i) {

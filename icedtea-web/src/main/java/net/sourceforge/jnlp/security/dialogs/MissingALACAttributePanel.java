@@ -63,6 +63,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.cache.ResourceUrlCreator;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
@@ -73,11 +74,16 @@ import net.sourceforge.jnlp.security.dialogs.remember.RememberPanelResult;
 import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * http://docs.oracle.com/javase/7/docs/technotes/guides/jweb/security/manifest.html#app_library
  */
 public class MissingALACAttributePanel extends SecurityDialogPanel implements  RememberableDialog{
+
+    private final static Logger LOG = LoggerFactory.getLogger(MissingALACAttributePanel.class);
+
 
     private RememberPanel rememberPanel;
             
@@ -121,7 +127,7 @@ public class MissingALACAttributePanel extends SecurityDialogPanel implements  R
                         Desktop.getDesktop().browse(e.getURL().toURI());
                     }
                 } catch (IOException | URISyntaxException ex) {
-                    OutputController.getLogger().log(ex);
+                    LOG.error("ERROR", ex);
                 }
             }
         });

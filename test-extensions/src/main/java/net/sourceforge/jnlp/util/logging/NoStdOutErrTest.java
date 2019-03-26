@@ -78,7 +78,7 @@ public class NoStdOutErrTest {
         try {
             //init logger and log and flush message
             //it is crucial for junit to grip it
-            OutputController.getLogger().log("initialising");
+            LOG.debug("initialising");
             //one more times: if TESTED class is the first which creates instance of logger
             //then when junit can not access this class, and creates its own for its purposes
             //when junit creates this class, then also TESTED class have access to it and so it behaves as expected

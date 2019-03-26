@@ -45,11 +45,14 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import net.sourceforge.jnlp.util.XDesktopEntry;
 import net.sourceforge.jnlp.util.logging.OutputController;
 
 import org.ccil.cowan.tagsoup.HTMLSchema;
 import org.ccil.cowan.tagsoup.Parser;
 import org.ccil.cowan.tagsoup.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -64,6 +67,9 @@ import org.xml.sax.XMLReader;
  */
 public class MalformedXMLParser extends XMLParser {
 
+    private final static Logger LOG = LoggerFactory.getLogger(MalformedXMLParser.class);
+
+
     /**
      * Parses the data from an {@link java.io.InputStream} to create a XML tree.
      * Returns a {@link Node} representing the root of the tree.
@@ -74,7 +80,7 @@ public class MalformedXMLParser extends XMLParser {
      */
     @Override
     public Node getRootNode(InputStream input) throws ParseException {
-        OutputController.getLogger().log("Using MalformedXMLParser");
+        LOG.debug("Using MalformedXMLParser");
         InputStream xmlInput = xmlizeInputStream(input);
         return super.getRootNode(xmlInput);
     }
@@ -114,7 +120,7 @@ public class MalformedXMLParser extends XMLParser {
         } catch (SAXException | IOException e1) {
             throw new ParseException(R("PBadXML"), e1);
         } catch (NoClassDefFoundError  e2) {
-            OutputController.getLogger().log(e2);
+            LOG.error("ERROR", e2);
             ParseException.setUsed(null);
             return original;
         }

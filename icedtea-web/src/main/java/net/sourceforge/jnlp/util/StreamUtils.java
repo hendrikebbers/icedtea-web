@@ -37,7 +37,11 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.util;
 
+import net.sourceforge.jnlp.NetxPanel;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
@@ -46,6 +50,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class StreamUtils {
+
+    private final static Logger LOG = LoggerFactory.getLogger(StreamUtils.class);
+
 
     /**
      * Closes a stream, without throwing IOException.
@@ -58,7 +65,7 @@ public class StreamUtils {
             try {
                 stream.close();
             } catch (IOException e) {
-                OutputController.getLogger().log(e);
+                LOG.error("ERROR", e);
             }
         }
     }
@@ -123,13 +130,13 @@ public class StreamUtils {
             try {
                 p.waitFor();
             } catch (InterruptedException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, e);
+                LOG.error("ERROR", e);
             }
             try {
                 p.exitValue();
                 pTerminated = true;
             } catch (IllegalThreadStateException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, e);
+                LOG.error("ERROR", e);
             }
         }
     }

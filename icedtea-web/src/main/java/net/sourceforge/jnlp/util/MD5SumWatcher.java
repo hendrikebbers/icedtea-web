@@ -42,9 +42,15 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import net.sourceforge.jnlp.runtime.AppletEnvironment;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MD5SumWatcher {
+
+    private final static Logger LOG = LoggerFactory.getLogger(MD5SumWatcher.class);
+
 
     private final File watchedFile;
     private byte[] md5sum;
@@ -58,7 +64,7 @@ public class MD5SumWatcher {
         try {
             this.md5sum = getSum();
         } catch (final IOException ioe) {
-            OutputController.getLogger().log(ioe);
+            LOG.error("ERROR", ioe);
             this.md5sum = null;
         }
     }
@@ -88,7 +94,7 @@ public class MD5SumWatcher {
             // There definitely should be an MD5 algorithm, but if not, all we can do is fail.
             // This really, really is not expected to happen, so rethrow as RuntimeException
             // to avoid having to check for NoSuchAlgorithmExceptions all the time
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             throw new RuntimeException(e);
         }
         final boolean changed = !Arrays.equals(newSum, md5sum);

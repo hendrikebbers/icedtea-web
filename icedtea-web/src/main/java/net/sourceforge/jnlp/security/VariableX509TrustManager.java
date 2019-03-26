@@ -56,11 +56,14 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.util.HostnameChecker;
 import sun.security.validator.ValidatorException;
 
@@ -71,6 +74,9 @@ import sun.security.validator.ValidatorException;
  */
 
 final public class VariableX509TrustManager {
+
+    private final static Logger LOG = LoggerFactory.getLogger(VariableX509TrustManager.class);
+
 
     /** TrustManagers containing trusted CAs */
     private X509TrustManager[] caTrustManagers = null;
@@ -113,7 +119,7 @@ final public class VariableX509TrustManager {
                 }
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
 
         /*
@@ -138,7 +144,7 @@ final public class VariableX509TrustManager {
                 }
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
 
         /*
@@ -162,7 +168,7 @@ final public class VariableX509TrustManager {
                 }
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
     }
 
@@ -327,7 +333,7 @@ final public class VariableX509TrustManager {
         // finally check temp trusted certs
         if (!temporarilyTrusted.contains(chain[0])) {
             if (savedException == null) {
-                // OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "IMPOSSIBLE!");
+                // LOG.debug("IMPOSSIBLE!");
                 throw new ValidatorException(ValidatorException.T_SIGNATURE_ERROR, chain[0]);
             }
             throw savedException;

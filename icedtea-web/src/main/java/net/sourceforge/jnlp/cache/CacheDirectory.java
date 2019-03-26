@@ -39,10 +39,16 @@ package net.sourceforge.jnlp.cache;
 import java.io.File;
 import java.util.ArrayList;
 
+import net.sourceforge.jnlp.security.appletextendedsecurity.ExtendedAppletSecurityHelp;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class CacheDirectory {
+
+    private final static Logger LOG = LoggerFactory.getLogger(CacheDirectory.class);
+
 
     /* Don't allow instantiation of this class */
     private CacheDirectory(){}
@@ -97,7 +103,7 @@ public final class CacheDirectory {
                 delete = false;
         }
         if (delete){
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Delete -- " + root);
+            LOG.debug("Delete -- " + root);
         }
         //            root.delete();
         return true;

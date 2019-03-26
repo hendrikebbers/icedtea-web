@@ -51,9 +51,12 @@ import java.util.Set;
 import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
 
 import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.PropertiesFile;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class helps maintain the ordering of most recently use items across
@@ -61,7 +64,10 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * 
  */
 public class CacheLRUWrapper {
-    
+
+    private final static Logger LOG = LoggerFactory.getLogger(CacheLRUWrapper.class);
+
+
     /*
      * back-end of how LRU is implemented This file is to keep track of the most
      * recently used items. The items are to be kept with key = (current time
@@ -91,7 +97,7 @@ public class CacheLRUWrapper {
                 FileUtils.createParentDir(recentlyUsed.getFile());
                 FileUtils.createRestrictedFile(recentlyUsed.getFile(), true);
             } catch (IOException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             }
         }
     }
@@ -162,10 +168,10 @@ public class CacheLRUWrapper {
          * clean up possibly corrupted entries
          */
         if (loaded && checkData()) {
-            OutputController.getLogger().log(new LruCacheException());
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CFakeCache"));
+            LOG.debug("", new LruCacheException());
+            LOG.debug(R("CFakeCache"));
             store();
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CFakedCache"));
+            LOG.debug(R("CFakedCache"));
         }
     }
 

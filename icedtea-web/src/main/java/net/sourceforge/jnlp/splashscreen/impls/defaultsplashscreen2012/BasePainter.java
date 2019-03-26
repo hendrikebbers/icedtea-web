@@ -64,8 +64,13 @@ import net.sourceforge.jnlp.splashscreen.parts.InformationElement;
 import net.sourceforge.jnlp.splashscreen.parts.extensions.ExtensionManager;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.ScreenFinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BasePainter implements Observer {
+
+    private final static Logger LOG = LoggerFactory.getLogger(BasePainter.class);
+
 
     protected final BasicComponentSplashScreen master;
     //animations
@@ -419,7 +424,7 @@ public class BasePainter implements Observer {
                     this.notifyObservers();
                     Thread.sleep(MOOVING_TEXT_DELAY);
                 } catch (Exception e) {
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR", e);
                 }
             }
         }
@@ -453,7 +458,7 @@ public class BasePainter implements Observer {
                     //it is risinfg slower and slower
                     Thread.sleep((waterLevel / 4) * 30);
                 } catch (Exception e) {
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR", e);
                 }
             }
         }

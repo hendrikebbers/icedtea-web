@@ -79,6 +79,8 @@ import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.jdk89acesses.SunMiscLauncher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides the panel for using inside a SecurityDialog. These dialogs are
@@ -89,6 +91,9 @@ import net.sourceforge.jnlp.jdk89acesses.SunMiscLauncher;
  * @author <a href="mailto:jsumali@redhat.com">Joshua Sumali</a>
  */
 public class CertWarningPane extends SecurityDialogPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(CertWarningPane.class);
+
 
     private final JNLPFile file;
     private final AccessType accessType;
@@ -351,11 +356,11 @@ public class CertWarningPane extends SecurityDialogPanel {
                 FileUtils.createRestrictedFile(keyStoreFile, true);
             }
             SecurityUtil.storeKeyStore(ks, keyStoreFile);
-            OutputController.getLogger().log("certificate is now permanently trusted");
+            LOG.debug("certificate is now permanently trusted");
         } catch (Exception ex) {
                     // TODO: Let NetX show a dialog here notifying user
             // about being unable to add cert to keystore
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+            LOG.error("ERROR", ex);
         }
     }
 

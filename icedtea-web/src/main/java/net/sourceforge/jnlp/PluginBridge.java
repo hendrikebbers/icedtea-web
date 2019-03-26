@@ -43,12 +43,17 @@ import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.replacements.BASE64Decoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Allows reuse of code that expects a JNLPFile object,
  * while overriding behaviour specific to applets.
  */
 public final class PluginBridge extends JNLPFile {
+
+    private final static Logger LOG = LoggerFactory.getLogger(PluginBridge.class);
+
 
     private final PluginParameters params;
     final private Set<String> jars = new HashSet<>();
@@ -143,8 +148,8 @@ public final class PluginBridge extends JNLPFile {
                         }
                     }.readStream();
                 }
-                OutputController.getLogger().log("Loaded JNLPhref:");
-                OutputController.getLogger().log((debugJnlp == null) ? "null" : debugJnlp);
+                LOG.debug("Loaded JNLPhref:");
+                LOG.debug((debugJnlp == null) ? "null" : debugJnlp);
 
                 if (jnlpFile.isApplet())
                     main = jnlpFile.getApplet().getMainClass();
@@ -170,7 +175,7 @@ public final class PluginBridge extends JNLPFile {
             } catch (MalformedURLException e) {
                 // Don't fail because we cannot get the jnlp file. Parameters are optional not required.
                 // it is the site developer who should ensure that file exist.
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to get JNLP file at: " + params.getJNLPHref()
+                LOG.debug("Unable to get JNLP file at: " + params.getJNLPHref()
                         + " with context of URL as: " + codeBase.toExternalForm());
             }
         } else {
@@ -214,8 +219,8 @@ public final class PluginBridge extends JNLPFile {
 
             addArchiveEntries(archives);
 
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Jar string: " + archive);
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "jars length: " + archives.length);
+            LOG.debug("Jar string: " + archive);
+            LOG.debug("jars length: " + archives.length);
         }
 
         if (main.endsWith(".class"))
@@ -466,7 +471,7 @@ public final class PluginBridge extends JNLPFile {
     
     public String toJnlp(boolean needSecurity, boolean useHref, boolean fix) {
         if (useJNLPHref && debugJnlp != null && useHref) {
-            OutputController.getLogger().log("Using debugjnlp as return value toJnlp");
+            LOG.debug("Using debugjnlp as return value toJnlp");
             if (fix) {
                 return fixCommonIsuses(needSecurity, debugJnlp);
             } else {
@@ -501,8 +506,8 @@ public final class PluginBridge extends JNLPFile {
             }
             s.append("  </applet-desc>\n"
                         + "</jnlp>\n");
-            OutputController.getLogger().log("toJnlp generated:");
-            OutputController.getLogger().log(s.toString());
+            LOG.debug("toJnlp generated:");
+            LOG.debug(s.toString());
             return s.toString();
         }
 
@@ -548,7 +553,7 @@ public final class PluginBridge extends JNLPFile {
     static String fixCommonIsuses(boolean needSecurity, String orig, String codebase, String title, String vendor) {
         //no information element at all
         if (!orig.matches(toMatcher(CLOSE_INFORMATION_REGEX))) {
-            OutputController.getLogger().log("no information element Found. Trying to fix");
+            LOG.debug("no information element Found. Trying to fix");
             if (orig.matches(toMatcher(SECURITY_REGEX))) {
                 orig = orig.replaceAll(SECURITY_REGEX, "\n<information>\n</information>\n<security>\n");
             } else {
@@ -559,32 +564,32 @@ public final class PluginBridge extends JNLPFile {
         }
         //some have missing codebase, thats fatal
         if (!orig.matches(toMatcher(CODEBASE_REGEX1))) {
-            OutputController.getLogger().log("jnlphref did not had codebase. Fixing");
+            LOG.debug("jnlphref did not had codebase. Fixing");
             orig = orig.replaceAll("(?i)<\\s*jnlp\\s+", "<jnlp codebase='" + codebase + "' ");
         } else {
             //codebase="."
             if (orig.matches(toMatcher(CODEBASE_REGEX2))) {
-                OutputController.getLogger().log("'.' codebase found. fixing");
+                LOG.debug("'.' codebase found. fixing");
                 orig = orig.replaceAll(CODEBASE_REGEX2, " codebase='" + codebase + "'");
             }
         }
         //surprisingly also title or vendor may be misisng
         if (!orig.matches(toMatcher(TITLE_REGEX))) {
-            OutputController.getLogger().log("Missing title. Fixing");
+            LOG.debug("Missing title. Fixing");
             orig = orig.replaceAll(CLOSE_INFORMATION_REGEX, "\n<title>" + title + "</title>\n</information>\n");
         }
         if (!orig.matches(toMatcher(VENDOR_REGEX))) {
-            OutputController.getLogger().log("Missing vendor. Fixing");
+            LOG.debug("Missing vendor. Fixing");
             orig = orig.replaceAll(CLOSE_INFORMATION_REGEX, "\n<vendor>" + vendor + "</vendor>\n</information>\n");
         }
         //also all-security is not enforced via jnlpHref
         if (needSecurity && !orig.matches(toMatcher(AP_REGEX))) {
-            OutputController.getLogger().log("all-permissions not found and app is signed.");
+            LOG.debug("all-permissions not found and app is signed.");
             if (orig.matches(SANDBOX_REGEX)) {
-                OutputController.getLogger().log("Replacing sandbox by all-permissions");
+                LOG.debug("Replacing sandbox by all-permissions");
                 orig = orig.replaceAll(SANDBOX_REGEX, getAllPermissionsElement());
             } else {
-                OutputController.getLogger().log("adding security element");
+                LOG.debug("adding security element");
                 orig = orig.replaceAll(CLOSE_INFORMATION_REGEX, "</information>\n" + getSecurityElement());
             }
         }
@@ -608,7 +613,7 @@ public final class PluginBridge extends JNLPFile {
             try {
                 return StreamUtils.readStreamAsString(getStream());
             } catch (Exception ex) {
-                OutputController.getLogger().log(ex);
+                LOG.error("ERROR", ex);
             }
             return null;
         }

@@ -46,12 +46,17 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import javax.swing.JDialog;
-import net.sourceforge.jnlp.util.logging.OutputController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * utility class to find any Interface implementing classes in netx/icedtea-web
  */
 public class ClassFinder extends JDialog {
+
+    private final static Logger LOG = LoggerFactory.getLogger(ClassFinder.class);
+
 
     public static final String JAVA_CLASS_PATH_PROPERTY = "java.class.path";
     public static final String CUSTOM_CLASS_PATH_PROPERTY = "custom.class.path";
@@ -94,7 +99,7 @@ public class ClassFinder extends JDialog {
                             }
                         }
                     } catch (IOException ex) {
-                        OutputController.getLogger().log(ex);
+                        LOG.error("ERROR", ex);
                     }
                 }
             }

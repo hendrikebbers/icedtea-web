@@ -18,7 +18,6 @@ package net.sourceforge.jnlp.runtime;
 
 import java.awt.Window;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -30,6 +29,10 @@ import java.security.ProtectionDomain;
 
 import javax.swing.event.EventListenerList;
 
+import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.util.OsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.awt.AppContext;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.PropertyDesc;
@@ -55,6 +58,9 @@ import net.sourceforge.jnlp.util.XDesktopEntry;
  * @version $Revision: 1.15 $
  */
 public class ApplicationInstance {
+
+    private final static Logger LOG = LoggerFactory.getLogger(ApplicationInstance.class);
+
 
     // todo: should attempt to unload the environment variables
     // installed by the application.
@@ -154,8 +160,8 @@ public class ApplicationInstance {
 
     private void addMenuAndDesktopEntries() {
         ShortcutDesc sd = file.getInformation().getShortcut();
-        if (JNLPRuntime.isWindows()) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Generating windows desktop shorcut");
+        if (OsUtil.isWindows()) {
+            LOG.debug("Generating windows desktop shorcut");
             try {
                 Object instance = null;
                 try {
@@ -164,7 +170,7 @@ public class ApplicationInstance {
                     instance = cons.newInstance(file);
                     //catch both, for case that mslink was removed after build
                 } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException | NoClassDefFoundError | InstantiationException e) {
-                    OutputController.getLogger().log(OutputController.Level.WARNING_ALL, e);
+                    LOG.error("ERROR", e);
                 }
                 GenericDesktopEntry wde = (GenericDesktopEntry) instance;
                 if (!wde.getDesktopIconFile().exists()) {
@@ -200,9 +206,9 @@ public class ApplicationInstance {
                     wde.createWindowsMenu();
                 }
             } catch (Throwable ex) {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, ex);
+                LOG.error("ERROR", ex);
                 String message = Translator.R("WinDesktopError");
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, message);
+                LOG.debug(message);
             }
         } else {
             // do non-windows desktop stuff
@@ -213,7 +219,7 @@ public class ApplicationInstance {
 	        //if one of menu or desktop exists, do not bother user
 	        boolean exists = false;
 	        if (possibleDesktopFile.exists()) {
-	            OutputController.getLogger().log("ApplicationInstance.addMenuAndDesktopEntries(): file - "
+	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): file - "
 	                    + possibleDesktopFile.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
 	            if (JNLPRuntime.isOnline()) {
@@ -221,7 +227,7 @@ public class ApplicationInstance {
 	            }
 	        }
 	        if (possibleMenuFile.exists()) {
-	            OutputController.getLogger().log("ApplicationInstance.addMenuAndDesktopEntries(): file - "
+	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): file - "
 	                    + possibleMenuFile.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
 	            if (JNLPRuntime.isOnline()) {
@@ -229,7 +235,7 @@ public class ApplicationInstance {
 	            }
 	        }
 	        if (generatedJnlp.exists()) {
-	            OutputController.getLogger().log("ApplicationInstance.addMenuAndDesktopEntries(): generated file - "
+	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): generated file - "
 	                    + generatedJnlp.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
 	            if (JNLPRuntime.isOnline()) {
@@ -384,7 +390,7 @@ public class ApplicationInstance {
             Thread threads[] = new Thread[group.activeCount() * 2];
             int nthreads = group.enumerate(threads);
             for (int i = 0; i < nthreads; i++) {
-                OutputController.getLogger().log("Interrupt thread: " + threads[i]);
+                LOG.debug("Interrupt thread: " + threads[i]);
                 threads[i].interrupt();
             }
 
@@ -392,7 +398,7 @@ public class ApplicationInstance {
             Thread.yield();
             nthreads = group.enumerate(threads);
             for (int i = 0; i < nthreads; i++) {
-                OutputController.getLogger().log("Stop thread: " + threads[i]);
+                LOG.debug("Stop thread: " + threads[i]);
                 threads[i].stop();
             }
 

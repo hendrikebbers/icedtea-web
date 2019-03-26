@@ -19,7 +19,11 @@ package net.sourceforge.jnlp.runtime;
 import java.net.*;
 import java.applet.*;
 import javax.sound.sampled.*;
+
+import net.sourceforge.jnlp.splashscreen.impls.defaultsplashscreen2012.ErrorPainter;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // based on Deane Richan's AppletAudioClip
 
@@ -30,6 +34,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.8 $
  */
 public class AppletAudioClip implements AudioClip {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppletAudioClip.class);
+
 
     /** the clip */
     private Clip clip;
@@ -48,8 +55,8 @@ public class AppletAudioClip implements AudioClip {
             clip = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
             clip.open(stream);
         } catch (Exception ex) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Error loading sound:" + location.toString());
-            OutputController.getLogger().log(ex);
+            LOG.debug("Error loading sound:" + location.toString());
+            LOG.error("ERROR", ex);
             clip = null;
         }
     }

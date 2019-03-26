@@ -35,6 +35,8 @@ import net.sourceforge.jnlp.splashscreen.SplashPanel;
 import net.sourceforge.jnlp.splashscreen.SplashUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.applet.AppletViewerPanelAccess;
 import sun.awt.SunToolkit;
 
@@ -45,6 +47,10 @@ import sun.awt.SunToolkit;
  * @author      Francis Kung &lt;fkung@redhat.com&gt;
  */
 public class NetxPanel extends AppletViewerPanelAccess implements SplashController {
+
+    private final static Logger LOG = LoggerFactory.getLogger(NetxPanel.class);
+
+
     private final PluginParameters parameters;
     private PluginBridge bridge = null;
     private AppletInstance appInst = null;
@@ -92,7 +98,7 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
          * Log any exceptions thrown while loading, initializing, starting,
          * and stopping the applet. 
          */
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, t); //new logger
+        LOG.error("ERROR", t); //new logger
         super.showAppletException(t);
     }
 
@@ -115,7 +121,7 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
 
         } catch (Exception e) {
             status = APPLET_ERROR;
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
             replaceSplash(SplashUtils.getErrorSplashScreen(getWidth(), getHeight(), e));
         } finally {
             // PR1157: This needs to occur even in the case of an exception
@@ -138,11 +144,11 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
         synchronized (JNLPRuntime.initMutex) {
             //The custom NetX Policy and SecurityManager are set here.
             if (!JNLPRuntime.isInitialized()) {
-                OutputController.getLogger().log("initializing JNLPRuntime...");
+                LOG.debug("initializing JNLPRuntime...");
 
                 JNLPRuntime.initialize(false);
             } else {
-                OutputController.getLogger().log("JNLPRuntime already initialized");
+                LOG.debug("JNLPRuntime already initialized");
             }
         }
 

@@ -108,7 +108,7 @@ class XMLParser {
                                 pout.close();
                             } catch (IOException ioe) {
                                 throw new RuntimeException("Error in XML parser", ioe);
-                                //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+                                //LOG.error("ERROR", ioe);
                             }
                         }
                     }).start();

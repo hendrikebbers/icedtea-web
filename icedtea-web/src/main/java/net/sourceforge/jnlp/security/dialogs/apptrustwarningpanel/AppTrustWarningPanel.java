@@ -76,6 +76,9 @@ import net.sourceforge.jnlp.security.dialogs.remember.RememberPanelResult;
 import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
 import net.sourceforge.jnlp.util.ScreenFinder;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import net.sourceforge.jnlp.util.logging.UnixSystemLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * This class is meant to provide a common layout and functionality for warning dialogs
@@ -86,6 +89,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * unit/net/sourceforge/jnlp/security/AppTrustWarningPanelTest
  */
 public abstract class AppTrustWarningPanel extends SecurityDialogPanel implements RememberableDialog{
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppTrustWarningPanel.class);
+
 
     protected int PANE_WIDTH = 500;
 
@@ -218,7 +224,7 @@ public abstract class AppTrustWarningPanel extends SecurityDialogPanel implement
                         Desktop.getDesktop().browse(e.getURL().toURI());
                     }
                 } catch (IOException | URISyntaxException ex) {
-                    OutputController.getLogger().log(ex);
+                    LOG.error("ERROR", ex);
                 }
             }
         });

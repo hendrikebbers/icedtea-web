@@ -45,11 +45,17 @@ import javax.swing.text.html.HTMLDocument;
 
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.services.XPrintService;
 import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConsoleOutputPane extends JPanel implements Observer {
-    
+
+    private final static Logger LOG = LoggerFactory.getLogger(ConsoleOutputPane.class);
+
+
     private boolean canChange = true;
 
     @Override
@@ -200,7 +206,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                             insertChars.setLocation(e.getXOnScreen(), e.getYOnScreen());
                             insertChars.setVisible(!insertChars.isVisible());
                         } catch (Exception ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                 });
@@ -220,7 +226,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                             insertChars.setLocation(regExFilter.getLocationOnScreen());
                             insertChars.setVisible(!insertChars.isVisible());
                         } catch (Exception ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                 });
@@ -288,7 +294,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                 try {
                     refreshPaneBody(reset);
                 } catch (Exception ex) {
-                    OutputController.getLogger().log(ex);
+                    LOG.error("ERROR", ex);
                 } finally {
                     done.set(true);
                 }
@@ -692,7 +698,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                             regExFilter.setCaretPosition(i + 1);
                             insertChars.setVisible(false);
                         } catch (Exception ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                 });
@@ -714,7 +720,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                             regExFilter.setCaretPosition(i + 1);
                             insertChars.setVisible(false);
                         } catch (Exception ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                 });
@@ -735,7 +741,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
                             model.usedPattern = model.lastValidPattern;
                             insertChars.setVisible(false);
                         } catch (Exception ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                 });
@@ -800,7 +806,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
             }
             mark.setText(Translator.R("COPmark") + "(" + matches + ")");
         } catch (BadLocationException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
     }
 
@@ -827,7 +833,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
             }
             lastPostion = document.getLength() - find.length() - 1;
         } catch (BadLocationException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
     }
 
@@ -854,7 +860,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
             }
             lastPostion = 0;
         } catch (BadLocationException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
     }
 

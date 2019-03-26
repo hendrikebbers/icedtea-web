@@ -38,23 +38,30 @@ package net.sourceforge.jnlp.util.logging;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+
+import net.sourceforge.jnlp.security.policyeditor.PolicyEditorAboutDialog;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import net.sourceforge.jnlp.util.logging.filelogs.LogBasedFileLog;
 import net.sourceforge.jnlp.util.logging.filelogs.WriterBasedFileLog;
 import net.sourceforge.jnlp.util.logging.headers.Header;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is utility and factory around file logs.
  */
 public final class FileLog  {
 
+    private final static Logger LOG = LoggerFactory.getLogger(FileLog.class);
+
+
     public static Header getHeadlineHeader() {
         return new Header(OutputController.Level.WARNING_ALL, Thread.currentThread().getStackTrace(), Thread.currentThread(), false);
     }
 
     private static String getColon() {
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             return "_";
         } else {
             return ":";
@@ -101,7 +108,7 @@ public final class FileLog  {
             }
         } catch (Exception ex) {
             //we do not wont to block whole logging just because initialization error in "new FileLog()"
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             s = new SingleStreamLoggerImpl();
         }
         return s;
@@ -109,7 +116,7 @@ public final class FileLog  {
 
     private static String getFileName(String id) {
         String s = LogConfig.getLogConfig().getIcedteaLogDir() + "itw-" + id + "-" + getStamp() + ".log";
-        OutputController.getLogger().log("Attempting to log into: " + s);
+        LOG.debug("Attempting to log into: " + s);
         return s;
     }
     

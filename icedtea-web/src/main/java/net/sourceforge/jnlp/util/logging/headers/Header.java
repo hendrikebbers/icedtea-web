@@ -37,12 +37,20 @@ exception statement from your version. */
 package net.sourceforge.jnlp.util.logging.headers;
 
 import java.util.Date;
+
+import net.sourceforge.jnlp.config.DirectoryValidator;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.logging.OutputController.Level;
 import net.sourceforge.jnlp.util.logging.TeeOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Header {
+
+    private final static Logger LOG = LoggerFactory.getLogger(Header.class);
+
+
     public static String  default_user = System.getProperty("user.name");
     
     public String user = default_user;
@@ -113,7 +121,7 @@ public class Header {
                 sb.append(thread2ToString());
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
         return sb.toString();
     }
@@ -172,7 +180,7 @@ public class Header {
             }
             return result.toString();
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR",ex);
             return "Unknown caller";
         }
     }

@@ -83,7 +83,7 @@ public enum ImageResources {
                 cache.put(APPLICATION_ICON_PATH, image);
                 return image;
             } catch (IOException ioe) {
-               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+               // LOG.error("ERROR", ioe);
             }
         }
         return null;

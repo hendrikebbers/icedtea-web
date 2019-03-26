@@ -12,9 +12,14 @@ import java.util.List;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DirectoryValidator {
-    
+
+    private final static Logger LOG = LoggerFactory.getLogger(DirectoryValidator.class);
+
+
     /**
      * This class is holding results of directory validation.
      * Various errors like can not read, write create dir can apeear
@@ -234,12 +239,12 @@ public class DirectoryValidator {
         for (String key : keys) {
             String value = dc.getProperty(key);
             if (value == null) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "WARNING: key " + key + " has no value, setting to default value");
+                LOG.debug("WARNING: key " + key + " has no value, setting to default value");
                 value = Defaults.getDefaults().get(key).getValue();
             }
             if (value == null) {
                 if (JNLPRuntime.isDebug()) {
-                    OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "WARNING: key " + key + " has no value, skipping");
+                    LOG.debug("WARNING: key " + key + " has no value, skipping");
                 }
                 continue;
             }
@@ -274,9 +279,9 @@ public class DirectoryValidator {
                 continue;
             }
             if (!f.mkdirs()) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "ERROR: Directory " + f.getAbsolutePath() + " does not exist and has not been created");
+                LOG.debug("ERROR: Directory " + f.getAbsolutePath() + " does not exist and has not been created");
             } else {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "OK: Directory " + f.getAbsolutePath() + " did not exist but has been created");
+                LOG.debug("OK: Directory " + f.getAbsolutePath() + " did not exist but has been created");
             }
             DirectoryCheckResult r = testDir(f, true, true);
             result.add(r);
@@ -302,13 +307,13 @@ public class DirectoryValidator {
         DirectoryCheckResult result = new DirectoryCheckResult(f);
         if (!f.exists()) {
             if (verbose) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, DirectoryCheckResult.notExistsMessage(f));
+                LOG.debug(DirectoryCheckResult.notExistsMessage(f));
             }
             result.exists = false;
         }
         if (!f.isDirectory()) {
             if (verbose) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, DirectoryCheckResult.notDirMessage(f));
+                LOG.debug(DirectoryCheckResult.notDirMessage(f));
             }
             result.isDir = false;
         }
@@ -371,7 +376,7 @@ public class DirectoryValidator {
         }
         if (!correctPermissions) {
             if (verbose) {
-               OutputController.getLogger().log(OutputController.Level.ERROR_ALL, DirectoryCheckResult.wrongPermissionsMessage(f));
+               LOG.debug(DirectoryCheckResult.wrongPermissionsMessage(f));
             }
             result.correctPermissions = false;
         }

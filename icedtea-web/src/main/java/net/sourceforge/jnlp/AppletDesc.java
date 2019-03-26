@@ -21,6 +21,8 @@ import java.util.*;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The applet-desc element.
@@ -29,6 +31,8 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.8 $
  */
 public class AppletDesc implements LaunchDesc {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppletDesc.class);
 
     /** the applet name */
     private final String name;
@@ -143,32 +147,32 @@ public class AppletDesc implements LaunchDesc {
     }
 
     private Integer fixSize(String depKey, String... keys) {
-        OutputController.getLogger().log("Found to small applet!");
+        LOG.debug("Found to small applet!");
         try {
             Integer depVal = Integer.valueOf(JNLPRuntime.getConfiguration().getProperty(depKey));
             if (depVal == 0) {
-                OutputController.getLogger().log("using its size");
+                LOG.debug("using its size");
                 return null;
             }
             if (depVal < 0) {
-                OutputController.getLogger().log("enforcing " + depVal);
+                LOG.debug("enforcing " + depVal);
                 return Math.abs(depVal);
             }
             for (String key : keys) {
                 String sizeFromParam = parameters.get(key);
                 if (sizeFromParam != null) {
                     try {
-                        OutputController.getLogger().log("using its "+key+"=" + sizeFromParam);
+                        LOG.debug("using its "+key+"=" + sizeFromParam);
                         return Integer.valueOf(sizeFromParam);
                     } catch (NumberFormatException ex) {
-                        OutputController.getLogger().log(ex);
+                        LOG.error("Error", ex);
                     }
                 }
             }
-            OutputController.getLogger().log("defaulting to " + depVal);
+            LOG.debug("defaulting to " + depVal);
             return depVal;
         } catch (NumberFormatException | NullPointerException ex) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+            LOG.error("ERROR", ex);
             return null;
         }
     }

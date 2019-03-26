@@ -48,6 +48,8 @@ import java.security.MessageDigest;
  * It is workaround to allow itw to run on jdk8 and older and also on jdk9 and newer
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.x509.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -74,6 +76,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @author <a href="mailto:jsumali@redhat.com">Joshua Sumali</a>
  */
 public class CertsInfoPane extends SecurityDialogPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(SecurityDialogPanel.class);
+
 
     private CertPath certPath;
     protected JTree tree;
@@ -185,22 +190,22 @@ public class CertsInfoPane extends SecurityDialogPanel {
             return jdkIndependentHexEncoderImpl(signature);
         } catch (Exception ex) {
             String s = "Failed to encode signature: " + ex.toString();
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, s);
-            OutputController.getLogger().log(ex);
+            LOG.debug(s);
+            LOG.error("ERROR", ex);
             return s;
         }
     }
 
     private String jdkIndependentHexEncoderImpl(byte[] signature) throws Exception {
         try {
-            OutputController.getLogger().log("trying jdk9's HexDumpEncoder");
+            LOG.debug("trying jdk9's HexDumpEncoder");
             Class clazz = Class.forName("sun.security.util.HexDumpEncoder");
             Object encoder = clazz.newInstance();
             Method m = clazz.getDeclaredMethod("encodeBuffer", byte[].class);
             //convert our signature into a nice human-readable form.
             return (String) m.invoke(encoder, signature);
         } catch (Exception ex) {
-                OutputController.getLogger().log("trying jdk8's HexDumpEncoder");
+                LOG.debug("trying jdk8's HexDumpEncoder");
                 Class clazz = Class.forName("sun.misc.HexDumpEncoder");
                 Object encoder = clazz.newInstance();
                 Method m = clazz.getMethod("encode", byte[].class);

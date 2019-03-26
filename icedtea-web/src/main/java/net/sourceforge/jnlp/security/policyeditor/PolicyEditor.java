@@ -110,6 +110,7 @@ import net.sourceforge.jnlp.runtime.JNLPRuntime;
 
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditorPermissions.Group;
+import net.sourceforge.jnlp.tools.CertInformation;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
 import net.sourceforge.jnlp.util.ImageResources;
@@ -119,6 +120,8 @@ import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextForm
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.provider.PolicyParser;
 
 /**
@@ -126,6 +129,9 @@ import sun.security.provider.PolicyParser;
  * the JDK PolicyTool.
  */
 public class PolicyEditor extends JPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(PolicyEditor.class);
+
 
     private boolean closed = false;
     private final Map<PolicyEditorPermissions, JCheckBox> checkboxMap = new TreeMap<>();
@@ -359,7 +365,7 @@ public class PolicyEditor extends JPanel {
                     PolicyEditor.this.setFile(getDefaultPolicyFilePath());
                     PolicyEditor.this.getFile().createNewFile();
                 } catch (final IOException | URISyntaxException e) {
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR",e);
                     return;
                 }
                 openAndParsePolicyFile();
@@ -444,13 +450,13 @@ public class PolicyEditor extends JPanel {
                     identifier = PolicyEditorController.getPolicyEntryFromClipboard().getPolicyIdentifier();
                     pasteEntry(promptForPolicyIdentifier(identifier));
                 } catch (final UnsupportedFlavorException ufe) {
-                    OutputController.getLogger().log(ufe);
+                    LOG.error("ERROR",ufe);
                     showClipboardErrorDialog();
                 } catch (final PolicyParser.ParsingException pe) {
-                    OutputController.getLogger().log(pe);
+                    LOG.error("ERROR",pe);
                     showInvalidPolicyExceptionDialog(identifier);
                 } catch (final IOException ioe) {
-                    OutputController.getLogger().log(ioe);
+                    LOG.error("ERROR",ioe);
                     showCouldNotAccessClipboardDialog();
                 }
             }
@@ -739,7 +745,7 @@ public class PolicyEditor extends JPanel {
                 try {
                     editor.policyEditorController.savePolicyFile();
                 } catch (final IOException e) {
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR", e);
                     editor.showCouldNotSaveDialog();
                     return;
                 }
@@ -1094,7 +1100,7 @@ public class PolicyEditor extends JPanel {
      */
     private static void setButtonMnemonic(final AbstractButton button, final String mnemonic) {
         if (mnemonic.length() != 1) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_DEBUG, "Could not set mnemonic \"" + mnemonic + "\" for " + button);
+            LOG.debug("Could not set mnemonic \"" + mnemonic + "\" for " + button);
             return;
         }
         final char ch = mnemonic.charAt(0);
@@ -1468,16 +1474,16 @@ public class PolicyEditor extends JPanel {
         final OpenFileResult ofr = FileUtils.testFilePermissions(getFile());
         if (ofr == OpenFileResult.FAILURE || ofr == OpenFileResult.NOT_FILE) {
             addDefaultAllAppletsIdentifier();
-            OutputController.getLogger().log(R("PECouldNotOpen"));
+            LOG.debug(R("PECouldNotOpen"));
         }
         if (ofr == OpenFileResult.CANT_WRITE) {
-            OutputController.getLogger().log(R("RFileReadOnly"));
+            LOG.debug(R("RFileReadOnly"));
         }
 
         try {
             policyEditorController.openAndParsePolicyFile();
         } catch (IOException | PolicyParser.ParsingException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             return;
         }
 
@@ -1525,11 +1531,11 @@ public class PolicyEditor extends JPanel {
                     }
                     policyEditorController.openAndParsePolicyFile();
                 } catch (final FileNotFoundException fnfe) {
-                    OutputController.getLogger().log(fnfe);
+                    LOG.error("ERROR", fnfe);
                     FileUtils.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
                 } catch (final IOException | PolicyParser.ParsingException e) {
-                    OutputController.getLogger().log(e);
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("RCantOpenFile", policyEditorController.getFile().getPath()));
+                    LOG.error("ERROR", e);
+                    LOG.error("ERROR", R("RCantOpenFile", policyEditorController.getFile().getPath()));
                     FileUtils.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
                 }
                 return null;
@@ -1586,7 +1592,7 @@ public class PolicyEditor extends JPanel {
                     }
                     policyEditorController.savePolicyFile();
                 } catch (final IOException e) {
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR", e);
                     showCouldNotSaveDialog();
                 }
                 return null;
@@ -1672,11 +1678,11 @@ public class PolicyEditor extends JPanel {
         try {
             changed = policyEditorController.fileHasChanged();
         } catch (FileNotFoundException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             JOptionPane.showMessageDialog(PolicyEditor.this, R("PEFileMissing"), R("PEFileModified"), JOptionPane.WARNING_MESSAGE);
             return JOptionPane.NO_OPTION;
         } catch (IOException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             changed = true;
         }
         if (changed) {
@@ -1684,7 +1690,7 @@ public class PolicyEditor extends JPanel {
             try {
                 policyFilePath = policyEditorController.getFile().getCanonicalPath();
             } catch (final IOException e) {
-                OutputController.getLogger().log(e);
+                LOG.error("ERROR", e);
                 policyFilePath = policyEditorController.getFile().getPath();
             }
             return JOptionPane.showConfirmDialog(PolicyEditor.this, R("PEFileModifiedDetail", policyFilePath,
@@ -1819,7 +1825,7 @@ public class PolicyEditor extends JPanel {
             try {
                 filepath = getDefaultPolicyFilePath();
             } catch (URISyntaxException e) {
-                OutputController.getLogger().log(e);
+                LOG.error("ERROR", e);
                 throw new RuntimeException(e);
             }
         }

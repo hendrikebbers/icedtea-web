@@ -47,6 +47,8 @@ import java.security.cert.X509Certificate;
 
 import javax.swing.JDialog;
 import java.awt.Window;
+
+import net.sourceforge.jnlp.controlpanel.JVMPanel;
 import net.sourceforge.swing.SwingUtils;
 
 import net.sourceforge.jnlp.JNLPFile;
@@ -68,6 +70,8 @@ import net.sourceforge.jnlp.security.dialogs.SingleCertInfoPane;
 import net.sourceforge.jnlp.security.dialogs.ViwableDialog;
 import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.AppTrustWarningDialog;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides methods for showing security warning dialogs for a wide range of
@@ -78,6 +82,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @author <a href="mailto:jsumali@redhat.com">Joshua Sumali</a>
  */
 public class SecurityDialog {
+
+    private final static Logger LOG = LoggerFactory.getLogger(SecurityDialog.class);
+
 
     /** The type of dialog we want to show */
     private final DialogType dialogType;
@@ -373,19 +380,19 @@ public class SecurityDialog {
 
     private void selectDefaultButton() {
         if (panel == null) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "initial value panel is null");
+            LOG.debug("initial value panel is null");
         } else {
             panel.requestFocusOnDefaultButton();
         }
     }
 
     public void setValue(DialogResult value) {
-        OutputController.getLogger().log("Setting value:" + value);
+        LOG.debug("Setting value:" + value);
         this.value = value;
     }
 
     public DialogResult getValue() {
-        OutputController.getLogger().log("Returning value:" + value);
+        LOG.debug("Returning value:" + value);
         return value;
     }
 

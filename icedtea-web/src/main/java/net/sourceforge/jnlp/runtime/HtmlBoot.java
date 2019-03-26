@@ -56,10 +56,17 @@ import net.sourceforge.jnlp.util.ScreenFinder;
 import net.sourceforge.jnlp.util.logging.OutputController;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
+
+import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class HtmlBoot {
+
+    private final static Logger LOG = LoggerFactory.getLogger(HtmlBoot.class);
+
 
     private final OptionParser optionParser;
 
@@ -130,7 +137,7 @@ public final class HtmlBoot {
             return false;
         }
         try {
-            OutputController.getLogger().log("Proceeding with html");
+            LOG.debug("Proceeding with html");
             final URL html = Boot.getFileLocation();
             AppletExtractor axe = new AppletExtractor(html, settings);
             AppletsFilter filtered = new AppletsFilter(axe.findAppletsOnPage(), html, vars.subList(1, vars.size()));
@@ -178,7 +185,7 @@ public final class HtmlBoot {
                 splashScreen.dispose();
             }
         } catch (final Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             if (splashScreen != null) {
                 SwingUtils.invokeLater(new Runnable() {
 

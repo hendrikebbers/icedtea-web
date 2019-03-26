@@ -41,17 +41,24 @@ package net.sourceforge.jnlp.util.logging;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+
+import net.sourceforge.jnlp.security.ConnectionFactory;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextFormatter;
 
 import net.sourceforge.jnlp.util.logging.OutputController.Level;
 import net.sourceforge.jnlp.util.logging.headers.Header;
 import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Behaves like the 'tee' command, sends output to both actual std stream and a
  * log
  */
 public final class TeeOutputStream extends PrintStream implements SingleStreamLogger{
+
+    private final static Logger LOG = LoggerFactory.getLogger(TeeOutputStream.class);
+
 
     // Everthing written to TeeOutputStream is written to our log too
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -105,7 +112,7 @@ public final class TeeOutputStream extends PrintStream implements SingleStreamLo
     public void log(String s) {
         JavaMessage  jm = new JavaMessage(new Header(getlevel(), false), s);
         jm.getHeader().isClientApp = true;
-        OutputController.getLogger().log(jm);
+        LOG.debug(jm + "");
     }
 
     public boolean isError() {

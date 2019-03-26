@@ -60,14 +60,20 @@ import javax.swing.JPopupMenu;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
+import net.sourceforge.jnlp.runtime.html.AppletExtractor;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor.PolicyEditorWindow;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditorPermissions;
 import net.sourceforge.jnlp.security.policyeditor.PolicyIdentifier;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.provider.PolicyParser;
 
 public class TemporaryPermissionsButton extends JButton {
+
+    private final static Logger LOG = LoggerFactory.getLogger(TemporaryPermissionsButton.class);
+
 
     private final JPopupMenu menu;
     private final JButton linkedButton;
@@ -90,7 +96,7 @@ public class TemporaryPermissionsButton extends JButton {
 
         if (file == null || securityDelegate == null || linkedButton == null) {
             this.setEnabled(false);
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Temporary Permissions Button disabled due to null fields."
+            LOG.debug("Temporary Permissions Button disabled due to null fields."
                     + " file: " + file
                     + ", securityDelegate: " + securityDelegate
                     + ", linkedButton: " + linkedButton);

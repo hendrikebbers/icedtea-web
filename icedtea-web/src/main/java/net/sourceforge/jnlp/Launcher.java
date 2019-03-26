@@ -46,6 +46,8 @@ import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.awt.SunToolkit;
 
 /**
@@ -62,6 +64,8 @@ import sun.awt.SunToolkit;
  * @version $Revision: 1.22 $
  */
 public class Launcher {
+
+    private final static Logger LOG = LoggerFactory.getLogger(Launcher.class);
 
     // defines class Launcher.BgRunner, Launcher.TgThread
 
@@ -231,7 +235,7 @@ public class Launcher {
             //First checks whether offline-allowed tag is specified inside the jnlp file.
             if (!file.getInformation().isOfflineAllowed() && !JNLPRuntime.isOnlineDetected()) {
                 {
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Remote systems unreachable, and client application is not able to run offline. Exiting.");
+                    LOG.debug("Remote systems unreachable, and client application is not able to run offline. Exiting.");
                     return null;
                 }
             }
@@ -239,7 +243,7 @@ public class Launcher {
             //Xoffline IS specified
             if (!file.getInformation().isOfflineAllowed() && !JNLPRuntime.isOnlineDetected()) {
                 {
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Remote systems unreachable, and client application is not able to run offline. However, you specified -Xoffline argument. Attmpting to run.");
+                    LOG.debug("Remote systems unreachable, and client application is not able to run offline. However, you specified -Xoffline argument. Attmpting to run.");
                 }
             }
         }
@@ -508,7 +512,7 @@ public class Launcher {
             try {
                 ServiceUtil.checkExistingSingleInstance(file);
             } catch (InstanceExistsException e) {
-                OutputController.getLogger().log("Single instance application is already running.");
+                LOG.debug("Single instance application is already running.");
                 return null;
             }
 
@@ -551,7 +555,7 @@ public class Launcher {
                         R("LCantDetermineMainClassInfo")));
             }
 
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Starting application [" + mainName + "] ...");
+            LOG.debug("Starting application [" + mainName + "] ...");
             
             Class<?> mainClass = app.getClassLoader().loadClass(mainName);
 
@@ -572,7 +576,7 @@ public class Launcher {
 
             main.setAccessible(true);
 
-            OutputController.getLogger().log("Invoking main() with args: " + Arrays.toString(args));
+            LOG.debug("Invoking main() with args: " + Arrays.toString(args));
             main.invoke(null, new Object[] { args });
 
             return app;
@@ -606,7 +610,7 @@ public class Launcher {
 
         for (Thread thread : threads) {
             if (thread != null) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Setting " + classLoader + " as the classloader for thread " + thread.getName());
+                LOG.debug("Setting " + classLoader + " as the classloader for thread " + thread.getName());
                 thread.setContextClassLoader(classLoader);
             }
         }
@@ -657,7 +661,7 @@ public class Launcher {
             applet.getAppletEnvironment().startApplet(); // this should be a direct call to applet instance
             return applet;
         } catch (InstanceExistsException ieex) {
-            OutputController.getLogger().log("Single instance applet is already running.");
+            LOG.debug("Single instance applet is already running.");
             throw launchError(new LaunchException(file, ieex, R("LSFatal"), R("LCLaunching"), R("LCouldNotLaunch"), R("LSingleInstanceExists")), applet);
         } catch (LaunchException lex) {
             throw launchError(lex, applet);
@@ -690,7 +694,7 @@ public class Launcher {
             return applet;
 
         } catch (InstanceExistsException ieex) {
-            OutputController.getLogger().log("Single instance applet is already running.");
+            LOG.debug("Single instance applet is already running.");
             throw launchError(new LaunchException(file, ieex, R("LSFatal"), R("LCLaunching"), R("LCouldNotLaunch"), R("LSingleInstanceExists")), applet);
         } catch (LaunchException lex) {
             throw launchError(lex, applet);
@@ -957,14 +961,14 @@ public class Launcher {
                     }
                 }
             } catch (LaunchException ex) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                LOG.error("ERROR", ex);
                 exception = ex;
                 // Exit if we can't launch the application.
                 if (exitOnFailure) {
                     JNLPRuntime.exit(1);
                 }
             }  catch (Throwable ex) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                LOG.error("ERROR", ex);
                 throw new RuntimeException(ex);
             }
         }

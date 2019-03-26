@@ -34,7 +34,11 @@ package net.sourceforge.jnlp.jdk89acesses;
 
 import java.lang.reflect.Method;
 import javax.swing.ImageIcon;
+
+import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.AppTrustWarningPanel;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is summ of access to sun.misc.Launcher which was removed in jdk9.
@@ -42,6 +46,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @author jvanek
  */
 public class SunMiscLauncher {
+
+    private final static Logger LOG = LoggerFactory.getLogger(SunMiscLauncher.class);
+
 
     public static ImageIcon getSecureImageIcon(String resource) {
         try {
@@ -51,8 +58,8 @@ public class SunMiscLauncher {
             ClassLoader cl = (ClassLoader) m.invoke(obj);
             return new ImageIcon(cl.getResource(resource));
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "sun.misc.Launcher not found. Running jdk9 or higher? Using unsecure BootClassLoader");
+            LOG.error("ERROR", ex);
+            LOG.debug("sun.misc.Launcher not found. Running jdk9 or higher? Using unsecure BootClassLoader");
             return new ImageIcon(ClassLoader.getSystemClassLoader().getParent().getResource(resource));
         }
     }

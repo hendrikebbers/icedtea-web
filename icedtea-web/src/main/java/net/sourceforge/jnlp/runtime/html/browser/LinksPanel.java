@@ -61,8 +61,13 @@ import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LinksPanel extends JPanel implements DocumentChangededListener {
+
+    private final static Logger LOG = LoggerFactory.getLogger(LinksPanel.class);
+
 
     private URL baseUrl;
 
@@ -100,7 +105,7 @@ public class LinksPanel extends JPanel implements DocumentChangededListener {
                     try {
                         Desktop.getDesktop().browse(new URI(url));
                     } catch (Exception ex) {
-                        OutputController.getLogger().log(ex);
+                        LOG.error("ERROR", ex);
                         if (!JNLPRuntime.isHeadless()) {
                             JOptionPane.showMessageDialog(null, ex);
                         }
@@ -220,7 +225,7 @@ public class LinksPanel extends JPanel implements DocumentChangededListener {
     }
 
     private void addLink(String string) {
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, string);
+        LOG.debug(string);
         if (added.add(string)) {
             this.add(new RowHolder(string));
         }

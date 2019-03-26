@@ -180,7 +180,7 @@ public class XDesktopEntryTest {
     @Test
     @WindowsIssue
     public void getFreedesktopOrgDesktopPathFromtestSimpleWithHome() throws IOException {
-        if (JNLPRuntime.isUnix()) {
+        if (OsUtil.isUnix()) {
             String s = XDesktopEntry.getFreedesktopOrgDesktopPathFrom(new BufferedReader(new StringReader(src4)));
             Assert.assertEquals(s, des2Res);
         }
@@ -189,7 +189,7 @@ public class XDesktopEntryTest {
     @Test
     @WindowsIssue
     public void getFreedesktopOrgDesktopPathFromtestSpacedWithHome() throws IOException {
-        if (JNLPRuntime.isUnix()) {
+        if (OsUtil.isUnix()) {
             String s = XDesktopEntry.getFreedesktopOrgDesktopPathFrom(new BufferedReader(new StringReader(src5)));
             Assert.assertEquals(s, des2Res);
         }
@@ -198,7 +198,7 @@ public class XDesktopEntryTest {
     @Test
     @WindowsIssue
     public void getFreedesktopOrgDesktopPathFromtestSpacedWithHomeAndQuotes() throws IOException {
-        if (JNLPRuntime.isUnix()) {
+        if (OsUtil.isUnix()) {
             String s = XDesktopEntry.getFreedesktopOrgDesktopPathFrom(new BufferedReader(new StringReader(src7)));
             Assert.assertEquals(s, des7res);
         }
@@ -207,7 +207,7 @@ public class XDesktopEntryTest {
     @Test
     @WindowsIssue
     public void getFreedesktopOrgDesktopPathFromtestSpacedWithHomeAndEscapedQuotes() throws IOException {
-        if (JNLPRuntime.isUnix()) {
+        if (OsUtil.isUnix()) {
             String s = XDesktopEntry.getFreedesktopOrgDesktopPathFrom(new BufferedReader(new StringReader(src8)));
             Assert.assertEquals(s, des8res);
         }
@@ -216,7 +216,7 @@ public class XDesktopEntryTest {
     @Test
     @WindowsIssue
     public void getFreedesktopOrgDesktopPathFromtestSpacedWithHomeAndMixedQuotes() throws IOException {
-        if (JNLPRuntime.isUnix()) {
+        if (OsUtil.isUnix()) {
             String s = XDesktopEntry.getFreedesktopOrgDesktopPathFrom(new BufferedReader(new StringReader(src9)));
             Assert.assertEquals(s, des9res);
         }

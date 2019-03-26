@@ -31,6 +31,7 @@ import java.util.zip.GZIPInputStream;
 import net.sourceforge.jnlp.DownloadOptions;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.runtime.AppletAudioClip;
 import net.sourceforge.jnlp.runtime.Boot;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.ConnectionFactory;
@@ -39,8 +40,13 @@ import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
 import net.sourceforge.jnlp.util.HttpUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResourceDownloader implements Runnable {
+
+    private final static Logger LOG = LoggerFactory.getLogger(ResourceDownloader.class);
+
 
     private final Resource resource;
     private final Object lock;
@@ -86,7 +92,7 @@ public class ResourceDownloader implements Runnable {
 
         Map<String, List<String>> header = connection.getHeaderFields();
         for (Map.Entry<String, List<String>> entry : header.entrySet()) {
-            OutputController.getLogger().log("Key : " + entry.getKey() + " ,Value : " + entry.getValue());
+            LOG.debug("Key : " + entry.getKey() + " ,Value : " + entry.getValue());
         }
         /*
          * Do this only on 301,302,303(?)307,308>
@@ -136,7 +142,7 @@ public class ResourceDownloader implements Runnable {
                 initializeOfflineResource();
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             resource.changeStatus(EnumSet.noneOf(Resource.Status.class), EnumSet.of(ERROR));
             synchronized (lock) {
                 lock.notifyAll(); // wake up wait's to check for completion
@@ -207,7 +213,7 @@ public class ResourceDownloader implements Runnable {
                     if (jnlpPath == null || jnlpPath.equals("")) {
                         jnlpPath = Boot.getOptionParser().getParam(OptionsDefinitions.OPTIONS.HTML);
                         if (jnlpPath == null || jnlpPath.equals("")) {
-                            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Not-setting jnlp-path for missing main/jnlp/html argument");
+                            LOG.debug("Not-setting jnlp-path for missing main/jnlp/html argument");
                         } else {
                             entry.setJnlpPath(jnlpPath);
                         }
@@ -218,7 +224,7 @@ public class ResourceDownloader implements Runnable {
                     entry.setJnlpPath(jnlpPath);
                 }
             } catch (Exception ex){
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                LOG.error("ERROR", ex);
             }
             entry.store();
 
@@ -250,7 +256,7 @@ public class ResourceDownloader implements Runnable {
                     resource.changeStatus(EnumSet.of(PREDOWNLOAD, DOWNLOADING), EnumSet.of(DOWNLOADED));
                 }
             } else {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "You are trying to get resource " + resource.getLocation().toExternalForm() + " but it is not in cache and could not be downloaded. Attempting to continue, but you may expect failure");
+                LOG.debug("You are trying to get resource " + resource.getLocation().toExternalForm() + " but it is not in cache and could not be downloaded. Attempting to continue, but you may expect failure");
                 resource.changeStatus(EnumSet.noneOf(Resource.Status.class), EnumSet.of(ERROR));
             }
 
@@ -280,8 +286,8 @@ public class ResourceDownloader implements Runnable {
         }
 
         List<URL> urls = new ResourceUrlCreator(resource, options).getUrls();
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Finding best URL for: " + resource.getLocation() + " : " + options.toString());
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "All possible urls for "
+        LOG.debug("Finding best URL for: " + resource.getLocation() + " : " + options.toString());
+        LOG.debug("All possible urls for "
                 + resource.toString() + " : " + urls);
         for (ResourceTracker.RequestMethods requestMethod : ResourceTracker.RequestMethods.getValidRequestMethods()) {
             for (int i = 0; i < urls.size(); i++) {
@@ -305,18 +311,18 @@ public class ResourceDownloader implements Runnable {
                     }
                     if (response.shouldRedirect()) {
                         if (response.URL == null) {
-                            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Although " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " the target was null. Not following");
+                            LOG.debug("Although " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " the target was null. Not following");
                         } else {
-                            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Resource " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " adding " + response.URL.toExternalForm() + " to list of possible urls");
+                            LOG.debug("Resource " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " adding " + response.URL.toExternalForm() + " to list of possible urls");
                             if (!JNLPRuntime.isAllowRedirect()) {
                                 throw new RedirectionException("The resource " + url.toExternalForm() + " is being redirected (" + response.result + ") to " + response.URL.toExternalForm() + ". This is disabled by default. If you wont to allow it, run javaws with -allowredirect parameter.");
                             }
                             urls.add(response.URL);
                         }
                     } else if (response.isInvalid()) {
-                        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "For " + resource.toString() + " the server returned " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm());
+                        LOG.debug("For " + resource.toString() + " the server returned " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm());
                     } else {
-                        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "best url for " + resource.toString() + " is " + url.toString() + " by " + requestMethod);
+                        LOG.debug("best url for " + resource.toString() + " is " + url.toString() + " by " + requestMethod);
                         if (response.URL == null) {
                             response.URL = url;
                         }
@@ -325,8 +331,8 @@ public class ResourceDownloader implements Runnable {
                     }
                 } catch (IOException e) {
                     // continue to next candidate
-                    OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "While processing " + url.toString() + " by " + requestMethod + " for resource " + resource.toString() + " got " + e + ": ");
-                    OutputController.getLogger().log(e);
+                    LOG.debug("While processing " + url.toString() + " by " + requestMethod + " for resource " + resource.toString() + " got " + e + ": ");
+                    LOG.error("ERROR", e);
                 }
             }
         }
@@ -345,7 +351,7 @@ public class ResourceDownloader implements Runnable {
 
             String contentEncoding = connection.getContentEncoding();
 
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Downloading " + downloadTo + " using "
+            LOG.debug("Downloading " + downloadTo + " using "
                     + downloadFrom + " (encoding : " + contentEncoding + ") ");
 
             boolean packgz = "pack200-gzip".equals(contentEncoding)
@@ -370,7 +376,7 @@ public class ResourceDownloader implements Runnable {
             }
             resource.fireDownloadEvent(); // fire DOWNLOADED
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             resource.changeStatus(EnumSet.noneOf(Resource.Status.class), EnumSet.of(ERROR));
             synchronized (lock) {
                 lock.notifyAll();
@@ -406,21 +412,21 @@ public class ResourceDownloader implements Runnable {
 
     private void downloadFile(Resource resource, URLConnection connection, URL downloadLocation) throws IOException {
         CacheEntry downloadEntry = new CacheEntry(downloadLocation, resource.getDownloadVersion());
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Downloading file: " + downloadLocation + " into: " + downloadEntry.getCacheFile().getCanonicalPath());
+        LOG.debug("Downloading file: " + downloadLocation + " into: " + downloadEntry.getCacheFile().getCanonicalPath());
         if (!downloadEntry.isCurrent(connection.getLastModified())) {
             try {
                 writeDownloadToFile(resource, downloadLocation, new BufferedInputStream(connection.getInputStream()));
             } catch (IOException ex) {
                 String IH = "Invalid Http response";
                 if (ex.getMessage().equals(IH)) {
-                    OutputController.getLogger().log(ex);
-                    OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "'" + IH + "' message detected. Attempting direct socket");
+                    LOG.error("ERROR", ex);
+                    LOG.debug("'" + IH + "' message detected. Attempting direct socket");
                     Object[] result = UrlUtils.loadUrlWithInvalidHeaderBytes(connection.getURL());
-                    OutputController.getLogger().log("Header of: " + connection.getURL() + " (" + downloadLocation + ")");
+                    LOG.debug("Header of: " + connection.getURL() + " (" + downloadLocation + ")");
                     String head = (String) result[0];
                     byte[] body = (byte[]) result[1];
-                    OutputController.getLogger().log(head);
-                    OutputController.getLogger().log("Body is: " + body.length + " bytes long");
+                    LOG.debug(head);
+                    LOG.debug("Body is: " + body.length + " bytes long");
                     writeDownloadToFile(resource, downloadLocation, new ByteArrayInputStream(body));
                 } else {
                     throw ex;
@@ -458,7 +464,7 @@ public class ResourceDownloader implements Runnable {
     }
 
     private void uncompressGzip(URL compressedLocation, URL uncompressedLocation, Version version) throws IOException {
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Extracting gzip: " + compressedLocation + " to " + uncompressedLocation);
+        LOG.debug("Extracting gzip: " + compressedLocation + " to " + uncompressedLocation);
         byte buf[] = new byte[1024];
         int rlen;
 
@@ -479,7 +485,7 @@ public class ResourceDownloader implements Runnable {
     }
 
     private void uncompressPackGz(URL compressedLocation, URL uncompressedLocation, Version version) throws IOException {
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Extracting packgz: " + compressedLocation + " to " + uncompressedLocation);
+        LOG.debug("Extracting packgz: " + compressedLocation + " to " + uncompressedLocation);
 
         try (GZIPInputStream gzInputStream = new GZIPInputStream(new FileInputStream(CacheUtil
                 .getCacheFile(compressedLocation, version)))) {

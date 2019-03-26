@@ -39,15 +39,23 @@ package net.sourceforge.jnlp.runtime;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 import java.net.URL;
+
+import net.sourceforge.jnlp.security.dialogs.remember.RememberPanel;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A dummy PacEvaluator that always returns "DIRECT"
  */
 public class FakePacEvaluator implements PacEvaluator {
+
+    private final static Logger LOG = LoggerFactory.getLogger(FakePacEvaluator.class);
+
+
     @Override
     public String getProxies(URL url) {
-        OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("RPRoxyPacNotSupported"));
+        LOG.debug(R("RPRoxyPacNotSupported"));
         return "DIRECT";
     }
 }

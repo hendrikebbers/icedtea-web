@@ -33,6 +33,8 @@ import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.splashscreen.SplashController;
 import net.sourceforge.jnlp.util.*;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The applet environment including stub, context, and frame.  The
@@ -44,6 +46,9 @@ import net.sourceforge.swing.SwingUtils;
  * @version $Revision: 1.12 $
  */
 public class AppletEnvironment implements AppletContext, AppletStub {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppletEnvironment.class);
+
 
     /** the JNLP file */
     private JNLPFile file;
@@ -207,10 +212,10 @@ public class AppletEnvironment implements AppletContext, AppletStub {
                     }
                 });
             } catch (InterruptedException | InvocationTargetException ie) {
-                OutputController.getLogger().log(ie);
+                LOG.error("ERROR", ie);
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
 
             // should also kill the applet?
         }
@@ -239,7 +244,7 @@ public class AppletEnvironment implements AppletContext, AppletStub {
      */
     public void setApplet(Applet applet) {
         if (this.applet != null) {
-            OutputController.getLogger().log(new IllegalStateException("Applet can only be set once."));
+            LOG.debug("", new IllegalStateException("Applet can only be set once."));
             return;
         }
         this.applet = applet;

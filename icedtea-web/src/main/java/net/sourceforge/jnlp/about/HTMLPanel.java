@@ -48,9 +48,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import net.sourceforge.jnlp.security.VariableX509TrustManager;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HTMLPanel extends JPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(HTMLPanel.class);
+
 
     protected JEditorPane pane = new JEditorPane();
     
@@ -61,7 +68,7 @@ public class HTMLPanel extends JPanel {
              pane = new JEditorPane(url);
         } catch (IOException ex) {
             //no need to have invalid url fatal
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, ex);
+            LOG.error("ERROR", ex);
         }
         pane.setContentType("text/html");
         pane.setEditable(false);

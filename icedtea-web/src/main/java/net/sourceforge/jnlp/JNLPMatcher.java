@@ -49,6 +49,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.nanoxml.XMLElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * To compare launching JNLP file with signed APPLICATION.JNLP or
@@ -58,6 +60,8 @@ import net.sourceforge.nanoxml.XMLElement;
  */
 
 public final class JNLPMatcher {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JNLPMatcher.class);
 
     private final Node appTemplateNode;
     private final Node launchJNLPNode;
@@ -232,7 +236,7 @@ public final class JNLPMatcher {
             try {
                 stream.close();
             } catch (Exception e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             }
     }
 
@@ -247,7 +251,7 @@ public final class JNLPMatcher {
             try {
                 stream.close();
             } catch (Exception e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             }
     }
 }

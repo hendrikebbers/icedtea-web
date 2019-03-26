@@ -46,13 +46,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.about.HTMLPanel;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Finds the file corresponding to firefox's (default) preferences file
  */
 public class FirefoxPreferencesFinder {
+
+    private final static Logger LOG = LoggerFactory.getLogger(FirefoxPreferencesFinder.class);
+
 
     /**
      * Returns a file object representing firefox's preferences file
@@ -67,7 +73,7 @@ public class FirefoxPreferencesFinder {
         String configPath = System.getProperty("user.home") + File.separator + ".mozilla"
                 + File.separator + "firefox" + File.separator;
 
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             Map<String, String> env = System.getenv();
             if (env != null) {
                 String appdata = env.get("APPDATA");
@@ -84,7 +90,7 @@ public class FirefoxPreferencesFinder {
             throw new FileNotFoundException(profilesPath);
         }
 
-        OutputController.getLogger().log("Using firefox's profiles file: " + profilesPath);
+        LOG.debug("Using firefox's profiles file: " + profilesPath);
 
         BufferedReader reader = new BufferedReader(new FileReader(profilesPath));
 
@@ -142,7 +148,7 @@ public class FirefoxPreferencesFinder {
             throw new FileNotFoundException("preferences file");
         } else {
             String fullPath = configPath + path + File.separator + "prefs.js";
-            OutputController.getLogger().log("Found preferences file: " + fullPath);
+            LOG.debug("Found preferences file: " + fullPath);
             return new File(fullPath);
         }
     }

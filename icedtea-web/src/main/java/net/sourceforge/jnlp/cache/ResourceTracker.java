@@ -37,8 +37,11 @@ import net.sourceforge.jnlp.DownloadOptions;
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.event.DownloadEvent;
 import net.sourceforge.jnlp.event.DownloadListener;
+import net.sourceforge.jnlp.security.SecurityDialogs;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class tracks the downloading of various resources of a
@@ -67,6 +70,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.22 $
  */
 public class ResourceTracker {
+
+    private final static Logger LOG = LoggerFactory.getLogger(ResourceTracker.class);
+
 
     // todo: use event listener arrays instead of lists
 
@@ -145,8 +151,7 @@ public class ResourceTracker {
         try {
             location = UrlUtils.normalizeUrl(location);
         } catch (Exception ex) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Normalization of " + location.toString() + " have failed");
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR",ex);
         }
         Resource resource = Resource.getResource(location, version, updatePolicy);
 
@@ -220,7 +225,7 @@ public class ResourceTracker {
             CacheEntry entry = new CacheEntry(resource.getLocation(), resource.getDownloadVersion());
 
             if (entry.isCached() && !updatePolicy.shouldUpdate(entry)) {
-                OutputController.getLogger().log("not updating: " + resource.getLocation());
+                LOG.debug("not updating: " + resource.getLocation());
 
                 synchronized (resource) {
                     resource.setLocalFile(CacheUtil.getCacheFile(resource.getLocation(), resource.getDownloadVersion()));
@@ -319,7 +324,7 @@ public class ResourceTracker {
                 // TODO: Should be toURI().toURL()
                 return f.toURL();
         } catch (MalformedURLException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR",ex);
         }
 
         return location;
@@ -369,7 +374,7 @@ public class ResourceTracker {
 
             return null;
         } catch (InterruptedException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return null; // need an error exception to throw
         }
     }

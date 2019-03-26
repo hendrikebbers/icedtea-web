@@ -42,11 +42,18 @@ import net.sourceforge.jnlp.Launcher;
 import net.sourceforge.jnlp.ParserSettings;
 import static net.sourceforge.jnlp.runtime.Boot.init;
 import static net.sourceforge.jnlp.runtime.Translator.R;
+
+import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
 import net.sourceforge.jnlp.util.logging.OutputController;
 
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class JnlpBoot {
+
+    private final static Logger LOG = LoggerFactory.getLogger(JnlpBoot.class);
+
 
     private final OptionParser optionParser;
 
@@ -60,7 +67,7 @@ public final class JnlpBoot {
             return false;
         }
         try {
-            OutputController.getLogger().log("Proceeding with jnlp");
+            LOG.debug("Proceeding with jnlp");
             Launcher launcher = new Launcher(true);
             launcher.setParserSettings(settings);
             launcher.setInformationToMerge(extra);
@@ -69,7 +76,7 @@ public final class JnlpBoot {
             // default handler prints this
             JNLPRuntime.exit(1);
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             Boot.fatalError(R("RUnexpected", ex.toString(), ex.getStackTrace()[0]));
         }
         return true;

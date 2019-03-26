@@ -24,14 +24,20 @@ import java.util.Iterator;
 import java.util.List;
 import mslinks.ShellLink;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.browser.FirefoxPreferencesParser;
 import net.sourceforge.jnlp.cache.CacheLRUWrapper;
 import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Based on https://github.com/DmitriiShamrikov/mslinkshttps://github.com/DmitriiShamrikov/mslinks
  */
 public class WindowsDesktopEntry implements GenericDesktopEntry {
+
+    private final static Logger LOG = LoggerFactory.getLogger(WindowsDesktopEntry.class);
+
 
     private final JNLPFile file;
 
@@ -122,7 +128,7 @@ public class WindowsDesktopEntry implements GenericDesktopEntry {
                 }
             }
             if (fAdd) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Adding sCut to list = " + sItem);
+                LOG.debug("Adding sCut to list = " + sItem);
                 String scInfo = file.getFileLocation().toString() + ",";
                 scInfo += path + "\r\n";
                 Files.write(CacheLRUWrapper.getInstance().getWindowsShortcutList().toPath(), scInfo.getBytes(), StandardOpenOption.APPEND);

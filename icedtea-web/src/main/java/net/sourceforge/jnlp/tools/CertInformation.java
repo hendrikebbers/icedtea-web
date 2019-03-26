@@ -45,14 +45,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Maintains information about a CertPath that has signed at least one of the
  * entries provided by a jar of the app.
  */
 public class CertInformation {
+
+    private final static Logger LOG = LoggerFactory.getLogger(CertInformation.class);
+
 
     private boolean hasExpiredCert = false;
     private boolean hasExpiringCert = false;
@@ -163,7 +169,7 @@ public class CertInformation {
      */
     public void setNumJarEntriesSigned(String jarName, int signedEntriesCount) {
         if (signedJars.containsKey(jarName)) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "WARNING: A jar that has already been "
+            LOG.debug("WARNING: A jar that has already been "
                         + "verified is being yet again verified: " + jarName);
         } else {
             signedJars.put(jarName, signedEntriesCount);

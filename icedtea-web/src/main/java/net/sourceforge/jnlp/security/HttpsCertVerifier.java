@@ -52,13 +52,20 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import net.sourceforge.jnlp.MalformedXMLParser;
 import net.sourceforge.jnlp.util.logging.OutputController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.security.util.DerValue;
 import sun.security.util.HostnameChecker;
 import sun.security.x509.X500Name;
 
 public class HttpsCertVerifier implements CertVerifier {
+
+    private final static Logger LOG = LoggerFactory.getLogger(HttpsCertVerifier.class);
+
 
     private X509Certificate[] chain;
     private String authType;
@@ -100,7 +107,7 @@ public class HttpsCertVerifier implements CertVerifier {
         try {
             certPaths.add(CertificateFactory.getInstance("X.509").generateCertPath(list));
         } catch (CertificateException ce) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ce);
+            LOG.error("ERROR", ce);
 
             // carry on
         }
@@ -189,9 +196,9 @@ public class HttpsCertVerifier implements CertVerifier {
                 names = names.substring(2); // remove proceeding ", "
 
         } catch (CertificateParsingException cpe) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, cpe);
+            LOG.error("ERROR", cpe);
         } catch (IOException ioe) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+            LOG.error("ERROR", ioe);
         }
 
         return names;

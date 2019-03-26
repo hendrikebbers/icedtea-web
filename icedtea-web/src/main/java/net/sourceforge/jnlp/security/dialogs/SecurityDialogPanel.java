@@ -47,16 +47,23 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import net.sourceforge.jnlp.runtime.html.AppletExtractor;
 import net.sourceforge.jnlp.security.CertVerifier;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextFormatter;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides a JPanel for use in JNLP warning dialogs.
  */
 public abstract class SecurityDialogPanel extends JPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(SecurityDialogPanel.class);
+
 
     protected SecurityDialog parent;
 
@@ -173,7 +180,7 @@ public abstract class SecurityDialogPanel extends JPanel {
             String methodName = "getText";
             return aClass.getMethod(methodName);
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return null;
         }
     }
@@ -182,7 +189,7 @@ public abstract class SecurityDialogPanel extends JPanel {
         try {
             return (String) getText.invoke(c1);
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return null;
         }
     }

@@ -96,7 +96,7 @@ public final class SwingUtils {
 
     public static void checkEDT() {
         if (!isEventDispatchThread()) {
-            //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, new Exception("EDT violation"));
+            //LOG.error("ERROR", new Exception("EDT violation"));
         }
     }
 
@@ -154,9 +154,9 @@ public final class SwingUtils {
             try {
                 callOnAppContext(doRun);
             } catch (InterruptedException ie) {
-               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ie);
+               // LOG.error("ERROR", ie);
             } catch (InvocationTargetException ite) {
-               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ite);
+               // LOG.error("ERROR", ite);
             }
         }
     }
@@ -170,8 +170,8 @@ public final class SwingUtils {
                         window = new JWindow().getOwner();
                         window.setName("getOrCreateWindowOwner");
                     } catch (Exception ex) {
-                        //OutputController.getLogger().log(ex);
-                        //OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.R("HEADLESS_MISSCONFIGURED"));
+                        //LOG.error("ERROR", ex);
+                        //LOG.debug(Translator.R("HEADLESS_MISSCONFIGURED"));
                     }
                 }
             });

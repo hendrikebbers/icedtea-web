@@ -29,8 +29,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
 import net.sourceforge.jnlp.UpdateDesc.Check;
 import net.sourceforge.jnlp.UpdateDesc.Policy;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Contains methods to parse an XML document into a JNLPFile. Implements JNLP
@@ -41,6 +41,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.13 $
  */
 public final class Parser {
+
+    private final static Logger LOG = LoggerFactory.getLogger(Parser.class);
+
 
     private static String CODEBASE = "codebase";
     private static String MAINCLASS = "main-class";
@@ -64,8 +67,8 @@ public final class Parser {
             //throw exception;
         }
         public void warning(SAXParseException exception) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "XML parse warning:");
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, exception);
+            LOG.debug("XML parse warning:");
+            LOG.error("ERROR", exception);
         }
     };
      */
@@ -485,8 +488,8 @@ public final class Parser {
      * @throws RequiredElementException
      */
     void checkForInformation() throws RequiredElementException {
-        OutputController.getLogger().log("Homepage: " + file.getInformation().getHomepage());
-        OutputController.getLogger().log("Description: " + file.getInformation().getDescription());
+        LOG.debug("Homepage: " + file.getInformation().getHomepage());
+        LOG.debug("Description: " + file.getInformation().getDescription());
         file.getTitle(strict);
         file.getVendor(strict);
     }
@@ -1406,7 +1409,7 @@ public final class Parser {
             instance = klass.newInstance();
             //catch both, for case that tagsoup was removed after build
         } catch (ClassNotFoundException | NoClassDefFoundError | InstantiationException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             klass = Class.forName(NORMAL_PARSER_CLASS);
             instance = klass.newInstance();
         }
@@ -1429,7 +1432,7 @@ public final class Parser {
             //only getRequiredAttribute can throw this
             //and as there is call to getMainClass  with required false
             //it is not going to be thrown
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return null;
         }
     }
@@ -1449,14 +1452,14 @@ public final class Parser {
             Matcher matcher = anyWhiteSpace.matcher(main);
             boolean found = matcher.find();
             if (found && !strict) {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "Warning! main-class contains whitespace - '" + main + "'");
+                LOG.debug("Warning! main-class contains whitespace - '" + main + "'");
                 main = main.trim();
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "Trimmed - '" + main + "'");
+                LOG.debug("Trimmed - '" + main + "'");
             }
             boolean valid = true;
             if (!Character.isJavaIdentifierStart(main.charAt(0))) {
                 valid = false;
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Invlaid char in main-class: '" + main.charAt(0) + "'");
+                LOG.debug("Invlaid char in main-class: '" + main.charAt(0) + "'");
             }
             for (int i = 1; i < main.length(); i++) {
                 if (main.charAt(i) == '.') {
@@ -1465,11 +1468,11 @@ public final class Parser {
                 }
                 if (!Character.isJavaIdentifierPart(main.charAt(i))) {
                     valid = false;
-                    OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Invlaid char in main-class: '" + main.charAt(i) + "'");
+                    LOG.debug("Invlaid char in main-class: '" + main.charAt(i) + "'");
                 }
             }
             if (!valid) {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "main-class contains invalid characters - '" + main + "'. Check with vendor.");
+                LOG.debug("main-class contains invalid characters - '" + main + "'. Check with vendor.");
                 if (strict) {
                     throw new ParseException("main-class contains invalid characters - '" + main + "'. Check with vendor. You are in strict mode. This is fatal.");
                 }

@@ -36,13 +36,19 @@
 
 package net.sourceforge.jnlp.util.logging;
 
+import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class UnixSystemLog implements SingleStreamLogger{
-    
+
+    private final static Logger LOG = LoggerFactory.getLogger(UnixSystemLog.class);
+
+
+
     public UnixSystemLog(){
     
     }
@@ -58,10 +64,10 @@ public class UnixSystemLog implements SingleStreamLogger{
                 ProcessBuilder pb = new ProcessBuilder("logger", "-p","user.err", "--", m);
                 Process p = pb.start();
                 StreamUtils.waitForSafely(p);
-                OutputController.getLogger().log("System logger called with result of " + p.exitValue());
+                LOG.debug("System logger called with result of " + p.exitValue());
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
     }
 

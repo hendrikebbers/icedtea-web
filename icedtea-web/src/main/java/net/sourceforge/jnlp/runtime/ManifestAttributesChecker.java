@@ -61,11 +61,16 @@ import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecurit
 import net.sourceforge.jnlp.util.ClasspathMatcher.ClasspathMatchers;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static net.sourceforge.jnlp.config.BasicValueValidators.splitCombination;
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
 public class ManifestAttributesChecker {
+
+    private final static Logger LOG = LoggerFactory.getLogger(DeploymentConfiguration.class);
+
 
     private final SecurityDesc security;
     private final JNLPFile file;
@@ -93,42 +98,42 @@ public class ManifestAttributesChecker {
     void checkAll() throws LaunchException {
         List<MANIFEST_ATTRIBUTES_CHECK> attributesCheck = getAttributesCheck();
         if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.NONE)) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACDisabledMessage"));
+            LOG.debug(R("MACDisabledMessage"));
         } else {
 
             if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.TRUSTED) ||
                     attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALL)) {
                 checkTrustedOnlyAttribute();
             } else {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACCheckSkipped", "Trusted-Only", "TRUSTED"));
+                LOG.debug(R("MACCheckSkipped", "Trusted-Only", "TRUSTED"));
             }
 
             if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.CODEBASE) ||
                     attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALL)) {
                 checkCodebaseAttribute();
             } else {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACCheckSkipped", "Codebase", "CODEBASE"));
+                LOG.debug(R("MACCheckSkipped", "Codebase", "CODEBASE"));
             }
 
             if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.PERMISSIONS) ||
                     attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALL)) {
                 checkPermissionsAttribute();
             } else {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACCheckSkipped", "Permissions", "PERMISSIONS"));
+                LOG.debug(R("MACCheckSkipped", "Permissions", "PERMISSIONS"));
             }
 
             if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALAC) ||
                    attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALL)) {
                 checkApplicationLibraryAllowableCodebaseAttribute();
             } else {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACCheckSkipped", "Application Library Allowable Codebase", "ALAC"));
+                LOG.debug(R("MACCheckSkipped", "Application Library Allowable Codebase", "ALAC"));
             }
             
             if (attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ENTRYPOINT)
                     || attributesCheck.contains(MANIFEST_ATTRIBUTES_CHECK.ALL)) {
                 checkEntryPoint();
             } else {
-                OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("MACCheckSkipped", "Entry-Point", "ENTRYPOINT"));
+                LOG.debug(R("MACCheckSkipped", "Entry-Point", "ENTRYPOINT"));
             }
 
         }
@@ -155,22 +160,22 @@ public class ManifestAttributesChecker {
             return; /*when app is not signed at all, then skip this check*/
         }
         if (file.getLaunchInfo() == null) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Entry-Point can not be checked now, because of not existing launch info.");
+            LOG.debug("Entry-Point can not be checked now, because of not existing launch info.");
             return;
         }
         if (file.getLaunchInfo().getMainClass() == null) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Entry-Point can not be checked now, because of unknown main class.");
+            LOG.debug("Entry-Point can not be checked now, because of unknown main class.");
             return;
         }
         final String[] eps = file.getManifestsAttributes().getEntryPoints();
         String mainClass = file.getLaunchInfo().getMainClass();
         if (eps == null) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Entry-Point manifest attribute for yours '" + mainClass + "'not found. Continuing.");
+            LOG.debug("Entry-Point manifest attribute for yours '" + mainClass + "'not found. Continuing.");
             return;
         }
         for (String ep : eps) {
             if (ep.equals(mainClass)) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Entry-Point of " + ep + " mathches " + mainClass + " continuing.");
+                LOG.debug("Entry-Point of " + ep + " mathches " + mainClass + " continuing.");
                 return;
             }
         }
@@ -183,12 +188,12 @@ public class ManifestAttributesChecker {
     private void checkTrustedOnlyAttribute() throws LaunchException {
         final ManifestBoolean trustedOnly = file.getManifestsAttributes().isTrustedOnly();
         if (trustedOnly == ManifestBoolean.UNDEFINED) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Trusted Only manifest attribute not found. Continuing.");
+            LOG.debug("Trusted Only manifest attribute not found. Continuing.");
             return;
         }
 
         if (trustedOnly == ManifestBoolean.FALSE) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG, "Trusted Only manifest attribute is false. Continuing.");
+            LOG.debug("Trusted Only manifest attribute is false. Continuing.");
             return;
         }
 
@@ -219,7 +224,7 @@ public class ManifestAttributesChecker {
         } else {
             signedMsg = R("STOAsignedMsgPartiall");
         }
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_DEBUG,
+        LOG.debug(
                 "Trusted Only manifest attribute is \"true\". " + signedMsg + " and requests permission level: " + securityType);
         if (!(isFullySigned && requestsCorrectPermissions)) {
             throw new LaunchException(R("STrustedOnlyAttributeFailure", signedMsg, securityType));
@@ -231,30 +236,30 @@ public class ManifestAttributesChecker {
      */
     private void checkCodebaseAttribute() throws LaunchException {
         if (file.getCodeBase() == null || file.getCodeBase().getProtocol().equals("file")) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("CBCheckFile"));
+            LOG.debug(R("CBCheckFile"));
             return;
         }
         final Object securityType = security.getSecurityType();
         final URL codebase = UrlUtils.guessCodeBase(file);
         final ClasspathMatchers codebaseAtt = file.getManifestsAttributes().getCodebase();
         if (codebaseAtt == null) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, R("CBCheckNoEntry"));
+            LOG.debug(R("CBCheckNoEntry"));
             return;
         }
         if (securityType.equals(SecurityDesc.SANDBOX_PERMISSIONS)) {
             if (codebaseAtt.matches(codebase)) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CBCheckUnsignedPass"));
+                LOG.debug(R("CBCheckUnsignedPass"));
             } else {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("CBCheckUnsignedFail"));
+                LOG.debug(R("CBCheckUnsignedFail"));
             }
         } else {
             if (codebaseAtt.matches(codebase)) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("CBCheckOkSignedOk"));
+                LOG.debug(R("CBCheckOkSignedOk"));
             } else {
                 if (file instanceof PluginBridge) {
                     throw new LaunchException(R("CBCheckSignedAppletDontMatchException", file.getManifestsAttributes().getCodebase().toString(), codebase));
                 } else {
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("CBCheckSignedFail"));
+                    LOG.debug(R("CBCheckSignedFail"));
                 }
             }
         }
@@ -266,7 +271,7 @@ public class ManifestAttributesChecker {
      */
     private void checkPermissionsAttribute() throws LaunchException {
         if (securityDelegate.getRunInSandbox()) {
-            OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "The 'Permissions' attribute of this application is '" + file.getManifestsAttributes().permissionsToString()
+            LOG.debug("The 'Permissions' attribute of this application is '" + file.getManifestsAttributes().permissionsToString()
                     + "'. You have chosen the Sandbox run option, which overrides the Permissions manifest attribute, or the applet has already been automatically sandboxed.");
             return;
         }
@@ -286,7 +291,7 @@ public class ManifestAttributesChecker {
                 if (!userApproved) {
                     throw new LaunchException("Your Extended applets security is at 'high' and this application is missing the 'permissions' attribute in manifest. And you have refused to run it.");
                 } else {
-                    OutputController.getLogger().log("Your Extended applets security is at 'high' and this application is missing the 'permissions' attribute in manifest. And you have allowed to run it.");
+                    LOG.debug("Your Extended applets security is at 'high' and this application is missing the 'permissions' attribute in manifest. And you have allowed to run it.");
                 }
             }
             return;
@@ -303,11 +308,11 @@ public class ManifestAttributesChecker {
         } else { // JNLP
             if (isNoneOrDefault(requestedPermissions)) {
                 if (sandboxForced == ManifestBoolean.TRUE && signing != SigningState.NONE) {
-                    OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "The 'permissions' attribute is '" + file.getManifestsAttributes().permissionsToString() + "' and the applet is signed. Forcing sandbox.");
+                    LOG.debug("The 'permissions' attribute is '" + file.getManifestsAttributes().permissionsToString() + "' and the applet is signed. Forcing sandbox.");
                     securityDelegate.setRunInSandbox();
                 }
                 if (sandboxForced == ManifestBoolean.FALSE && signing == SigningState.NONE) {
-                    OutputController.getLogger().log(OutputController.Level.WARNING_ALL, "The 'permissions' attribute is '" + file.getManifestsAttributes().permissionsToString() + "' and the applet is unsigned. Forcing sandbox.");
+                    LOG.debug("The 'permissions' attribute is '" + file.getManifestsAttributes().permissionsToString() + "' and the applet is unsigned. Forcing sandbox.");
                     securityDelegate.setRunInSandbox();
                 }
             }
@@ -373,14 +378,14 @@ public class ManifestAttributesChecker {
             }
 
         }
-        OutputController.getLogger().log("Found alaca URLs to be verified");
+        LOG.debug("Found alaca URLs to be verified");
         for (URL url : usedUrls) {
-            OutputController.getLogger().log(" - " + url.toExternalForm());
+            LOG.debug(" - " + url.toExternalForm());
         }
         if (usedUrls.isEmpty()) {
             //I hope this is the case, when the resources is/are
             //only codebase classes. Then it should be safe to return.
-            OutputController.getLogger().log("The application is not using any url resources, skipping Application-Library-Allowable-Codebase Attribute check.");
+            LOG.debug("The application is not using any url resources, skipping Application-Library-Allowable-Codebase Attribute check.");
             return;
         }
 
@@ -388,15 +393,15 @@ public class ManifestAttributesChecker {
         for (URL u : usedUrls) {
             if (UrlUtils.equalsIgnoreLastSlash(u, codebase)
                     && UrlUtils.equalsIgnoreLastSlash(u, stripDocbase(documentBase))) {
-                OutputController.getLogger().log("OK - "+u.toExternalForm()+" is from codebase/docbase.");
+                LOG.debug("OK - "+u.toExternalForm()+" is from codebase/docbase.");
             } else {
                 allOk = false;
-                OutputController.getLogger().log("Warning! "+u.toExternalForm()+" is NOT from codebase/docbase.");
+                LOG.debug("Warning! "+u.toExternalForm()+" is NOT from codebase/docbase.");
             }
         }
         if (allOk) {
             //all resoources are from codebase or document base. it is ok to proceeed.
-            OutputController.getLogger().log("All applications resources (" + usedUrls.toArray(new URL[0])[0] + ") are from codebas/documentbase " + codebase + "/" + documentBase + ", skipping Application-Library-Allowable-Codebase Attribute check.");
+            LOG.debug("All applications resources (" + usedUrls.toArray(new URL[0])[0] + ") are from codebas/documentbase " + codebase + "/" + documentBase + ", skipping Application-Library-Allowable-Codebase Attribute check.");
             return;
         }
         
@@ -411,7 +416,7 @@ public class ManifestAttributesChecker {
             if (!userApproved) {
                 throw new LaunchException("The application uses non-codebase resources, has no Application-Library-Allowable-Codebase Attribute, and was blocked from running by the user");
             } else {
-                OutputController.getLogger().log("The application uses non-codebase resources, has no Application-Library-Allowable-Codebase Attribute, and was allowed to run by the user or user's security settings");
+                LOG.debug("The application uses non-codebase resources, has no Application-Library-Allowable-Codebase Attribute, and was allowed to run by the user or user's security settings");
                 return;
             }
         } else {
@@ -419,7 +424,7 @@ public class ManifestAttributesChecker {
                 if (!att.matches(foundUrl)) {
                     throw new LaunchException("The resource from " + foundUrl + " does not match the  location in Application-Library-Allowable-Codebase Attribute " + att + ". Blocking the application from running.");
                 } else {
-                    OutputController.getLogger().log("The resource from " + foundUrl + " does  match the  location in Application-Library-Allowable-Codebase Attribute " + att + ". Continuing.");
+                    LOG.debug("The resource from " + foundUrl + " does  match the  location in Application-Library-Allowable-Codebase Attribute " + att + ". Continuing.");
                 }
             }
         }
@@ -427,7 +432,7 @@ public class ManifestAttributesChecker {
         if (!userApproved) {
             throw new LaunchException("The application uses non-codebase resources, which do match its Application-Library-Allowable-Codebase Attribute, but was blocked from running by the user.");
         } else {
-            OutputController.getLogger().log("The application uses non-codebase resources, which do match its Application-Library-Allowable-Codebase Attribute, and was allowed to run by the user or user's security settings.");
+            LOG.debug("The application uses non-codebase resources, which do match its Application-Library-Allowable-Codebase Attribute, and was allowed to run by the user or user's security settings.");
         }
     }
     
@@ -448,7 +453,7 @@ public class ManifestAttributesChecker {
         try {
             documentBase = new URL(s);
         } catch (MalformedURLException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
         return documentBase;
     }

@@ -38,6 +38,8 @@ package net.sourceforge.jnlp.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+
+import net.sourceforge.jnlp.controlpanel.ClassFinder;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import java.io.File;
 import java.io.IOException;
@@ -59,8 +61,13 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import javax.net.ssl.SSLSocketFactory;
 import net.sourceforge.jnlp.JNLPFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UrlUtils {
+
+    private final static Logger LOG = LoggerFactory.getLogger(UrlUtils.class);
+
 
     private static final String UTF8 = "utf-8";
 
@@ -73,7 +80,7 @@ public class UrlUtils {
             URL strippedUrl = new URL(urlParts[0]);
             return normalizeUrl(strippedUrl, encodeFileUrls);
         } catch (IOException | URISyntaxException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
         }
         return url;
     }
@@ -97,7 +104,7 @@ public class UrlUtils {
         try {
             return new URL(URLDecoder.decode(url.toString(), UTF8));
         } catch (IOException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
             return url;
         }
     }
@@ -150,7 +157,7 @@ public class UrlUtils {
         try {
             return normalizeUrl(url, encodeFileUrls);
         } catch (MalformedURLException | UnsupportedEncodingException | URISyntaxException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR", e);
         }
         return url;
     }
@@ -196,7 +203,7 @@ public class UrlUtils {
         try {
             return sanitizeLastSlash(new URL(src.getProtocol(), src.getHost(), src.getPort(), s));
         } catch (MalformedURLException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return nsrc;
         }
     }
@@ -319,7 +326,7 @@ public class UrlUtils {
                 return true;
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
         return false;
     }
@@ -378,7 +385,7 @@ public class UrlUtils {
         try {
             return new URL(s);
         } catch (MalformedURLException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return u;
         }
 
@@ -422,7 +429,7 @@ public class UrlUtils {
             String stripped = normalized.replace(file, parent);
             return stripped;
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return documentbase.toExternalForm();
         }
 
@@ -444,7 +451,7 @@ public class UrlUtils {
             try {
                 is = connection.getInputStream();
             } catch (IOException ioe) {
-                OutputController.getLogger().log(ioe);
+                LOG.error("ERROR", ioe);
                 if (connection instanceof HttpURLConnection) {
                     HttpURLConnection httpConn = (HttpURLConnection) connection;
                     int statusCode = httpConn.getResponseCode();

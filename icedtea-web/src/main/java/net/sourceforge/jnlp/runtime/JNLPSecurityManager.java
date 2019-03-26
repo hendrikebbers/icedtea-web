@@ -24,11 +24,14 @@ import java.security.AccessControlException;
 import java.security.Permission;
 
 
+import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.WeakList;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.awt.AWTSecurityManager;
 import sun.awt.AppContext;
 
@@ -48,6 +51,9 @@ import sun.awt.AppContext;
  * @version $Revision: 1.17 $
  */
 class JNLPSecurityManager extends AWTSecurityManager {
+
+    private final static Logger LOG = LoggerFactory.getLogger(JNLPSecurityManager.class);
+
 
     // todo: some apps like JDiskReport can close the VM even when
     // an exit class is set - fix!
@@ -291,7 +297,7 @@ class JNLPSecurityManager extends AWTSecurityManager {
 
             super.checkPermission(perm);
         } catch (SecurityException ex) {
-            OutputController.getLogger().log("Denying permission: " + perm);
+            LOG.debug("Denying permission: " + perm);
             throw ex;
         }
     }
@@ -326,16 +332,16 @@ class JNLPSecurityManager extends AWTSecurityManager {
             if (JNLPRuntime.isDebug()) {
                 if (cl.getSecurity() == null) {
                     if (cl.getPermissions(null).implies(perm)){
-                        OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Added permission: " + perm.toString());
+                        LOG.debug("Added permission: " + perm.toString());
                     } else {
-                        OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Unable to add permission: " + perm.toString());
+                        LOG.debug("Unable to add permission: " + perm.toString());
                     }
                 } else {
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, "Cannot get permissions for null codesource when classloader security is not null");
+                    LOG.debug("Cannot get permissions for null codesource when classloader security is not null");
                 }
             }
         } else {
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Unable to add permission: " + perm + ", classloader not JNLP.");
+            LOG.debug("Unable to add permission: " + perm + ", classloader not JNLP.");
         }
     }
 
@@ -352,7 +358,7 @@ class JNLPSecurityManager extends AWTSecurityManager {
         if (app != null && window instanceof Window) {
             Window w = (Window) window;
 
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "SM: app: " + app.getTitle() + " is adding a window: " + window + " with appContext " + AppContext.getAppContext());
+            LOG.debug("SM: app: " + app.getTitle() + " is adding a window: " + window + " with appContext " + AppContext.getAppContext());
 
             weakWindows.add(w); // for mapping window -> app
             weakApplications.add(app);

@@ -40,14 +40,20 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sourceforge.jnlp.security.SecurityDialog;
+import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.APPLET_TRUST_SETTINGS;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.DEPLOYMENT_CONFIG_FILE;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.DEPLOYMENT_PROPERTIES;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+
 import net.sourceforge.jnlp.runtime.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PathsAndFiles {
+    private final static Logger LOG = LoggerFactory.getLogger(PathsAndFiles.class);
 
     public static final String DEPLOYMENT_SUBDIR_DIR = "icedtea-web";
 
@@ -67,7 +73,7 @@ public class PathsAndFiles {
     private static final String HOME_PROP = "user.home";
     private static final String JAVA_PROP = "java.home";
     private static final String USER_PROP = "user.name";
-    private static final String VARIABLE = JNLPRuntime.isWindows() ? "%" : "$";
+    private static final String VARIABLE = OsUtil.isWindows() ? "%" : "$";
     private static final String securityWord = "security";
     public static final String ICEDTEA_SO = "IcedTeaPlugin.so";
     public static final String CACHE_INDEX_FILE_NAME = "recently_used";
@@ -323,7 +329,7 @@ public class PathsAndFiles {
                     }
                 }
             } catch (IllegalArgumentException | IllegalAccessException ex) {
-                OutputController.getLogger().log(ex);
+                LOG.error("ERROR",ex);
             }
 
         }
@@ -367,7 +373,7 @@ public class PathsAndFiles {
         private static final String unixPathSuffix = File.separator + "etc" + File.separator + ".java";
 
         private static String getSystemConfigDir() {
-            if (JNLPRuntime.isWindows()) {
+            if (OsUtil.isWindows()) {
                 return System.getenv(WINDIR) + windowsPathSuffix;
             } else {
                 return unixPathSuffix;

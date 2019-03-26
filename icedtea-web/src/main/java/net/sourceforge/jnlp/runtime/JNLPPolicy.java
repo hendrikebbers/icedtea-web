@@ -24,7 +24,10 @@ import java.util.Enumeration;
 
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.jdk89acesses.SunMiscLauncher;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Policy for JNLP environment.  This class delegates to the
@@ -37,6 +40,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.7 $
  */
 public class JNLPPolicy extends Policy {
+
+    private final static Logger LOG = LoggerFactory.getLogger(JNLPPolicy.class);
+
 
     /** classes from this source have all permissions */
     private static CodeSource shellSource;
@@ -188,7 +194,7 @@ public class JNLPPolicy extends Policy {
                 URI policyUri = new URI(policyLocation.replace("\\","/"));
                 policy = getInstance("JavaPolicy", new URIParameter(policyUri));
             } catch (IllegalArgumentException | NoSuchAlgorithmException | URISyntaxException e) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+                LOG.error("ERROR", e);
             }
         }
         return policy;

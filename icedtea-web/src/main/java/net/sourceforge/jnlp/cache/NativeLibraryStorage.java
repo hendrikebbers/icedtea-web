@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles loading and access of native code loading through a JNLP application or applet.
@@ -19,6 +22,10 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * Be sure to call cleanupTemporayFolder when finished with the object.
  */
 public class NativeLibraryStorage {
+
+    private final static Logger LOG = LoggerFactory.getLogger(NativeLibraryStorage.class);
+
+
     private final ResourceTracker tracker;
     private final List<File> nativeSearchDirectories = new ArrayList<>();
 
@@ -34,7 +41,7 @@ public class NativeLibraryStorage {
      */
     public void cleanupTemporaryFolder() {
         if (jarEntryDirectory != null) {
-            OutputController.getLogger().log("Cleaning up native directory" + jarEntryDirectory.getAbsolutePath());
+            LOG.debug("Cleaning up native directory" + jarEntryDirectory.getAbsolutePath());
             try {
                 FileUtils.recursiveDelete(jarEntryDirectory,
                         new File(System.getProperty("java.io.tmpdir")));
@@ -85,7 +92,7 @@ public class NativeLibraryStorage {
      * @param jarLocation location of jar to be searched
      */
     public void addSearchJar(URL jarLocation) {
-        OutputController.getLogger().log("Activate native: " + jarLocation);
+        LOG.debug("Activate native: " + jarLocation);
         File localFile = tracker.getCacheFile(jarLocation);
         if (localFile == null)
             return;
@@ -125,7 +132,7 @@ public class NativeLibraryStorage {
                 }
             }
         } catch (IOException ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR",ex);
         }
     }
 

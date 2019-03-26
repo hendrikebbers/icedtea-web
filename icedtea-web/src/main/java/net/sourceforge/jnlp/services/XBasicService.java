@@ -54,9 +54,12 @@ import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.runtime.html.browser.LinkingBrowser;
+import net.sourceforge.jnlp.security.HttpsCertVerifier;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The BasicService JNLP service.
@@ -66,6 +69,9 @@ import net.sourceforge.swing.SwingUtils;
  * @version $Revision: 1.10 $
  */
 class XBasicService implements BasicService {
+
+    private final static Logger LOG = LoggerFactory.getLogger(XBasicService.class);
+
 
     protected XBasicService() {
     }
@@ -192,19 +198,19 @@ class XBasicService implements BasicService {
 // in all cases, the mime recognition is much harder then .jnlp suffix
 
             String urls = url.toExternalForm();
-            OutputController.getLogger().log("showDocument for: " + urls);
+            LOG.debug("showDocument for: " + urls);
 
             DeploymentConfiguration config = JNLPRuntime.getConfiguration();
             String command = config.getProperty(DeploymentConfiguration.KEY_BROWSER_PATH);
             //for various debugging
             //command=DeploymentConfiguration.ALWAYS_ASK;
             if (command != null) {
-                OutputController.getLogger().log(DeploymentConfiguration.KEY_BROWSER_PATH + " located. Using: " + command);
+                LOG.debug(DeploymentConfiguration.KEY_BROWSER_PATH + " located. Using: " + command);
                 return exec(command, urls);
             }
             if (System.getenv(DeploymentConfiguration.BROWSER_ENV_VAR) != null) {
                 command = System.getenv(DeploymentConfiguration.BROWSER_ENV_VAR);
-                OutputController.getLogger().log("variable " + DeploymentConfiguration.BROWSER_ENV_VAR + " located. Using: " + command);
+                LOG.debug("variable " + DeploymentConfiguration.BROWSER_ENV_VAR + " located. Using: " + command);
                 return exec(command, urls);
             }
             if (JNLPRuntime.isHeadless() || !Desktop.isDesktopSupported()) {
@@ -212,17 +218,16 @@ class XBasicService implements BasicService {
                 return exec(command, urls);
             } else {
                 if (Desktop.isDesktopSupported()) {
-                    OutputController.getLogger().log("using default browser");
+                    LOG.debug("using default browser");
                     Desktop.getDesktop().browse(url.toURI());
                     return true;
                 } else {
-                    OutputController.getLogger().log("dont know what to do");
+                    LOG.debug("dont know what to do");
                     return false;
                 }
             }
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, e.toString());
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             return false;
         }
     }
@@ -255,15 +260,15 @@ class XBasicService implements BasicService {
             StreamUtils.waitForSafely(p);
             return (p.exitValue() == 0);
         } catch (Exception e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR", e);
             try {
                 //time for stderr to deal with it in verbose mode
                 Thread.sleep(50);
             } catch (Exception ex) {
                 //ss
             }
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, e.toString());
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, Translator.VVPossibleBrowserValues());
+            LOG.debug(e.toString());
+            LOG.debug(Translator.VVPossibleBrowserValues());
             return false;
         }
     }
@@ -337,7 +342,7 @@ class XBasicService implements BasicService {
                         try {
                             JNLPRuntime.getConfiguration().save();
                         } catch (IOException ex) {
-                            OutputController.getLogger().log(ex);
+                            LOG.error("ERROR", ex);
                         }
                     }
                     PromptUrl.this.dispose();

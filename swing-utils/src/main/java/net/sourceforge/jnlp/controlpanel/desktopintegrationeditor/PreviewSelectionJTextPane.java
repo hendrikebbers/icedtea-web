@@ -119,7 +119,7 @@ public class PreviewSelectionJTextPane extends JTextPane {
             this.setText(sb.toString());
 
         } catch (Exception ex) {
-            //OutputController.getLogger().log(ex);
+            //LOG.error("ERROR", ex);
         }
 
     }
@@ -135,7 +135,7 @@ public class PreviewSelectionJTextPane extends JTextPane {
 
             }
         } catch (Exception ex) {
-            //OutputController.getLogger().log(ex);
+            //LOG.error("ERROR", ex);
         }
         return s;
     }

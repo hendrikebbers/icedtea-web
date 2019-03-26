@@ -24,6 +24,8 @@ import java.net.URL;
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.util.PropertiesFile;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Describes an entry in the cache.
@@ -32,6 +34,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.10 $
  */
 public class CacheEntry {
+
+    private final static Logger LOG = LoggerFactory.getLogger(CacheEntry.class);
+
 
     public static final long LENGTH_UNKNOWN = -1;
 
@@ -147,7 +152,7 @@ public class CacheEntry {
         try {
             return Long.parseLong(properties.getProperty(key));
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return defaultValue;
         }
     }
@@ -165,17 +170,17 @@ public class CacheEntry {
      */
     public boolean isCurrent(long lastModified) {
         boolean cached = isCached();
-        OutputController.getLogger().log("isCurrent:isCached " + cached);
+        LOG.debug("isCurrent:isCached " + cached);
 
         if (!cached) {
             return false;
         }
         try {
             long cachedModified = Long.parseLong(properties.getProperty(KEY_LAST_MODIFIED));
-            OutputController.getLogger().log("isCurrent:lastModified cache:" + cachedModified +  " actual:" + lastModified);
+            LOG.debug("isCurrent:lastModified cache:" + cachedModified +  " actual:" + lastModified);
             return lastModified > 0 && lastModified <= cachedModified;
         } catch (Exception ex){
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
             return cached;
         }
     }
@@ -200,14 +205,14 @@ public class CacheEntry {
 
             long remoteLength = Long.parseLong(properties.getProperty(KEY_CONTENT_LENGTH, "-1"));
 
-            OutputController.getLogger().log("isCached: remote:" + remoteLength + " cached:" + cachedLength);
+            LOG.debug("isCached: remote:" + remoteLength + " cached:" + cachedLength);
 
             if (remoteLength >= 0 && cachedLength != remoteLength)
                 return false;
             else
                 return true;
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
 
             return false; // should throw?
         }

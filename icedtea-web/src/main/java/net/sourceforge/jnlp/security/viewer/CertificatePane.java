@@ -79,10 +79,16 @@ import net.sourceforge.jnlp.security.KeyStores;
 import net.sourceforge.jnlp.security.SecurityUtil;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.KeyStores.Level;
+import net.sourceforge.jnlp.security.dialogs.SecurityDialogPanel;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CertificatePane extends JPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(CertificatePane.class);
+
 
     /**
      * The certificates stored in the certificates file.
@@ -152,7 +158,7 @@ public class CertificatePane extends JPanel {
         try {
             keyStore = KeyStores.getKeyStore(currentKeyStoreLevel, currentKeyStoreType);
         } catch (Exception e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR",e);
         }
     }
 
@@ -289,7 +295,7 @@ public class CertificatePane extends JPanel {
             }
         } catch (Exception e) {
             // TODO handle exception
-           OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR",e);
         }
     }
 
@@ -305,13 +311,13 @@ public class CertificatePane extends JPanel {
             File resolved = src.getCanonicalFile();
             if (resolved.equals(src)) {
                 certPath.setText(keyStore.getPath());
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, keyStore.getPath());
+                LOG.debug(keyStore.getPath());
             } else {
                 certPath.setText(keyStore.getPath() + " -> " + resolved.getCanonicalPath());
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, keyStore.getPath() + " -> " + resolved.getCanonicalPath());
+                LOG.debug(keyStore.getPath() + " -> " + resolved.getCanonicalPath());
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
         DefaultTableModel tableModel = new DefaultTableModel(issuedToAndBy, columnNames);
         userTable.setModel(tableModel);
@@ -425,7 +431,7 @@ public class CertificatePane extends JPanel {
                     repopulateTables();
                 } catch (Exception ex) {
                     // TODO: handle exception
-                    OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                    LOG.error("ERROR", ex);
                 }
             }
         }
@@ -469,7 +475,7 @@ public class CertificatePane extends JPanel {
                     }
                 }
             } catch (Exception ex) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                LOG.error("ERROR", ex);
             }
         }
     }
@@ -511,7 +517,7 @@ public class CertificatePane extends JPanel {
                     repopulateTables();
                 }
             } catch (Exception ex) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ex);
+                LOG.error("ERROR", ex);
             }
 
         }
@@ -555,7 +561,7 @@ public class CertificatePane extends JPanel {
                 net.sourceforge.jnlp.controlpanel.ControlPanel.main(new String[0]);
                 parent.dispose();    
             } catch (Exception ex) {
-                OutputController.getLogger().log(ex);
+                LOG.error("ERROR", ex);
                 JOptionPane.showMessageDialog(parent, ex);
 
             }

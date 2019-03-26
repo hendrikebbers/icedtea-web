@@ -43,9 +43,12 @@ import javax.naming.ConfigurationException;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.tools.JarCertVerifier;
 import net.sourceforge.jnlp.tools.ico.IcoSpi;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages the various properties and configuration related to deployment.
@@ -54,6 +57,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * http://download.oracle.com/javase/1.5.0/docs/guide/deployment/deployment-guide/properties.html
  */
 public final class DeploymentConfiguration {
+
+    private final static Logger LOG = LoggerFactory.getLogger(DeploymentConfiguration.class);
+
 
     public static final String DEPLOYMENT_CONFIG_FILE = "deployment.config";
     public static final String DEPLOYMENT_PROPERTIES = "deployment.properties";
@@ -307,10 +313,10 @@ public final class DeploymentConfiguration {
          try {
             IcoSpi spi = new IcoSpi();
             IIORegistry.getDefaultInstance().registerServiceProvider(spi);
-            OutputController.getLogger().log("Ico provider registered correctly.");
+            LOG.debug("Ico provider registered correctly.");
         } catch (Exception ex) {
-            OutputController.getLogger().log("Exception registering ico provider.");
-            OutputController.getLogger().log(ex);
+            LOG.debug("Exception registering ico provider.");
+            LOG.error("ERROR", ex);
         }
     }
 
@@ -359,7 +365,7 @@ public final class DeploymentConfiguration {
 
         if (systemConfigFile != null) {
             if (loadSystemConfiguration(systemConfigFile)) {
-                OutputController.getLogger().log("System level " + DEPLOYMENT_CONFIG_FILE + " is mandatory: " + systemPropertiesMandatory);
+                LOG.debug("System level " + DEPLOYMENT_CONFIG_FILE + " is mandatory: " + systemPropertiesMandatory);
                 /* Second, read the System level deployment.properties file */
                 systemProperties = loadProperties(ConfigType.System, systemPropertiesFile,
                         systemPropertiesMandatory);
@@ -500,9 +506,9 @@ public final class DeploymentConfiguration {
         for (String key : initial.keySet()) {
             Setting<String> s = initial.get(key);
             if (!(s.getName().equals(key))) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("DCInternal", "key " + key + " does not match setting name " + s.getName()));
+                LOG.debug(R("DCInternal", "key " + key + " does not match setting name " + s.getName()));
             } else if (!defaults.containsKey(key)) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("DCUnknownSettingWithName", key));
+                LOG.debug(R("DCUnknownSettingWithName", key));
             } else {
                 ValueValidator checker = defaults.get(key).getValidator();
                 if (checker == null) {
@@ -512,9 +518,9 @@ public final class DeploymentConfiguration {
                 try {
                     checker.validate(s.getValue());
                 } catch (IllegalArgumentException e) {
-                    OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, R("DCIncorrectValue", key, s.getValue(), checker.getPossibleValues()));
+                    LOG.debug(R("DCIncorrectValue", key, s.getValue(), checker.getPossibleValues()));
                     s.setValue(s.getDefaultValue());
-                    OutputController.getLogger().log(e);
+                    LOG.error("ERROR", e);
                 }
             }
         }
@@ -536,7 +542,7 @@ public final class DeploymentConfiguration {
                 jrePath = jreSetting.getValue();
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
 
         File jreFile;
@@ -560,14 +566,14 @@ public final class DeploymentConfiguration {
      */
     private boolean loadSystemConfiguration(URL configFile) throws ConfigurationException {
 
-        OutputController.getLogger().log("Loading system configuation from: " + configFile);
+        LOG.debug("Loading system configuation from: " + configFile);
 
         Map<String, Setting<String>> systemConfiguration = new HashMap<>();
         try {
             systemConfiguration = parsePropertiesFile(configFile);
         } catch (IOException e) {
-            OutputController.getLogger().log("No System level " + DEPLOYMENT_CONFIG_FILE + " found.");
-            OutputController.getLogger().log(e);
+            LOG.debug("No System level " + DEPLOYMENT_CONFIG_FILE + " found.");
+            LOG.error("ERROR", e);
             return false;
         }
 
@@ -579,20 +585,20 @@ public final class DeploymentConfiguration {
         try {
             Setting<String> urlSettings = systemConfiguration.get(KEY_SYSTEM_CONFIG);
             if (urlSettings == null || urlSettings.getValue() == null) {
-                OutputController.getLogger().log("No System level " + DEPLOYMENT_PROPERTIES + " found in "+configFile.toExternalForm());
+                LOG.debug("No System level " + DEPLOYMENT_PROPERTIES + " found in "+configFile.toExternalForm());
                 return false;
             }
             urlString = urlSettings.getValue();
             Setting<String> mandatory = systemConfiguration.get(KEY_SYSTEM_CONFIG_MANDATORY);
             systemPropertiesMandatory = Boolean.valueOf(mandatory == null ? null : mandatory.getValue()); //never null
-            OutputController.getLogger().log("System level settings " + DEPLOYMENT_PROPERTIES + " are mandatory:" + systemPropertiesMandatory);
+            LOG.debug("System level settings " + DEPLOYMENT_PROPERTIES + " are mandatory:" + systemPropertiesMandatory);
             URL url = new URL(urlString);
             systemPropertiesFile = url;
-            OutputController.getLogger().log("Using System level" + DEPLOYMENT_PROPERTIES + ": " + systemPropertiesFile);
+            LOG.debug("Using System level" + DEPLOYMENT_PROPERTIES + ": " + systemPropertiesFile);
             return true;
         } catch (MalformedURLException e) {
-            OutputController.getLogger().log("Invalid url for " + DEPLOYMENT_PROPERTIES+ ": " + urlString + "in " + configFile.toExternalForm());
-            OutputController.getLogger().log(e);
+            LOG.debug("Invalid url for " + DEPLOYMENT_PROPERTIES+ ": " + urlString + "in " + configFile.toExternalForm());
+            LOG.error("ERROR", e);
             if (systemPropertiesMandatory){
                 ConfigurationException ce = new ConfigurationException("Invalid url to system properties, which are mandatory");
                 ce.initCause(e);
@@ -615,7 +621,7 @@ public final class DeploymentConfiguration {
     private Map<String, Setting<String>> loadProperties(ConfigType type, URL file, boolean mandatory)
             throws ConfigurationException {
         if (file == null || !checkUrl(file)) {
-            OutputController.getLogger().log("No " + type.toString() + " level " + DEPLOYMENT_PROPERTIES + " found.");
+            LOG.debug("No " + type.toString() + " level " + DEPLOYMENT_PROPERTIES + " found.");
             if (!mandatory) {
                 return null;
             } else {
@@ -623,7 +629,7 @@ public final class DeploymentConfiguration {
             }
         }
 
-        OutputController.getLogger().log("Loading " + type.toString() + " level properties from: " + file);
+        LOG.debug("Loading " + type.toString() + " level properties from: " + file);
         try {
             return parsePropertiesFile(file);
         } catch (IOException e) {
@@ -632,7 +638,7 @@ public final class DeploymentConfiguration {
                 ce.initCause(e);
                 throw ce;
             }
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR",e);
             return null;
         }
     }
@@ -653,7 +659,7 @@ public final class DeploymentConfiguration {
             sm.checkWrite(userPropertiesFile.toString());
         }
 
-        OutputController.getLogger().log("Saving properties into " + userPropertiesFile.toString());
+        LOG.debug("Saving properties into " + userPropertiesFile.toString());
         Properties toSave = new Properties();
 
         for (String key : currentConfiguration.keySet()) {
@@ -679,7 +685,7 @@ public final class DeploymentConfiguration {
             if (backupPropertiesFile.exists()){
                 boolean result = backupPropertiesFile.delete();
                 if(!result){
-                    OutputController.getLogger().log("Failed to delete backup properties file " + backupPropertiesFile+ " silently continuing.");
+                    LOG.debug("Failed to delete backup properties file " + backupPropertiesFile+ " silently continuing.");
                 }
             }
             if (!userPropertiesFile.renameTo(backupPropertiesFile)) {
@@ -772,7 +778,7 @@ public final class DeploymentConfiguration {
      */
     @SuppressWarnings("unused")
     private static void dumpConfiguration(Map<String, Setting<String>> config, PrintStream out) {
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "KEY: VALUE [Locked]");
+        LOG.debug("KEY: VALUE [Locked]");
 
         for (String key : config.keySet()) {
             Setting<String> value = config.get(key);
@@ -786,8 +792,8 @@ public final class DeploymentConfiguration {
             move14AndOlderFilesTo15Structure();
         } catch (Throwable t) {
             t.printStackTrace();
-            OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Critical error during converting old files to new. Continuing");
-            OutputController.getLogger().log(t);
+            LOG.debug("Critical error during converting old files to new. Continuing");
+            LOG.error("ERROR", t);
         }
 
     }
@@ -801,16 +807,16 @@ public final class DeploymentConfiguration {
         File cacheDir = new File(PathsAndFiles.USER_CACHE_HOME);
         File legacyUserDir = new File(LEGACY_USER_HOME);
         if (legacyUserDir.exists()) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, TRANSFER_TITLE);
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, PathsAndFiles.USER_CONFIG_HOME + " and " + PathsAndFiles.USER_CACHE_HOME);
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "You should not see this message next time you run icedtea-web!");
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Your custom dirs will not be touched and will work");
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "-----------------------------------------------");
+            LOG.debug(TRANSFER_TITLE);
+            LOG.debug(PathsAndFiles.USER_CONFIG_HOME + " and " + PathsAndFiles.USER_CACHE_HOME);
+            LOG.debug("You should not see this message next time you run icedtea-web!");
+            LOG.debug("Your custom dirs will not be touched and will work");
+            LOG.debug("-----------------------------------------------");
 
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Preparing new directories:");
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, " " + PathsAndFiles.USER_CONFIG_HOME);
+            LOG.debug("Preparing new directories:");
+            LOG.debug(" " + PathsAndFiles.USER_CONFIG_HOME);
             errors += resultToStd(configDir.mkdirs());
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, " " + PathsAndFiles.USER_CACHE_HOME);
+            LOG.debug(" " + PathsAndFiles.USER_CACHE_HOME);
             errors += resultToStd(cacheDir.mkdirs());
             //move this first, the creation of config singleton may happen anytime...
             //but must not before USER_DEPLOYMENT_FILE is moved and should not in this block
@@ -836,7 +842,7 @@ public final class DeploymentConfiguration {
             String legacyCache = LEGACY_USER_HOME + File.separator + "cache";
             String currentCache = PathsAndFiles.CACHE_DIR.getDefaultFullPath();
             errors += moveLegacyToCurrent(legacyCache, currentCache);
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Adapting " + PathsAndFiles.CACHE_INDEX_FILE_NAME + " to new destination");
+            LOG.debug("Adapting " + PathsAndFiles.CACHE_INDEX_FILE_NAME + " to new destination");
             //replace all legacyCache by currentCache in new recently_used
             try {
                 File f = PathsAndFiles.getRecentlyUsedFile().getDefaultFile();
@@ -844,7 +850,7 @@ public final class DeploymentConfiguration {
                 s = s.replace(legacyCache, currentCache);
                 FileUtils.saveFile(s, f);
             } catch (IOException ex) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, ex);
+                LOG.error("ERROR", ex);
                 errors++;
             }
 
@@ -860,33 +866,33 @@ public final class DeploymentConfiguration {
             String currentTmp = PathsAndFiles.TMP_DIR.getDefaultFullPath();
             errors += moveLegacyToCurrent(legacyTmp, currentTmp);
 
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Removing now empty " + LEGACY_USER_HOME);
+            LOG.debug("Removing now empty " + LEGACY_USER_HOME);
             errors += resultToStd(legacyUserDir.delete());
 
             if (errors != 0) {
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "There occureed " + errors + " errors");
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Please double check content of old data in " + LEGACY_USER_HOME + " with ");
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "new " + PathsAndFiles.USER_CONFIG_HOME + " and " + PathsAndFiles.USER_CACHE_HOME);
-                OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "To disable this check again, please remove " + LEGACY_USER_HOME);
+                LOG.debug("There occureed " + errors + " errors");
+                LOG.debug("Please double check content of old data in " + LEGACY_USER_HOME + " with ");
+                LOG.debug("new " + PathsAndFiles.USER_CONFIG_HOME + " and " + PathsAndFiles.USER_CACHE_HOME);
+                LOG.debug("To disable this check again, please remove " + LEGACY_USER_HOME);
             }
 
         } else {
-            OutputController.getLogger().log("System is already following XDG .cache and .config specifications");
+            LOG.debug("System is already following XDG .cache and .config specifications");
             try {
-                OutputController.getLogger().log("config: " + PathsAndFiles.USER_CONFIG_HOME + " file exists: " + configDir.exists());
+                LOG.debug("config: " + PathsAndFiles.USER_CONFIG_HOME + " file exists: " + configDir.exists());
             } catch (Exception ex) {
-                OutputController.getLogger().log(ex);
+                LOG.error("ERROR",ex);
             }
             try {
-                OutputController.getLogger().log("cache: " + PathsAndFiles.USER_CACHE_HOME + " file exists:" + cacheDir.exists());
+                LOG.debug("cache: " + PathsAndFiles.USER_CACHE_HOME + " file exists:" + cacheDir.exists());
             } catch (Exception ex) {
-                OutputController.getLogger().log(ex);
+                LOG.error("ERROR",ex);
             }
         }
         //this call should endure even if (ever) will migration code be removed
         DirectoryValidator.DirectoryCheckResults r = new DirectoryValidator().ensureDirs();
         if (r.getFailures() > 0) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, r.getMessage());
+            LOG.debug(r.getMessage());
             if (!JNLPRuntime.isHeadless()) {
                 JOptionPane.showMessageDialog(null, r.getMessage());
             }
@@ -895,17 +901,17 @@ public final class DeploymentConfiguration {
     }
 
     private static int moveLegacyToCurrent(String legacy, String current) {
-        OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Moving " + legacy + " to " + current);
+        LOG.debug("Moving " + legacy + " to " + current);
         File cf = new File(current);
         File old = new File(legacy);
         if (cf.exists()) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Warning! Destination " + current + " exists!");
+            LOG.debug("Warning! Destination " + current + " exists!");
         }
         if (old.exists()) {
             boolean moved = old.renameTo(cf);
             return resultToStd(moved);
         } else {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "Source " + legacy + " do not exists, nothing to do");
+            LOG.debug("Source " + legacy + " do not exists, nothing to do");
             return 0;
         }
 
@@ -913,10 +919,10 @@ public final class DeploymentConfiguration {
 
     private static int resultToStd(boolean securityMove) {
         if (securityMove) {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "OK");
+            LOG.debug("OK");
             return 0;
         } else {
-            OutputController.getLogger().log(OutputController.Level.MESSAGE_ALL, "ERROR");
+            LOG.debug("ERROR");
             return 1;
         }
     }
@@ -954,7 +960,7 @@ public final class DeploymentConfiguration {
                 }
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR",ex);
         }
         
         return r.toString().trim();

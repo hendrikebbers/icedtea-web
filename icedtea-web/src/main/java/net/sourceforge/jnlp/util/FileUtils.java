@@ -46,12 +46,16 @@ import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import net.sourceforge.jnlp.tools.CertInformation;
 import net.sourceforge.swing.SwingUtils;
 
 import net.sourceforge.jnlp.config.DirectoryValidator;
 import net.sourceforge.jnlp.config.DirectoryValidator.DirectoryCheckResults;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
@@ -61,6 +65,9 @@ import static net.sourceforge.jnlp.runtime.Translator.R;
  */
 
 public final class FileUtils {
+
+    private final static Logger LOG = LoggerFactory.getLogger(FileUtils.class);
+
 
     private static final String WIN_DRIVE_LETTER_COLON_WILDCHAR = "WINDOWS_VERY_SPECIFIC_DOUBLEDOT";
 
@@ -111,7 +118,7 @@ public final class FileUtils {
     public static String sanitizePath(String path, char substitute) {
         //on windows, we can recieve both c:/path/ and c:\path\
         path = path.replace("\\", "/");
-        if (JNLPRuntime.isWindows() && path.matches("^[a-zA-Z]\\:.*")) {
+        if (OsUtil.isWindows() && path.matches("^[a-zA-Z]\\:.*")) {
             path = path.replaceFirst(":", WIN_DRIVE_LETTER_COLON_WILDCHAR);
         }
         for (int i = 0; i < INVALID_PATH.size(); i++) {
@@ -119,7 +126,7 @@ public final class FileUtils {
                 path = path.replace(INVALID_PATH.get(i), substitute);
             }
         }
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             path = path.replaceFirst(WIN_DRIVE_LETTER_COLON_WILDCHAR, ":");
         }
         return path;
@@ -211,7 +218,7 @@ public final class FileUtils {
     public static void deleteWithErrMesg(File f, String eMsg) {
         if (f.exists()) {
             if (!f.delete()) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, R("RCantDeleteFile", eMsg == null ? f : eMsg));
+                LOG.debug(R("RCantDeleteFile", eMsg == null ? f : eMsg));
             }
         }
     }
@@ -247,7 +254,7 @@ public final class FileUtils {
             }
         }
 
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             // prepare ACL flags
             Set<AclEntryFlag> flags = new LinkedHashSet<>();
             if (tempFile.isDirectory()) {
@@ -340,7 +347,7 @@ public final class FileUtils {
         try {
             file = file.getCanonicalFile();
         } catch (final IOException e) {
-            OutputController.getLogger().log(e);
+            LOG.error("ERROR",e);
             return null;
         }
         if (file == null || file.getParentFile() == null || !file.getParentFile().exists()) {
@@ -515,7 +522,7 @@ public final class FileUtils {
      *         outside the base
      */
     public static void recursiveDelete(File file, File base) throws IOException {
-        OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Deleting: " + file);
+        LOG.debug("Deleting: " + file);
 
         if (!(file.getCanonicalPath().startsWith(base.getCanonicalPath()))) {
             throw new IOException("Trying to delete a file outside Netx's basedir: "
@@ -568,7 +575,7 @@ public final class FileUtils {
                 }
             }
         } catch (IOException e) {
-            OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            LOG.error("ERROR",e);
         }
         return lock;
     }

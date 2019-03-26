@@ -1262,7 +1262,7 @@ public class XMLElement {
                     out.print(ch);
                     out.flush();
                     if (ch == 10) {
-                        //OutputController.getLogger().log(line.toString());
+                        //LOG.debug(line.toString());
                         line = new StringBuilder("line: " + newline + " ");
                         newline++;
                     } else {
@@ -1307,7 +1307,7 @@ public class XMLElement {
                 else {
                     out.print(ch);
                     if (ch == 10) {
-                        //OutputController.getLogger().log(line.toString());
+                        //LOG.debug(line.toString());
                         line = new StringBuilder("line: " + newline + " ");
                         newline++;
                     } else {
@@ -1321,10 +1321,10 @@ public class XMLElement {
             // Print the stack trace here -- xml.parseFromReader() will
             // throw the ParseException if something goes wrong.
             throw new RuntimeException("Error in XML", e);
-            //OutputController.getLogger().log(OutputController.Level.ERROR_ALL, e);
+            //LOG.error("ERROR", e);
         } finally {
-            //OutputController.getLogger().log("");//force new line in all cases
-            //OutputController.getLogger().log(line.toString()); //flush remaining line
+            //LOG.debug("");//force new line in all cases
+            //LOG.debug(line.toString()); //flush remaining line
 
         }
     }

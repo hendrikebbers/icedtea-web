@@ -21,6 +21,8 @@ import java.awt.*;
 
 import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represents a launched application instance created from a JNLP
@@ -31,6 +33,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.9 $
  */
 public class AppletInstance extends ApplicationInstance {
+
+    private final static Logger LOG = LoggerFactory.getLogger(AppletInstance.class);
+
 
     /** whether the applet's stop and destroy methods have been called */
     private boolean appletStopped = false;
@@ -62,7 +67,7 @@ public class AppletInstance extends ApplicationInstance {
      */
     public void setApplet(Applet applet) {
         if (this.applet != null) {
-                OutputController.getLogger().log(new IllegalStateException("Applet can only be set once."));
+                LOG.error("ERROR", new IllegalStateException("Applet can only be set once."));
             return;
         }
         this.applet = applet;
@@ -140,7 +145,7 @@ public class AppletInstance extends ApplicationInstance {
             applet.stop();
             applet.destroy();
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            LOG.error("ERROR", ex);
         }
 
         environment.destroy();

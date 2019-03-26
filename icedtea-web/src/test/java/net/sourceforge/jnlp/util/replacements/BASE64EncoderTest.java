@@ -43,7 +43,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+
+import net.sourceforge.jnlp.util.OsUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,7 +70,7 @@ public class BASE64EncoderTest {
     static final Byte[] part3 = {120, 89, 106, 68, 113, 99, 79, 116, 119, 54, 72, 69, 106, 81, 61, 61};
 
     private static List<Byte> getBASE64LineEnding() {
-            if (JNLPRuntime.isWindows()) {
+            if (OsUtil.isWindows()) {
                 return Arrays.asList(new Byte[]{13, 10});
             } else {
                 return Arrays.asList(new Byte[]{10});

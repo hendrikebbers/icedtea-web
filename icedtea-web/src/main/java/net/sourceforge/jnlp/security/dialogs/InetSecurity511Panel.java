@@ -55,6 +55,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
+import net.sourceforge.jnlp.controlpanel.DocumentAdapter;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import static net.sourceforge.jnlp.runtime.JNLPRuntime.getConfiguration;
 import net.sourceforge.jnlp.runtime.Translator;
@@ -65,8 +66,13 @@ import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.security.dialogresults.YesCancelSkip;
 import static net.sourceforge.jnlp.security.dialogs.SecurityDialogPanel.htmlWrap;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InetSecurity511Panel extends SecurityDialogPanel {
+
+    private final static Logger LOG = LoggerFactory.getLogger(InetSecurity511Panel.class);
+
 
     private static final String INFO_LINK = "https://tools.ietf.org/html/rfc6585#section-6";
     private static boolean skip = false;
@@ -131,7 +137,7 @@ public class InetSecurity511Panel extends SecurityDialogPanel {
                     try {
                         Desktop.getDesktop().browse(new URI(INFO_LINK));
                     } catch (Exception ex) {
-                        OutputController.getLogger().log(ex);
+                        LOG.error("ERROR", ex);
                         if (!JNLPRuntime.isHeadless()) {
                             JOptionPane.showMessageDialog(null, ex);
                         }

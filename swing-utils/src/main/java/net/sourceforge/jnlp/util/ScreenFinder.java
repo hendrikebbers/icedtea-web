@@ -61,7 +61,7 @@ public class ScreenFinder {
             Point p = MouseInfo.getPointerInfo().getLocation();
             return getScreenOnCoordsWithoutBounds(p);
         } catch (HeadlessException ex) {
-           // OutputController.getLogger().log(ex);
+           // LOG.error("ERROR", ex);
             return new Rectangle(800, 600);
         }
 
@@ -104,7 +104,7 @@ public class ScreenFinder {
             Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(device.getDefaultConfiguration());
             return new Rectangle((int) screenSize.getX() + insets.left, (int) screenSize.getY() + insets.top, (int) screenSize.getWidth() - insets.left, (int) screenSize.getHeight() - insets.bottom);
         } catch (HeadlessException | IllegalArgumentException ex) {
-           // OutputController.getLogger().log(ex);
+           // LOG.error("ERROR", ex);
             return new Rectangle(800, 600);
         }
     }

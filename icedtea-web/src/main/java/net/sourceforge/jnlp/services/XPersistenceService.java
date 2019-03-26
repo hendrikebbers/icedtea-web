@@ -25,7 +25,10 @@ import net.sourceforge.jnlp.cache.*;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.*;
 import net.sourceforge.jnlp.util.FileUtils;
+import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The BasicService JNLP service.
@@ -34,6 +37,9 @@ import net.sourceforge.jnlp.util.logging.OutputController;
  * @version $Revision: 1.7 $
  */
 class XPersistenceService implements PersistenceService {
+
+    private final static Logger LOG = LoggerFactory.getLogger(XPersistenceService.class);
+
 
     // todo: recheck delete, etc to make sure security is tight
 
@@ -68,8 +74,8 @@ class XPersistenceService implements PersistenceService {
         else
             requestPath = "";
 
-          OutputController.getLogger().log("codebase path: " + source.getFile());
-          OutputController.getLogger().log("request path: " + requestPath);
+          LOG.debug("codebase path: " + source.getFile());
+          LOG.debug("request path: " + requestPath);
 
         if (!source.getFile().startsWith(requestPath) 
                 && !ServiceUtil.isSigned(app)) // Allow trusted application to have access to data below source URL path

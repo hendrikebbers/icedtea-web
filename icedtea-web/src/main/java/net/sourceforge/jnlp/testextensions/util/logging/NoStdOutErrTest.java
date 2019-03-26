@@ -37,12 +37,15 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.testextensions.util.logging;
 
+import net.sourceforge.jnlp.controlpanel.UnsignedAppletsTrustingListPanel;
 import net.sourceforge.jnlp.testextensions.ServerAccess;
 import net.sourceforge.jnlp.util.logging.LogConfig;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.logging.PrintStreamLogger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -61,6 +64,9 @@ import java.lang.reflect.Method;
  * by junit classloader is visible from itw, but not vice verse.
  */
 public class NoStdOutErrTest {
+
+    private final static Logger LOG = LoggerFactory.getLogger(NoStdOutErrTest.class);
+
 
     private static boolean origialStds;
     private static final String setLogToStreams = "setLogToStreams";
@@ -82,7 +88,7 @@ public class NoStdOutErrTest {
         try {
             //init logger and log and flush message
             //it is crucial for junit to grip it
-            OutputController.getLogger().log("initialising");
+            LOG.debug("initialising");
             //one more times: if TESTED class is the first which creates instance of logger
             //then when junit can not access this class, and creates its own for its purposes
             //when junit creates this class, then also TESTED class have access to it and so it behaves as expected

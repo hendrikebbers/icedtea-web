@@ -45,11 +45,17 @@ import javax.swing.JSeparator;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.security.dialogs.MissingPermissionsAttributePanel;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExtendedAppletSecurityHelp extends javax.swing.JDialog implements HyperlinkListener {
+
+    private final static Logger LOG = LoggerFactory.getLogger(ExtendedAppletSecurityHelp.class);
+
 
     public ExtendedAppletSecurityHelp(java.awt.Frame parent, boolean modal, String reference) {
         this(parent, modal);
@@ -80,7 +86,7 @@ public class ExtendedAppletSecurityHelp extends javax.swing.JDialog implements H
                     mainHtmlPane.setPage(event.getURL());
                 }
             } catch (IOException ioe) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+                LOG.error("ERROR", ioe);
             }
         }
     }

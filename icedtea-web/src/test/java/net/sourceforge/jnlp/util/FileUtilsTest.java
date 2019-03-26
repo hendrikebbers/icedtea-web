@@ -43,7 +43,6 @@ import java.nio.file.attribute.AclFileAttributeView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 
 import org.junit.Test;
 
@@ -73,7 +72,7 @@ public class FileUtilsTest {
     public void testSanitizeMoreDoubleDots() throws Exception {
         String str = "C:/some:dir/some:file";
         String sanitized = FileUtils.sanitizePath(str);
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             assertEquals("C:/some_dir/some_file", sanitized);
         } else {
             assertEquals("C_/some_dir/some_file", sanitized);
@@ -84,7 +83,7 @@ public class FileUtilsTest {
     public void testSanitizePathWindowsLinuxSlashes() throws Exception {
         String str = "C:/some.dir/some.file";
         String sanitized = FileUtils.sanitizePath(str);
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             assertEquals("C:/some.dir/some.file", sanitized);
         } else {
             assertEquals("C_/some.dir/some.file", sanitized);
@@ -95,7 +94,7 @@ public class FileUtilsTest {
     public void testSanitizePathWindowsWinSlashes() throws Exception {
         String str = "C:\\some.dir\\some.file";
         String sanitized = FileUtils.sanitizePath(str);
-        if (JNLPRuntime.isWindows()) {
+        if (OsUtil.isWindows()) {
             assertEquals("C:/some.dir/some.file", sanitized);
         } else {
             assertEquals("C_/some.dir/some.file", sanitized);
@@ -135,7 +134,7 @@ public class FileUtilsTest {
 
     @Test
     public void testCreateRestrictedFile() throws Exception {
-        if (!JNLPRuntime.isWindows()) {
+        if (!OsUtil.isWindows()) {
             return;
         }
         final File tmpdir = new File(System.getProperty("java.io.tmpdir")), testfile = new File(tmpdir, "itw_test_create_restricted_file");
