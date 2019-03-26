@@ -46,7 +46,6 @@ import java.security.PrivilegedAction;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
@@ -187,11 +186,11 @@ public class SecurityDialogMessageHandler implements Runnable {
             do {
                 try {
                     if (repeatAll){
-                        OutputController.getLogger().printOutLn(dialog.getText());
+                        OutputController.getInputOutputController().printOutLn(dialog.getText());
                     }
-                    OutputController.getLogger().printOutLn(Translator.R("HeadlessDialogues"));
-                    OutputController.getLogger().printOutLn(dialog.helpToStdIn());
-                    String s = OutputController.getLogger().readLine();
+                    OutputController.getInputOutputController().printOutLn(Translator.R("HeadlessDialogues"));
+                    OutputController.getInputOutputController().printOutLn(dialog.helpToStdIn());
+                    String s = OutputController.getInputOutputController().readLine();
                     if (s == null) {
                          throw new IOException("Stream closed");
                     }

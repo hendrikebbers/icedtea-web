@@ -47,8 +47,6 @@ import java.util.List;
 import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.OsUtil;
-import net.sourceforge.jnlp.util.logging.headers.Header;
-import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
 import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,49 +60,6 @@ import org.slf4j.LoggerFactory;
 public class OutputController {
 
     private final static Logger LOG = LoggerFactory.getLogger(DefaultDownloadIndicator.class);
-
-    public static enum Level {
-
-        MESSAGE_ALL, // - stdout/log in all cases
-        MESSAGE_DEBUG, // - stdout/log in verbose/debug mode
-        WARNING_ALL, // - stdout+stderr/log in all cases (default for
-        WARNING_DEBUG, // - stdou+stde/logrr in verbose/debug mode
-        ERROR_ALL, // - stderr/log in all cases (default for
-        ERROR_DEBUG; // - stderr/log in verbose/debug mode
-        //ERROR_DEBUG is default for Throwable
-        //MESSAGE_DEBUG is default  for String
-        
-        public  boolean isOutput() {
-            return this == Level.MESSAGE_ALL
-                    || this == Level.MESSAGE_DEBUG
-                    || this == Level.WARNING_ALL
-                    || this == Level.WARNING_DEBUG;
-        }
-
-        public  boolean isError() {
-            return this == Level.ERROR_ALL
-                    || this == Level.ERROR_DEBUG
-                    || this == Level.WARNING_ALL
-                    || this == Level.WARNING_DEBUG;
-        }
-        
-        public  boolean isWarning() {
-            return this == Level.WARNING_ALL
-                    || this == Level.WARNING_DEBUG;
-        }
-
-         public  boolean isDebug() {
-            return this == Level.ERROR_DEBUG
-                    || this == Level.MESSAGE_DEBUG
-                    || this == Level.WARNING_DEBUG;
-        }
-
-        public  boolean isInfo() {
-            return this == Level.ERROR_ALL
-                    || this == Level.WARNING_ALL
-                    || this == Level.MESSAGE_ALL;
-        }
-    }
 
     /*
      * singleton instance
@@ -167,9 +122,9 @@ public class OutputController {
             }
             return;
         }
-        if (!JNLPRuntime.isDebug() && (s.getHeader().level == Level.MESSAGE_DEBUG
-                || s.getHeader().level == Level.WARNING_DEBUG
-                || s.getHeader().level == Level.ERROR_DEBUG)) {
+        if (!JNLPRuntime.isDebug() && (s.getHeader().level == MessageLevel.MESSAGE_DEBUG
+                || s.getHeader().level == MessageLevel.WARNING_DEBUG
+                || s.getHeader().level == MessageLevel.ERROR_DEBUG)) {
             //filter out debug messages
             //must be here to prevent deadlock, casued by exception form jnlpruntime, loggers or configs themselves
             return;
@@ -189,7 +144,7 @@ public class OutputController {
         //only crucial stuff is going to system log
         //only java messages handled here, plugin is onhis own
         if (LogConfig.getLogConfig().isLogToSysLog() && 
-                (s.getHeader().level.equals(Level.ERROR_ALL) || s.getHeader().level.equals(Level.WARNING_ALL)) &&
+                (s.getHeader().level.equals(MessageLevel.ERROR_ALL) || s.getHeader().level.equals(MessageLevel.WARNING_ALL)) &&
                 s.getHeader().isC == false) {
             //no headers here
             getSystemLog().log(s.getMessage());
@@ -226,13 +181,13 @@ public class OutputController {
      *
      * @return logging singleton
      */
-    public static OutputController getLogger() {
+    public static OutputController getInputOutputController() {
         return OutputControllerHolder.INSTANCE;
     }
 
     /**
      * for testing purposes the logger with custom streams can be created
-     * otherwise only getLogger()'s singleton can be called.
+     * otherwise only getInputOutputController()'s singleton can be called.
      */
      public OutputController(PrintStream out, PrintStream err) {
         if (out == null || err == null) {
@@ -314,39 +269,6 @@ public class OutputController {
         return s;
     }
 
-    public void log(Level level, String s) {
-        log(level, (Object) s);
-    }
-
-    public void log(Level level, Throwable s) {
-        log(level, (Object) s);
-    }
-
-    public void log(String s) {
-        log(Level.MESSAGE_DEBUG, (Object) s);
-    }
-
-    public void log(Throwable s) {
-        log(Level.ERROR_DEBUG, (Object) s);
-    }
-
-    private void log(Level level, Object o) {
-        String s ="";
-        if (o == null) {
-            s = NULL_OBJECT;
-        } else if (o instanceof Throwable) {
-            s = exceptionToString((Throwable) o);
-        } else {
-            s=o.toString();
-        }
-        log(new JavaMessage(new Header(level, false), s));
-    }
-
-    synchronized void log(MessageWithHeader l){
-        messageQue.add(l);
-        this.notifyAll();
-    }
-    
     
 
     private static class FileLogHolder {

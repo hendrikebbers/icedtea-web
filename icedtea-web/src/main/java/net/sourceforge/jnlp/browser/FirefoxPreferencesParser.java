@@ -136,7 +136,7 @@ public final class FirefoxPreferencesParser {
                             foundValue = true;
 
                             if (foundKey && foundValue) {
-                                //ItwLogger.getLogger().printOutLn("added (\"" + key + "\", \"" + value + "\")");
+                                //ItwLogger.getInputOutputController().printOutLn("added (\"" + key + "\", \"" + value + "\")");
                                 prefs.put(key, value);
                             }
                         }

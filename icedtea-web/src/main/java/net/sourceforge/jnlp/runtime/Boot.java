@@ -137,12 +137,12 @@ public final class Boot implements PrivilegedAction<Void> {
         }
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.VERSION)) {
-            OutputController.getLogger().printOutLn(nameAndVersion);
+            OutputController.getInputOutputController().printOutLn(nameAndVersion);
             JNLPRuntime.exit(0);
         }
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.LICENSE)) {
-            OutputController.getLogger().printOutLn(miniLicense);
+            OutputController.getInputOutputController().printOutLn(miniLicense);
             JNLPRuntime.exit(0);
         }
 
@@ -172,7 +172,7 @@ public final class Boot implements PrivilegedAction<Void> {
                 } catch (Exception e) {
                     LOG.debug("Unable to set system look and feel");
                 }
-                OutputController.getLogger().printOutLn(R("BLaunchAbout"));
+                OutputController.getInputOutputController().printOutLn(R("BLaunchAbout"));
                 AboutDialog.display(TextsProvider.JAVAWS);
                 return;
             }
@@ -231,7 +231,7 @@ public final class Boot implements PrivilegedAction<Void> {
                     + helpMessagesProvider.getFormatter().getNewLine();
         }
 
-        OutputController.getLogger().printOut(helpMessage);
+        OutputController.getInputOutputController().printOut(helpMessage);
     }
 
     private static void handleAbout() {
@@ -246,7 +246,7 @@ public final class Boot implements PrivilegedAction<Void> {
             itwInfoMessage = itwInfoMessage
                     + aboutMessagesProvider.prepare().getIntroduction();
         }
-        OutputController.getLogger().printOut(itwInfoMessage);
+        OutputController.getInputOutputController().printOut(itwInfoMessage);
     }
 
     static String fixJnlpProtocol(String param) {

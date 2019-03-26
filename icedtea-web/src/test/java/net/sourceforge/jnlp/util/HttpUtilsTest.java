@@ -68,10 +68,10 @@ public class HttpUtilsTest {
                         backedUpStream[i] = System.err;
                         break;
                     case 2:
-                        backedUpStream[i] = OutputController.getLogger().getOut();
+                        backedUpStream[i] = OutputController.getInputOutputController().getOut();
                         break;
                     case 3:
-                        backedUpStream[i] = OutputController.getLogger().getErr();
+                        backedUpStream[i] = OutputController.getInputOutputController().getErr();
                         break;
                 }
 
@@ -81,8 +81,8 @@ public class HttpUtilsTest {
         currentErrorStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(currentErrorStream));
         System.setErr(new PrintStream(currentErrorStream));
-        OutputController.getLogger().setOut(new PrintStream(currentErrorStream));
-        OutputController.getLogger().setErr(new PrintStream(currentErrorStream));
+        OutputController.getInputOutputController().setOut(new PrintStream(currentErrorStream));
+        OutputController.getInputOutputController().setErr(new PrintStream(currentErrorStream));
 
 
     }
@@ -92,8 +92,8 @@ public class HttpUtilsTest {
         ServerAccess.logErrorReprint(currentErrorStream.toString("utf-8"));
         System.setOut(backedUpStream[0]);
         System.setErr(backedUpStream[1]);
-        OutputController.getLogger().setOut(backedUpStream[2]);
-        OutputController.getLogger().setErr(backedUpStream[3]);
+        OutputController.getInputOutputController().setOut(backedUpStream[2]);
+        OutputController.getInputOutputController().setErr(backedUpStream[3]);
 
 
     }

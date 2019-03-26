@@ -110,7 +110,6 @@ import net.sourceforge.jnlp.runtime.JNLPRuntime;
 
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditorPermissions.Group;
-import net.sourceforge.jnlp.tools.CertInformation;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
 import net.sourceforge.jnlp.util.ImageResources;
@@ -1740,7 +1739,7 @@ public class PolicyEditor extends JPanel {
                         + helpMessagesProvider.prepare().getOptions()
                         + helpMessagesProvider.getFormatter().getNewLine();
             }
-            OutputController.getLogger().printOut(HELP_MESSAGE);
+            OutputController.getInputOutputController().printOut(HELP_MESSAGE);
             return;
         }
 

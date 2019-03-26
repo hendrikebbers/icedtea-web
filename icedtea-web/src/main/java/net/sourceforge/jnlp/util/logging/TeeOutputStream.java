@@ -42,10 +42,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import net.sourceforge.jnlp.security.ConnectionFactory;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextFormatter;
 
-import net.sourceforge.jnlp.util.logging.OutputController.Level;
 import net.sourceforge.jnlp.util.logging.headers.Header;
 import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
 import org.slf4j.Logger;
@@ -135,11 +133,11 @@ public final class TeeOutputStream extends PrintStream implements SingleStreamLo
         }
     }
 
-    private Level getlevel() {
+    private MessageLevel getlevel() {
         if (isError()) {
-            return OutputController.Level.ERROR_ALL;
+            return MessageLevel.ERROR_ALL;
         } else {
-            return OutputController.Level.MESSAGE_ALL;
+            return MessageLevel.MESSAGE_ALL;
         }
     }
 

@@ -671,7 +671,7 @@ public class UnsignedAppletsTrustingListPanel extends JPanel {
                 break;
             }
         }
-        //ItwLogger.getLogger().log(OutputController.Level.ERROR_ALL, orig+" "+i+" "+nwx+" "+nw+" ");
+        //ItwLogger.getInputOutputController().log(MessageLevel.ERROR_ALL, orig+" "+i+" "+nwx+" "+nw+" ");
         if (nw != orig) {
             if (orig >= 1) {
                 currentTable.getSelectionModel().setSelectionInterval(orig - 1, orig - 1);
@@ -699,7 +699,7 @@ public class UnsignedAppletsTrustingListPanel extends JPanel {
                 break;
             }
         }
-        // LOG.debug(OutputController.Level.MESSAGE_ALL, orig+" "+i+" "+nwx+" "+nw+" ");
+        // LOG.debug(MessageLevel.MESSAGE_ALL, orig+" "+i+" "+nwx+" "+nw+" ");
         if (nw != orig) {
             if (orig < currentModel.getRowCount()) {
                 currentTable.getSelectionModel().setSelectionInterval(orig + 1, orig + 1);

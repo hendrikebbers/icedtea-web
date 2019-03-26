@@ -37,7 +37,6 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.testextensions.util.logging;
 
-import net.sourceforge.jnlp.controlpanel.UnsignedAppletsTrustingListPanel;
 import net.sourceforge.jnlp.testextensions.ServerAccess;
 import net.sourceforge.jnlp.util.logging.LogConfig;
 import net.sourceforge.jnlp.util.logging.OutputController;
@@ -92,7 +91,7 @@ public class NoStdOutErrTest {
             //one more times: if TESTED class is the first which creates instance of logger
             //then when junit can not access this class, and creates its own for its purposes
             //when junit creates this class, then also TESTED class have access to it and so it behaves as expected
-            OutputController.getLogger().flush();
+            OutputController.getInputOutputController().flush();
             origialStds = LogConfig.getLogConfig().isLogToStreams();
             invokeSetLogToStreams(false);
             removeStreams();
@@ -104,7 +103,7 @@ public class NoStdOutErrTest {
     @AfterClass
     public static synchronized void restoreStds() {
         try {
-            OutputController.getLogger().flush();
+            OutputController.getInputOutputController().flush();
             invokeSetLogToStreams(origialStds);
             resetStreams();
         } catch (Exception ex) {
@@ -126,12 +125,12 @@ public class NoStdOutErrTest {
         try {
             Field lcs1 = OutputController.class.getDeclaredField("outLog");
             lcs1.setAccessible(true);
-            origOut = lcs1.get(OutputController.getLogger());
+            origOut = lcs1.get(OutputController.getInputOutputController());
             Field lcs2 = OutputController.class.getDeclaredField("errLog");
             lcs2.setAccessible(true);
-            origErr = lcs1.get(OutputController.getLogger());
-            lcs1.set(OutputController.getLogger(), new PrintStreamLogger(dummy));
-            lcs2.set(OutputController.getLogger(), new PrintStreamLogger(dummy));
+            origErr = lcs1.get(OutputController.getInputOutputController());
+            lcs1.set(OutputController.getInputOutputController(), new PrintStreamLogger(dummy));
+            lcs2.set(OutputController.getInputOutputController(), new PrintStreamLogger(dummy));
         } catch (Exception ex) {
             ServerAccess.logException(ex);
         }
@@ -143,8 +142,8 @@ public class NoStdOutErrTest {
             lcs1.setAccessible(true);
             Field lcs2 = OutputController.class.getDeclaredField("errLog");
             lcs2.setAccessible(true);
-            lcs1.set(OutputController.getLogger(), origOut);
-            lcs2.set(OutputController.getLogger(), origErr);
+            lcs1.set(OutputController.getInputOutputController(), origOut);
+            lcs2.set(OutputController.getInputOutputController(), origErr);
         } catch (Exception ex) {
             ServerAccess.logException(ex);
         }

@@ -172,8 +172,8 @@ class KeystorePasswordAttempter {
                     LOG.debug(s1);
                     LOG.debug(Translator.R("KSinvalidPassword"));
                     if (JNLPRuntime.isHeadless()) {
-                        OutputController.getLogger().printOutLn(s1 + "\n" + Translator.R("KSheadlesWarning"));
-                        String s = OutputController.getLogger().readLine();
+                        OutputController.getInputOutputController().printOutLn(s1 + "\n" + Translator.R("KSheadlesWarning"));
+                        String s = OutputController.getInputOutputController().readLine();
                         if (s == null || s.trim().isEmpty()) {
                             finish(firstEx);
                         }

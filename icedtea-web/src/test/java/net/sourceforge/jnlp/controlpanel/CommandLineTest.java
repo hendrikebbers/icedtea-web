@@ -65,7 +65,7 @@ public class CommandLineTest extends NoStdOutErrTest {
     private ByteArrayOutputStream getOutputControllerStream() {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         PrintStream outPrintStream = new PrintStream(outStream);
-        OutputController.getLogger().setOut(outPrintStream);
+        OutputController.getInputOutputController().setOut(outPrintStream);
 
         return outStream;
     }

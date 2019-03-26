@@ -54,10 +54,8 @@ import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.runtime.html.browser.LinkingBrowser;
-import net.sourceforge.jnlp.security.HttpsCertVerifier;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -277,15 +275,15 @@ class XBasicService implements BasicService {
         String message = Translator.VVPossibleBrowserValues();
         String title = R("RBrowserLocationPromptTitle");
         if (JNLPRuntime.isHeadless()) {
-            OutputController.getLogger().printOutLn(message);
-            OutputController.getLogger().printOutLn("*** " + targetUrl + " ***");
-            OutputController.getLogger().printOutLn(title);
-            String entered = OutputController.getLogger().readLine();
+            OutputController.getInputOutputController().printOutLn(message);
+            OutputController.getInputOutputController().printOutLn("*** " + targetUrl + " ***");
+            OutputController.getInputOutputController().printOutLn(title);
+            String entered = OutputController.getInputOutputController().readLine();
             String verification = verifyFileOrCommand(entered);
             if (verification == null) {
-                OutputController.getLogger().printOutLn(R("VVBrowserVerificationFail"));
+                OutputController.getInputOutputController().printOutLn(R("VVBrowserVerificationFail"));
             } else {
-                OutputController.getLogger().printOutLn(R("VVBrowserVerificationPass", verification));
+                OutputController.getInputOutputController().printOutLn(R("VVBrowserVerificationPass", verification));
             }
             return entered;
         } else {

@@ -61,7 +61,6 @@ import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.cache.DownloadIndicator;
-import net.sourceforge.jnlp.cache.ResourceDownloader;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
@@ -248,9 +247,9 @@ public class JNLPRuntime {
 
         if (handler == null) {
             if (isHeadless()) {
-                handler = new DefaultLaunchHandler(OutputController.getLogger());
+                handler = new DefaultLaunchHandler(OutputController.getInputOutputController());
             } else {
-                handler = new GuiLaunchHandler(OutputController.getLogger());
+                handler = new GuiLaunchHandler(OutputController.getInputOutputController());
             }
         }
 
@@ -470,7 +469,7 @@ public class JNLPRuntime {
                 //try to survive this unlikely exception
                 config.resetToDefaults();
             } finally {
-                OutputController.getLogger().startConsumer();
+                OutputController.getInputOutputController().startConsumer();
             }
             return config;
         }
@@ -869,7 +868,7 @@ public class JNLPRuntime {
 
     public static void exit(int i) {
         try {
-            OutputController.getLogger().close();
+            OutputController.getInputOutputController().close();
             while (BasicExceptionDialog.areShown()){
                 Thread.sleep(100);
             }

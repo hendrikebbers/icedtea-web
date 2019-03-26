@@ -119,7 +119,7 @@ public class CommandLine {
                     + helpMessagesProvider.prepare().getCommands()
                     + helpMessagesProvider.getFormatter().getNewLine();
         }
-        OutputController.getLogger().printOut(helpMessage);
+        OutputController.getInputOutputController().printOut(helpMessage);
         return SUCCESS;
     }
 
@@ -127,9 +127,9 @@ public class CommandLine {
      * Prints help message for the list command
      */
     public void printListHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " list [--details]");
-        OutputController.getLogger().printOutLn(R("CLListDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " list [--details]");
+        OutputController.getInputOutputController().printOutLn(R("CLListDescription"));
     }
 
     /**
@@ -151,9 +151,9 @@ public class CommandLine {
         Map<String, Setting<String>> all = config.getRaw();
         for (String key : all.keySet()) {
             Setting<String> value = all.get(key);
-            OutputController.getLogger().printOutLn(key + ": " + value.getValue());
+            OutputController.getInputOutputController().printOutLn(key + ": " + value.getValue());
             if (JNLPRuntime.isDebug()) {
-                OutputController.getLogger().printOutLn("\t" + R("CLDescription", value.getDescription()));
+                OutputController.getInputOutputController().printOutLn("\t" + R("CLDescription", value.getDescription()));
             }
         }
         return SUCCESS;
@@ -163,9 +163,9 @@ public class CommandLine {
      * Prints help message for the get command
      */
     public void printGetHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " get property-name");
-        OutputController.getLogger().printOutLn(R("CLGetDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " get property-name");
+        OutputController.getInputOutputController().printOutLn(R("CLGetDescription"));
     }
 
     /**
@@ -193,7 +193,7 @@ public class CommandLine {
         }
         for (String key : args) {
             String value = all.get(key).getValue();
-            OutputController.getLogger().printOutLn(key+": "+value);
+            OutputController.getInputOutputController().printOutLn(key+": "+value);
         }
         return SUCCESS;
     }
@@ -202,9 +202,9 @@ public class CommandLine {
      * Prints the help message for the 'set' command
      */
     public void printSetHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " set property-name value");
-        OutputController.getLogger().printOutLn(R("CLSetDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " set property-name value");
+        OutputController.getInputOutputController().printOutLn(R("CLSetDescription"));
     }
 
     /**
@@ -241,7 +241,7 @@ public class CommandLine {
                 }
                 config.setProperty(key, value);
             } else {
-                OutputController.getLogger().printOutLn(R("CLWarningUnknownProperty", key));
+                OutputController.getInputOutputController().printOutLn(R("CLWarningUnknownProperty", key));
                 config.setProperty(key, value);
             }
         }
@@ -278,9 +278,9 @@ public class CommandLine {
      * Prints a help message for the reset command
      */
     public void printResetHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " reset [all|property-name]");
-        OutputController.getLogger().printOutLn(R("CLResetDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " reset [all|property-name]");
+        OutputController.getInputOutputController().printOutLn(R("CLResetDescription"));
     }
 
     /**
@@ -342,9 +342,9 @@ public class CommandLine {
      * Print a help message for the 'info' command
      */
     public void printInfoHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " info property-name");
-        OutputController.getLogger().printOutLn(R("CLInfoDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " info property-name");
+        OutputController.getInputOutputController().printOutLn(R("CLInfoDescription"));
     }
 
     /**
@@ -368,12 +368,12 @@ public class CommandLine {
             if (value == null) {
                 LOG.debug(R("CLNoInfo"));
             } else {
-                OutputController.getLogger().printOutLn(R("CLDescription", value.getDescription()));
-                OutputController.getLogger().printOutLn(R("CLValue", value.getValue()));
+                OutputController.getInputOutputController().printOutLn(R("CLDescription", value.getDescription()));
+                OutputController.getInputOutputController().printOutLn(R("CLValue", value.getValue()));
                 if (value.getValidator() != null) {
-                    OutputController.getLogger().printOutLn("\t" + R("VVPossibleValues", value.getValidator().getPossibleValues()));
+                    OutputController.getInputOutputController().printOutLn("\t" + R("VVPossibleValues", value.getValidator().getPossibleValues()));
                 }
-                OutputController.getLogger().printOutLn(R("CLValueSource", value.getSource()));
+                OutputController.getInputOutputController().printOutLn(R("CLValueSource", value.getSource()));
             }
         }
         return SUCCESS;
@@ -383,9 +383,9 @@ public class CommandLine {
      * Prints a help message for the 'check' command
      */
     public void printCheckHelp() {
-        OutputController.getLogger().printOutLn(R("Usage"));
-        OutputController.getLogger().printOutLn("  " + PROGRAM_NAME + " check");
-        OutputController.getLogger().printOutLn(R("CLCheckDescription"));
+        OutputController.getInputOutputController().printOutLn(R("Usage"));
+        OutputController.getInputOutputController().printOutLn("  " + PROGRAM_NAME + " check");
+        OutputController.getInputOutputController().printOutLn(R("CLCheckDescription"));
     }
 
     /**
@@ -424,7 +424,7 @@ public class CommandLine {
         }
 
         if (allValid) {
-            OutputController.getLogger().printOutLn(R("CLNoIssuesFound"));
+            OutputController.getInputOutputController().printOutLn(R("CLNoIssuesFound"));
             return SUCCESS;
         } else {
             return ERROR;

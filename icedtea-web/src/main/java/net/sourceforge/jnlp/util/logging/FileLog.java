@@ -39,7 +39,6 @@ package net.sourceforge.jnlp.util.logging;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sourceforge.jnlp.security.policyeditor.PolicyEditorAboutDialog;
 import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import net.sourceforge.jnlp.util.logging.filelogs.LogBasedFileLog;
@@ -57,7 +56,7 @@ public final class FileLog  {
 
 
     public static Header getHeadlineHeader() {
-        return new Header(OutputController.Level.WARNING_ALL, Thread.currentThread().getStackTrace(), Thread.currentThread(), false);
+        return new Header(MessageLevel.WARNING_ALL, Thread.currentThread().getStackTrace(), Thread.currentThread(), false);
     }
 
     private static String getColon() {
