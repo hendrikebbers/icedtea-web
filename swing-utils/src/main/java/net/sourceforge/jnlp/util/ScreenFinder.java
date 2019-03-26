@@ -36,6 +36,7 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.util;
 
+
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -46,7 +47,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
-import net.sourceforge.jnlp.util.logging.OutputController;
+//import net.sourceforge.jnlp.util.logging.OutputController;
 
 public class ScreenFinder {
 
@@ -60,7 +61,7 @@ public class ScreenFinder {
             Point p = MouseInfo.getPointerInfo().getLocation();
             return getScreenOnCoordsWithoutBounds(p);
         } catch (HeadlessException ex) {
-            OutputController.getLogger().log(ex);
+           // OutputController.getLogger().log(ex);
             return new Rectangle(800, 600);
         }
 
@@ -103,7 +104,7 @@ public class ScreenFinder {
             Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(device.getDefaultConfiguration());
             return new Rectangle((int) screenSize.getX() + insets.left, (int) screenSize.getY() + insets.top, (int) screenSize.getWidth() - insets.left, (int) screenSize.getHeight() - insets.bottom);
         } catch (HeadlessException | IllegalArgumentException ex) {
-            OutputController.getLogger().log(ex);
+           // OutputController.getLogger().log(ex);
             return new Rectangle(800, 600);
         }
     }

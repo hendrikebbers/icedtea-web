@@ -37,7 +37,7 @@ exception statement from your version. */
 
 package net.sourceforge.jnlp.util;
 
-import net.sourceforge.jnlp.util.logging.OutputController;
+//import net.sourceforge.jnlp.util.logging.OutputController;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +83,7 @@ public enum ImageResources {
                 cache.put(APPLICATION_ICON_PATH, image);
                 return image;
             } catch (IOException ioe) {
-                OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
+               // OutputController.getLogger().log(OutputController.Level.ERROR_ALL, ioe);
             }
         }
         return null;

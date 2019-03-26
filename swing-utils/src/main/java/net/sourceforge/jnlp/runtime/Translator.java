@@ -20,12 +20,22 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
 
 /**
  * Utility class to provide simple methods to help localize messages
  */
 public class Translator {
+
+    public static final String LEGACY_WIN32_URL__HANDLER="rundll32 url.dll,FileProtocolHandler ";
+
+    public static final String BROWSER_ENV_VAR = "BROWSER";
+
+    public static final String INTERNAL_HTML="INTERNAL-HTML";
+
+    public static final String ALWAYS_ASK="ALWAYS-ASK";
+
+    public static final String KEY_BROWSER_PATH = "deployment.browser.path";
+
 
     private static class TranslatorHolder {
 
@@ -88,11 +98,11 @@ public class Translator {
      * @return translation of VVPossibleBrowserValues with all params in
      */
     public static String VVPossibleBrowserValues() {
-        return R("VVPossibleBrowserValues", DeploymentConfiguration.LEGACY_WIN32_URL__HANDLER,
-                DeploymentConfiguration.BROWSER_ENV_VAR,
-                DeploymentConfiguration.INTERNAL_HTML,
-                DeploymentConfiguration.ALWAYS_ASK,
-                DeploymentConfiguration.KEY_BROWSER_PATH
+        return R("VVPossibleBrowserValues", LEGACY_WIN32_URL__HANDLER,
+                BROWSER_ENV_VAR,
+                INTERNAL_HTML,
+                ALWAYS_ASK,
+                KEY_BROWSER_PATH
         );
     }
 

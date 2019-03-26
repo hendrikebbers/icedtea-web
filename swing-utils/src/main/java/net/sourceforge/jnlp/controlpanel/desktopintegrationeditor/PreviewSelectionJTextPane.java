@@ -40,7 +40,7 @@ import java.util.List;
 import javax.swing.JList;
 import javax.swing.JTextPane;
 import javax.swing.text.html.HTMLEditorKit;
-import net.sourceforge.jnlp.util.logging.OutputController;
+//import net.sourceforge.jnlp.util.logging.OutputController;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
@@ -119,7 +119,7 @@ public class PreviewSelectionJTextPane extends JTextPane {
             this.setText(sb.toString());
 
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            //OutputController.getLogger().log(ex);
         }
 
     }
@@ -135,7 +135,7 @@ public class PreviewSelectionJTextPane extends JTextPane {
 
             }
         } catch (Exception ex) {
-            OutputController.getLogger().log(ex);
+            //OutputController.getLogger().log(ex);
         }
         return s;
     }
@@ -145,7 +145,7 @@ public class PreviewSelectionJTextPane extends JTextPane {
         for (Object i : selectedValuesList) {
             File f = (File) i;
             s.append("<small>").append(f.getAbsolutePath()).append("</small><br>");
-            s.append("<pre>").append(FreeDesktopIntegrationEditorFrame.fileToString(f, true)).append("</pre><br>");
+           // s.append("<pre>").append(FreeDesktopIntegrationEditorFrame.fileToString(f, true)).append("</pre><br>");
 
         }
         return s;
