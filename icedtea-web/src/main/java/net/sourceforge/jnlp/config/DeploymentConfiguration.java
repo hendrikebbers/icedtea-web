@@ -785,6 +785,7 @@ public final class DeploymentConfiguration {
         try {
             move14AndOlderFilesTo15Structure();
         } catch (Throwable t) {
+            t.printStackTrace();
             OutputController.getLogger().log(OutputController.Level.ERROR_DEBUG, "Critical error during converting old files to new. Continuing");
             OutputController.getLogger().log(t);
         }
