@@ -36,7 +36,7 @@ exception statement from your version.
  */
 
 
-package net.sourceforge.jnlp.awt.imagesearch;
+package net.sourceforge.jnlp.testextensions.imagesearch;
 
 import java.awt.Color;
 import java.awt.Point;

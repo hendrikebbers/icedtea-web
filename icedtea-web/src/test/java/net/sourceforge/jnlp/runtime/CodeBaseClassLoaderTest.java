@@ -36,29 +36,28 @@
  */
 package net.sourceforge.jnlp.runtime;
 
-import net.sourceforge.jnlp.mock.DummyJNLPFile;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.NullJnlpFileException;
+import net.sourceforge.jnlp.SecurityDesc;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.runtime.JNLPClassLoader.CodeBaseClassLoader;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
+import net.sourceforge.jnlp.testextensions.ServerAccess;
+import net.sourceforge.jnlp.testextensions.annotations.Bug;
+import net.sourceforge.jnlp.testextensions.annotations.Remote;
+import net.sourceforge.jnlp.testextensions.mock.DummyJNLPFile;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.net.URL;
 
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.NullJnlpFileException;
-import net.sourceforge.jnlp.SecurityDesc;
-import net.sourceforge.jnlp.ServerAccess;
-import net.sourceforge.jnlp.runtime.JNLPClassLoader.CodeBaseClassLoader;
-import net.sourceforge.jnlp.annotations.Bug;
-import net.sourceforge.jnlp.annotations.Remote;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CodeBaseClassLoaderTest extends NoStdOutErrTest {
 

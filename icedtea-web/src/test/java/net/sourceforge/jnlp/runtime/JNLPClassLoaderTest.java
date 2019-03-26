@@ -35,10 +35,20 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.runtime;
 
-import static net.sourceforge.jnlp.util.FileTestUtils.assertNoFileLeak;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import net.sourceforge.jnlp.JARDesc;
+import net.sourceforge.jnlp.LaunchException;
+import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
+import net.sourceforge.jnlp.testextensions.annotations.Bug;
+import net.sourceforge.jnlp.testextensions.mock.DummyJNLPFileWithJar;
+import net.sourceforge.jnlp.testextensions.util.FileTestUtils;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.InputStream;
@@ -47,23 +57,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import net.sourceforge.jnlp.JARDesc;
 
-import net.sourceforge.jnlp.LaunchException;
-import net.sourceforge.jnlp.annotations.Bug;
-import net.sourceforge.jnlp.browsertesting.browsers.firefox.FirefoxProfilesOperator;
-import net.sourceforge.jnlp.cache.UpdatePolicy;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.mock.DummyJNLPFileWithJar;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
-import net.sourceforge.jnlp.util.FileTestUtils;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-
-import org.junit.Test;
+import static net.sourceforge.jnlp.testextensions.util.FileTestUtils.assertNoFileLeak;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 public class JNLPClassLoaderTest extends NoStdOutErrTest {
 

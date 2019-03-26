@@ -36,7 +36,7 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.splashscreen.parts;
 
-import net.sourceforge.jnlp.ServerAccess;
+import net.sourceforge.jnlp.testextensions.ServerAccess;
 import org.junit.Assert;
 import org.junit.Test;
 

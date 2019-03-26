@@ -1,12 +1,14 @@
 package net.sourceforge.jnlp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import net.sourceforge.jnlp.testextensions.AsyncCall;
+import net.sourceforge.jnlp.testextensions.ServerAccess;
+import org.junit.Test;
 
 import java.util.concurrent.Callable;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AsyncCallTest {
 

@@ -36,6 +36,7 @@
  */
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.testextensions.ServerAccess;
 import org.junit.Assert;
 import org.junit.Test;
 

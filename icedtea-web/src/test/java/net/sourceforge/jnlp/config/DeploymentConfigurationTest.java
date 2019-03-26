@@ -36,24 +36,23 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.config;
 
+import net.sourceforge.jnlp.PluginBridgeTest;
+import net.sourceforge.jnlp.testextensions.ServerAccess;
+import net.sourceforge.jnlp.testextensions.ServerLauncher;
+import net.sourceforge.jnlp.testextensions.annotations.Remote;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import net.sourceforge.jnlp.util.FileUtils;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.naming.ConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Properties;
 
-import javax.naming.ConfigurationException;
-import net.sourceforge.jnlp.PluginBridgeTest;
-import net.sourceforge.jnlp.ServerAccess;
-import net.sourceforge.jnlp.ServerLauncher;
-import net.sourceforge.jnlp.annotations.Remote;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-import org.junit.Assert;
-
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class DeploymentConfigurationTest extends NoStdOutErrTest {
 

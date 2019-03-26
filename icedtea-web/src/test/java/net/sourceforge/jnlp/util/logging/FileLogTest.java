@@ -35,16 +35,17 @@
  */
 package net.sourceforge.jnlp.util.logging;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import net.sourceforge.jnlp.closinglisteners.RulesFolowingClosingListener;
+import net.sourceforge.jnlp.testextensions.closinglisteners.RulesFolowingClosingListener;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.logging.filelogs.LogBasedFileLog;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class FileLogTest {
 

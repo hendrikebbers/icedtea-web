@@ -36,9 +36,8 @@
  */
 package net.sourceforge.jnlp.runtime;
 
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
 import org.junit.Assert;
-
 import org.junit.Test;
 
 public class BootTest extends NoStdOutErrTest {

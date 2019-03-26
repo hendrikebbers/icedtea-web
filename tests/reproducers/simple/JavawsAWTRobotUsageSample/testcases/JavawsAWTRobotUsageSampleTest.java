@@ -48,7 +48,7 @@ import net.sourceforge.jnlp.ServerAccess;
 import net.sourceforge.jnlp.annotations.NeedsDisplay;
 import net.sourceforge.jnlp.awt.AWTFrameworkException;
 import net.sourceforge.jnlp.awt.AWTHelper;
-import net.sourceforge.jnlp.awt.imagesearch.ComponentNotFoundException;
+import net.sourceforge.jnlp.testextensions.imagesearch.ComponentNotFoundException;
 import net.sourceforge.jnlp.browsertesting.BrowserTest;
 import net.sourceforge.jnlp.closinglisteners.Rule;
 

@@ -37,6 +37,13 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.JNLPFile.Match;
+import net.sourceforge.jnlp.testextensions.annotations.Bug;
+import net.sourceforge.jnlp.testextensions.mock.MockJNLPFile;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -44,15 +51,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
-import net.sourceforge.jnlp.JNLPFile.Match;
-import net.sourceforge.jnlp.annotations.Bug;
-import net.sourceforge.jnlp.mock.MockJNLPFile;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-public class JNLPFileTest extends NoStdOutErrTest{
+public class JNLPFileTest extends NoStdOutErrTest {
     Locale jvmLocale = new Locale("en", "CA", "utf8");
     MockJNLPFile file = new MockJNLPFile(jvmLocale);
 

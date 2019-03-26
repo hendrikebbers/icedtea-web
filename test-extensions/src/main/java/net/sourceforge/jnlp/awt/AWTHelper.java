@@ -50,9 +50,9 @@ import javax.imageio.ImageIO;
 
 import net.sourceforge.jnlp.awt.awtactions.KeyboardActions;
 import net.sourceforge.jnlp.awt.awtactions.MouseActions;
-import net.sourceforge.jnlp.awt.imagesearch.ComponentFinder;
-import net.sourceforge.jnlp.awt.imagesearch.ComponentNotFoundException;
-import net.sourceforge.jnlp.awt.imagesearch.ImageSeeker;
+import net.sourceforge.jnlp.testextensions.imagesearch.ComponentFinder;
+import net.sourceforge.jnlp.testextensions.imagesearch.ComponentNotFoundException;
+import net.sourceforge.jnlp.testextensions.imagesearch.ImageSeeker;
 import net.sourceforge.jnlp.closinglisteners.Rule;
 import net.sourceforge.jnlp.closinglisteners.RulesFolowingClosingListener;
 

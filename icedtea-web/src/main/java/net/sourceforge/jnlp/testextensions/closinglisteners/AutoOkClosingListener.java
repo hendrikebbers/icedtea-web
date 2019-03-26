@@ -1,5 +1,5 @@
-/* ComponentFinderTest.java
-Copyright (C) 2013 Red Hat, Inc.
+/* CountingClosingListener.java
+Copyright (C) 2012 Red Hat, Inc.
 
 This file is part of IcedTea.
 
@@ -34,23 +34,15 @@ this exception to your version of the library, but you are not
 obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version.
  */
-package net.sourceforge.jnlp.awt.imagesearch;
+package net.sourceforge.jnlp.testextensions.closinglisteners;
 
-import java.awt.image.BufferedImage;
-import org.junit.Assert;
-import org.junit.Test;
 
-/**
- *
- * This class is a part of AWTFramework, contains component finding
- * by searching for icons.
- *
- */
-public class ComponentFinderTest {
+public  class AutoOkClosingListener extends StringBasedClosingListener {
 
-    @Test
-    public void initialiseDefaultIcon() {
-        BufferedImage icon = ComponentFinder.defaultIcon;
-        Assert.assertNotNull("The default icon marker.png was not initialized.", icon);
+    public static final String MAGICAL_OK_CLOSING_STRING = "*** APPLET FINISHED ***";
+
+    public AutoOkClosingListener() {
+        super(MAGICAL_OK_CLOSING_STRING);
     }
+  
 }

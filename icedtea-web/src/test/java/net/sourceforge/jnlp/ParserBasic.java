@@ -36,14 +36,14 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp;
 
-import java.io.InputStream;
-import java.util.List;
-import net.sourceforge.jnlp.mock.DummyJNLPFile;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-
+import net.sourceforge.jnlp.testextensions.mock.DummyJNLPFile;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * Test that the parser works with basic jnlp files

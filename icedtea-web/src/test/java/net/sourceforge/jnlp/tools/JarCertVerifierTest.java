@@ -37,9 +37,12 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.tools;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import net.sourceforge.jnlp.JARDesc;
+import net.sourceforge.jnlp.testextensions.tools.CodeSignerCreator;
+import net.sourceforge.jnlp.tools.JarCertVerifier.VerifyResult;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.security.CodeSigner;
 import java.util.Date;
@@ -47,12 +50,9 @@ import java.util.List;
 import java.util.Vector;
 import java.util.jar.JarEntry;
 
-import net.sourceforge.jnlp.JARDesc;
-import net.sourceforge.jnlp.tools.JarCertVerifier.VerifyResult;
-
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static net.sourceforge.jnlp.runtime.Translator.R;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class JarCertVerifierTest {
 

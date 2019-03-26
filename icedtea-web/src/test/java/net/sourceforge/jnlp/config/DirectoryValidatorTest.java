@@ -36,15 +36,16 @@
  */
 package net.sourceforge.jnlp.config;
 
-import static org.junit.Assert.assertTrue;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-import org.junit.Test;
 
-public class DirectoryValidatorTest extends NoStdOutErrTest{
+import static org.junit.Assert.assertTrue;
+
+public class DirectoryValidatorTest extends NoStdOutErrTest {
 
     @Test
     public void testMainDirTestNotExists() {

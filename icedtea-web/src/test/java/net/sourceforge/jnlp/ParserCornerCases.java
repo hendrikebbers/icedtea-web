@@ -37,17 +37,16 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.testextensions.annotations.KnownToFail;
+import net.sourceforge.nanoxml.XMLElement;
+import net.sourceforge.nanoxml.XMLParseException;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import net.sourceforge.jnlp.annotations.KnownToFail;
-
-import net.sourceforge.nanoxml.XMLElement;
-import net.sourceforge.nanoxml.XMLParseException;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 /** Test various corner cases of the parser */
 public class ParserCornerCases {

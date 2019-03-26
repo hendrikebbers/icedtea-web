@@ -35,26 +35,20 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version.
  */
 
-import java.awt.Color;
-import java.awt.event.InputEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import net.sourceforge.jnlp.ProcessResult;
 import net.sourceforge.jnlp.ServerAccess;
 import net.sourceforge.jnlp.annotations.NeedsDisplay;
-import net.sourceforge.jnlp.awt.AWTFrameworkException;
 import net.sourceforge.jnlp.awt.AWTHelper;
-import net.sourceforge.jnlp.awt.imagesearch.ComponentFinder;
-import net.sourceforge.jnlp.awt.imagesearch.ComponentNotFoundException;
-import net.sourceforge.jnlp.browsertesting.BrowserTest;
 import net.sourceforge.jnlp.closinglisteners.Rule;
-
+import net.sourceforge.jnlp.testextensions.imagesearch.ComponentNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class JavawsAWTRobotFindsButtonTest {
 

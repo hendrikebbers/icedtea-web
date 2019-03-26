@@ -37,17 +37,17 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import net.sourceforge.jnlp.annotations.Bug;
-import net.sourceforge.jnlp.annotations.KnownToFail;
+import net.sourceforge.jnlp.testextensions.annotations.Bug;
+import net.sourceforge.jnlp.testextensions.annotations.KnownToFail;
 import org.junit.Assert;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /** Test how well the parser deals with malformed xml */
 public class ParserMalformedXml {

@@ -36,6 +36,21 @@
  */
 package net.sourceforge.jnlp.runtime;
 
+import net.sourceforge.jnlp.InformationDesc;
+import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.SecurityDesc;
+import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
+import net.sourceforge.jnlp.testextensions.mock.DummyJNLPFileWithJar;
+import net.sourceforge.jnlp.testextensions.util.FileTestUtils;
+import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
@@ -43,20 +58,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
-import net.sourceforge.jnlp.InformationDesc;
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.SecurityDesc;
-import net.sourceforge.jnlp.cache.UpdatePolicy;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.mock.DummyJNLPFileWithJar;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
-import net.sourceforge.jnlp.util.FileTestUtils;
-import net.sourceforge.jnlp.util.logging.NoStdOutErrTest;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class JNLPFileTest extends NoStdOutErrTest {
 

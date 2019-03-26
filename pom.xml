@@ -16,7 +16,6 @@
     </properties>
 
     <modules>
-        <module>test-extensions</module>
         <module>jnlp</module>
         <module>xml-parser</module>
         <module>swing-utils</module>
