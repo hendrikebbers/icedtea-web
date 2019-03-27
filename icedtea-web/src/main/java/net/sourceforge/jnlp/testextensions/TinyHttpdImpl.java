@@ -36,7 +36,7 @@
  */
 package net.sourceforge.jnlp.testextensions;
 
-import net.sourceforge.jnlp.cache.ResourceTracker;
+import net.sourceforge.jnlp.util.HttpUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -136,8 +136,8 @@ public class TinyHttpdImpl extends Thread {
                     String request = t.nextToken();
                     String filePath = t.nextToken();
 
-                    boolean isHeadRequest = request.equals(ResourceTracker.RequestMethods.HEAD.toString());
-                    boolean isGetRequest = request.equals(ResourceTracker.RequestMethods.GET.toString());
+                    boolean isHeadRequest = request.equals(HttpUtils.HttpMethod.HEAD.name());
+                    boolean isGetRequest = request.equals(HttpUtils.HttpMethod.GET.name());
 
                     if (isHeadRequest && !isSupportingHeadRequest()) {
                         ServerAccess.logOutputReprint("Received HEAD request but not supported");

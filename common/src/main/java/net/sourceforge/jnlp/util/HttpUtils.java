@@ -44,6 +44,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 
 public class HttpUtils {
+    public enum HttpMethod {
+        HEAD,
+        GET;
+    }
 
     private final static Logger LOG = LoggerFactory.getLogger(HttpUtils.class);
 
