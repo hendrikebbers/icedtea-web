@@ -48,8 +48,6 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.requireNonNull;
 
-import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
