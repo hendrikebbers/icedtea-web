@@ -63,10 +63,9 @@ import javax.swing.event.HyperlinkListener;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.services.XPrintService;
 import net.sourceforge.jnlp.util.BasicExceptionDialog;
+import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -337,14 +336,14 @@ public class JEditorPaneBasedExceptionDialog extends JDialog implements Hyperlin
         if (exception == null) {
             return "";
         }
-        return OutputController.exceptionToString(exception);
+        return DebugUtils.exceptionToString(exception);
     }
 
     public static String[] getExceptionStackTraceAsStrings(Throwable exception) {
         if (exception == null) {
             return new String[0];
         }
-        return OutputController.exceptionToString(exception).split("\n");
+        return DebugUtils.exceptionToString(exception).split("\n");
     }
 
     @Override

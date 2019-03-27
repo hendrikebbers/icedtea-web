@@ -3,6 +3,9 @@ package net.sourceforge.jnlp.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class DebugUtils {
 
     private final static Logger LOG = LoggerFactory.getLogger(DebugUtils.class);
@@ -31,5 +34,23 @@ public class DebugUtils {
             }
         }
         return pluginDebug;
+    }
+
+    public static String exceptionToString(Throwable t) {
+        if (t == null) {
+            return null;
+        }
+        String s = "Error during processing of exception";
+        try {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            s = sw.toString();
+            pw.close();
+            sw.close();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return s;
     }
 }

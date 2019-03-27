@@ -37,7 +37,6 @@ exception statement from your version. */
 
 package net.sourceforge.jnlp.util;
 
-import net.sourceforge.jnlp.util.logging.OutputController;
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
 import java.awt.BorderLayout;
@@ -79,7 +78,7 @@ public class BasicExceptionDialog {
      * @param exception the exception to indicate
      */
     public static void show(Exception exception) {
-        String detailsText = OutputController.exceptionToString(exception);
+        String detailsText = DebugUtils.exceptionToString(exception);
 
         final JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));

@@ -61,8 +61,10 @@ import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.security.SecurityUtil;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor.PolicyEditorWindow;
+import net.sourceforge.jnlp.util.FilePermissionsUtils;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
+import net.sourceforge.jnlp.util.FileUtilsDialogs;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
@@ -146,27 +148,26 @@ public class PolicyPanel extends NamedBorderPanel {
     private static void launchPolicyTool(final JFrame frame, final String filePath) {
         try {
             final File policyFile = new File(filePath).getCanonicalFile();
-            final OpenFileResult result = FileUtils.testFilePermissions(policyFile);
+            final OpenFileResult result = FilePermissionsUtils.testFilePermissions(policyFile);
             if (result == OpenFileResult.SUCCESS) {
                 policyToolLaunchHelper(frame, filePath);
             } else if (result == OpenFileResult.CANT_WRITE) {
                 LOG.debug("Opening user JNLP policy read-only");
-                FileUtils.showReadOnlyDialog(frame);
+                FileUtilsDialogs.showReadOnlyDialog(frame);
                 policyToolLaunchHelper(frame, filePath);
             } else {
                 LOG.debug("Could not open user JNLP policy");
-                FileUtils.showCouldNotOpenFileDialog(frame, policyFile.getPath(), result);
+                FileUtilsDialogs.showCouldNotOpenFileDialog(frame, policyFile.getPath(), result);
             }
         } catch (IOException e) {
             LOG.error("ERROR", e);
             LOG.debug("Could not open user JNLP policy");
-            FileUtils.showCouldNotOpenFilepathDialog(frame, filePath);
+            FileUtilsDialogs.showCouldNotOpenFilepathDialog(frame, filePath);
         }
     }
 
     /**
      * Launch the simplified PolicyEditor for a specified file path
-     * @param frame a {@link JFrame} to act as parent to warning dialogs which may appear
      * @param filePath a {@link String} representing the path to the file to be opened
      */
     private void launchSimplePolicyEditor(final String filePath) {
@@ -207,7 +208,7 @@ public class PolicyPanel extends NamedBorderPanel {
                     } catch (Exception e) {
                         LOG.error("ERROR", e);
                         LOG.debug("Could not open user JNLP policy");
-                        FileUtils.showCouldNotOpenDialog(frame, R("CPPolicyEditorNotFound"));
+                        FileUtilsDialogs.showCouldNotOpenDialog(frame, R("CPPolicyEditorNotFound"));
                     }
                 }
             }
@@ -278,7 +279,7 @@ public class PolicyPanel extends NamedBorderPanel {
                 });
             } catch (MalformedURLException ex) {
                 LOG.error("ERROR", ex);
-                FileUtils.showCouldNotOpenFilepathDialog(frame, fileUrlString);
+                FileUtilsDialogs.showCouldNotOpenFilepathDialog(frame, fileUrlString);
             }
         }
     }
@@ -304,7 +305,7 @@ public class PolicyPanel extends NamedBorderPanel {
                 });
             } catch (MalformedURLException ex) {
                 LOG.error("ERROR", ex);
-                FileUtils.showCouldNotOpenFilepathDialog(frame, fileUrlString);
+                FileUtilsDialogs.showCouldNotOpenFilepathDialog(frame, fileUrlString);
             }
         }
     }

@@ -16,43 +16,18 @@
 
 package net.sourceforge.jnlp.util;
 
-import net.sourceforge.jnlp.config.DirectoryValidator;
-import net.sourceforge.jnlp.config.DirectoryValidator.DirectoryCheckResults;
-import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.Files;
-import java.nio.file.attribute.AclEntry;
-import java.nio.file.attribute.AclEntryFlag;
-import java.nio.file.attribute.AclEntryPermission;
-import java.nio.file.attribute.AclEntryType;
-import java.nio.file.attribute.AclFileAttributeView;
+import java.nio.file.attribute.*;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
@@ -333,127 +308,6 @@ public final class FileUtils {
         if (!tempFile.renameTo(file)) {
             throw new IOException(R("RCantRename", tempFile, file));
         }
-    }
-
-    /**
-     * Ensure that the parent directory of the file exists and that we are
-     * able to create and access files within this directory
-     * @param file the {@link File} representing a Java Policy file to test
-     * @return a {@link DirectoryCheckResults} object representing the results of the test
-     */
-    public static DirectoryCheckResults testDirectoryPermissions(File file) {
-        try {
-            file = file.getCanonicalFile();
-        } catch (final IOException e) {
-            LOG.error("ERROR",e);
-            return null;
-        }
-        if (file == null || file.getParentFile() == null || !file.getParentFile().exists()) {
-            return null;
-        }
-        final List<File> policyDirectory = new ArrayList<>();
-        policyDirectory.add(file.getParentFile());
-        final DirectoryValidator validator = new DirectoryValidator(policyDirectory);
-        final DirectoryCheckResults result = validator.ensureDirs();
-
-        return result;
-    }
-
-    /**
-     * Verify that a given file object points to a real, accessible plain file.
-     * @param file the {@link File} to verify
-     * @return an {@link OpenFileResult} representing the accessibility level of the file
-     */
-    public static OpenFileResult testFilePermissions(File file) {
-        if (file == null || !file.exists()) {
-            return OpenFileResult.FAILURE;
-        }
-        try {
-            file = file.getCanonicalFile();
-        } catch (final IOException e) {
-            return OpenFileResult.FAILURE;
-        }
-        final DirectoryCheckResults dcr = FileUtils.testDirectoryPermissions(file);
-        if (dcr != null && dcr.getFailures() == 0) {
-            if (file.isDirectory())
-                return OpenFileResult.NOT_FILE;
-            try {
-                if (!file.exists() && !file.createNewFile()) {
-                    return OpenFileResult.CANT_CREATE;
-                }
-            } catch (IOException e) {
-                return OpenFileResult.CANT_CREATE;
-            }
-            final boolean read = file.canRead(), write = file.canWrite();
-            if (read && write)
-                return OpenFileResult.SUCCESS;
-            else if (read)
-                return OpenFileResult.CANT_WRITE;
-            else
-                return OpenFileResult.FAILURE;
-        }
-        return OpenFileResult.FAILURE;
-    }
-
-    /**
-     * Show a dialog informing the user that the file is currently read-only
-     * @param frame a {@link JFrame} to act as parent to this dialog
-     */
-    public static void showReadOnlyDialog(final Component frame) {
-        SwingUtils.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JOptionPane.showMessageDialog(frame, R("RFileReadOnly"), R("Warning"), JOptionPane.WARNING_MESSAGE);
-            }
-        });
-    }
-
-    /**
-     * Show a generic error dialog indicating the  file could not be opened
-     * @param frame a {@link JFrame} to act as parent to this dialog
-     * @param filePath a {@link String} representing the path to the file we failed to open
-     */
-    public static void showCouldNotOpenFilepathDialog(final Component frame, final String filePath) {
-        showCouldNotOpenDialog(frame, R("RCantOpenFile", filePath));
-    }
-
-    /**
-     * Show an error dialog indicating the file could not be opened, with a particular reason
-     * @param frame a {@link JFrame} to act as parent to this dialog
-     * @param filePath a {@link String} representing the path to the file we failed to open
-     * @param reason a {@link OpenFileResult} specifying more precisely why we failed to open the file
-     */
-    public static void showCouldNotOpenFileDialog(final Component frame, final String filePath, final OpenFileResult reason) {
-        final String message;
-        switch (reason) {
-            case CANT_CREATE:
-                message = R("RCantCreateFile", filePath);
-                break;
-            case CANT_WRITE:
-                message = R("RCantWriteFile", filePath);
-                break;
-            case NOT_FILE:
-                message = R("RExpectedFile", filePath);
-                break;
-            default:
-                message = R("RCantOpenFile", filePath);
-                break;
-        }
-        showCouldNotOpenDialog(frame, message);
-    }
-
-    /**
-     * Show a dialog informing the user that the file could not be opened
-     * @param frame a {@link JFrame} to act as parent to this dialog
-     * @param message a {@link String} giving the specific reason the file could not be opened
-     */
-    public static void showCouldNotOpenDialog(final Component frame, final String message) {
-        SwingUtils.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JOptionPane.showMessageDialog(frame, message, R("Error"), JOptionPane.ERROR_MESSAGE);
-            }
-        });
     }
 
     /**

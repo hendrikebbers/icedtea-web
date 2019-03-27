@@ -110,8 +110,10 @@ import net.sourceforge.jnlp.runtime.JNLPRuntime;
 
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditorPermissions.Group;
+import net.sourceforge.jnlp.util.FilePermissionsUtils;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
+import net.sourceforge.jnlp.util.FileUtilsDialogs;
 import net.sourceforge.jnlp.util.ImageResources;
 import net.sourceforge.jnlp.util.docprovider.PolicyEditorTextsProvider;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
@@ -1470,7 +1472,7 @@ public class PolicyEditor extends JPanel {
             return;
         }
         resetEntries();
-        final OpenFileResult ofr = FileUtils.testFilePermissions(getFile());
+        final OpenFileResult ofr = FilePermissionsUtils.testFilePermissions(getFile());
         if (ofr == OpenFileResult.FAILURE || ofr == OpenFileResult.NOT_FILE) {
             addDefaultAllAppletsIdentifier();
             LOG.debug(R("PECouldNotOpen"));
@@ -1501,16 +1503,16 @@ public class PolicyEditor extends JPanel {
             return;
         }
         resetEntries();
-        final OpenFileResult ofr = FileUtils.testFilePermissions(getFile());
+        final OpenFileResult ofr = FilePermissionsUtils.testFilePermissions(getFile());
         if (ofr == OpenFileResult.FAILURE || ofr == OpenFileResult.NOT_FILE) {
             addDefaultAllAppletsIdentifier();
             if (policyEditorController.getFile().exists()) {
-                FileUtils.showCouldNotOpenFilepathDialog(PolicyEditor.this, policyEditorController.getFile().getPath());
+                FileUtilsDialogs.showCouldNotOpenFilepathDialog(PolicyEditor.this, policyEditorController.getFile().getPath());
             }
             return;
         }
         if (ofr == OpenFileResult.CANT_WRITE) {
-            FileUtils.showReadOnlyDialog(PolicyEditor.this);
+            FileUtilsDialogs.showReadOnlyDialog(PolicyEditor.this);
         }
 
         final Window parentWindow = SwingUtils.getWindowAncestor(this);
@@ -1531,11 +1533,11 @@ public class PolicyEditor extends JPanel {
                     policyEditorController.openAndParsePolicyFile();
                 } catch (final FileNotFoundException fnfe) {
                     LOG.error("ERROR", fnfe);
-                    FileUtils.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
+                    FileUtilsDialogs.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
                 } catch (final IOException | PolicyParser.ParsingException e) {
                     LOG.error("ERROR", e);
                     LOG.error("ERROR", R("RCantOpenFile", policyEditorController.getFile().getPath()));
-                    FileUtils.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
+                    FileUtilsDialogs.showCouldNotOpenDialog(PolicyEditor.this, R("PECouldNotOpen"));
                 }
                 return null;
             }

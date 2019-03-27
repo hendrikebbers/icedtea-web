@@ -42,8 +42,8 @@ import net.sourceforge.jnlp.testextensions.browsertesting.BrowserFactory;
 import net.sourceforge.jnlp.testextensions.browsertesting.Browsers;
 import net.sourceforge.jnlp.testextensions.closinglisteners.AutoErrorClosingListener;
 import net.sourceforge.jnlp.testextensions.closinglisteners.AutoOkClosingListener;
+import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -862,7 +862,7 @@ public class ServerAccess {
         logException(t, true);
     }
     public static void logException(Throwable t, boolean print){
-        log(OutputController.exceptionToString(t), false, print);
+        log(DebugUtils.exceptionToString(t), false, print);
     }
 
     private static StackTraceElement getTestMethod() {

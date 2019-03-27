@@ -251,25 +251,6 @@ public class OutputController {
         this.errLog.setStream(err);
     }
 
-    public static String exceptionToString(Throwable t) {
-        if (t == null) {
-            return null;
-        }
-        String s = "Error during processing of exception";
-        try {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
-            s = sw.toString();
-            pw.close();
-            sw.close();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        return s;
-    }
-
-    
 
     private static class FileLogHolder {
         
