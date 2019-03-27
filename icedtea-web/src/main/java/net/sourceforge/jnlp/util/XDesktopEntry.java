@@ -16,8 +16,6 @@
 
 package net.sourceforge.jnlp.util;
 
-import net.sourceforge.jnlp.controlpanel.CommandLine;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
