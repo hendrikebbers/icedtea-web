@@ -16,13 +16,12 @@
     </properties>
 
     <modules>
-        <module>jnlp</module>
+        <module>jnlp-api</module>
         <module>common</module>
         <module>xml-parser</module>
         <module>swing-utils</module>
         <module>icedtea-web</module>
         <module>application</module>
-        <module>test-extensions</module>
     </modules>
 
 </project>

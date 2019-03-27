@@ -11,6 +11,6 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>jnlp</artifactId>
+    <artifactId>jnlp-api</artifactId>
 
 </project>
