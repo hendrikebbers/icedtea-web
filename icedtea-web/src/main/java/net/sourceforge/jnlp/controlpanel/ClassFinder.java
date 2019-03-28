@@ -35,6 +35,10 @@
  */
 package net.sourceforge.jnlp.controlpanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,10 +49,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-import javax.swing.JDialog;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * utility class to find any Interface implementing classes in netx/icedtea-web

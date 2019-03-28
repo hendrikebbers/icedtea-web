@@ -35,9 +35,34 @@
  */
 package net.sourceforge.jnlp.controlpanel;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
+import net.sourceforge.jnlp.security.appletextendedsecurity.ExtendedAppletSecurityHelp;
+import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionEntry;
+import net.sourceforge.jnlp.security.appletextendedsecurity.UrlRegEx;
+import net.sourceforge.jnlp.security.appletextendedsecurity.impl.UnsignedAppletActionStorageExtendedImpl;
+import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
+import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
+import net.sourceforge.jnlp.util.ScreenFinder;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -55,54 +80,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle;
-import javax.swing.ListCellRenderer;
-import javax.swing.RowFilter;
-import javax.swing.RowSorter.SortKey;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
-import net.sourceforge.jnlp.security.appletextendedsecurity.ExtendedAppletSecurityHelp;
-import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionEntry;
-import net.sourceforge.jnlp.security.appletextendedsecurity.UrlRegEx;
-import net.sourceforge.jnlp.security.appletextendedsecurity.impl.UnsignedAppletActionStorageExtendedImpl;
-import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
-import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
-import net.sourceforge.jnlp.util.ScreenFinder;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.swing.SwingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UnsignedAppletsTrustingListPanel extends JPanel {
 

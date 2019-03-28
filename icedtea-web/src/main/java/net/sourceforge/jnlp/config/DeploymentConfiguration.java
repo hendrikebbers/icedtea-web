@@ -16,8 +16,15 @@
 
 package net.sourceforge.jnlp.config;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.tools.ico.IcoSpi;
+import net.sourceforge.jnlp.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.imageio.spi.IIORegistry;
+import javax.naming.ConfigurationException;
+import javax.swing.*;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,18 +44,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import javax.imageio.spi.IIORegistry;
 
-import javax.naming.ConfigurationException;
-import javax.swing.JOptionPane;
-
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.tools.JarCertVerifier;
-import net.sourceforge.jnlp.tools.ico.IcoSpi;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * Manages the various properties and configuration related to deployment.

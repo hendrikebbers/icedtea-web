@@ -37,13 +37,12 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.runtime;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-import java.net.URL;
-
-import net.sourceforge.jnlp.security.dialogs.remember.RememberPanel;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URL;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * A dummy PacEvaluator that always returns "DIRECT"

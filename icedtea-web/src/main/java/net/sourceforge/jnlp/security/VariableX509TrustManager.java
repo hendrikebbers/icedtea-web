@@ -37,6 +37,18 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security;
 
+import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
+import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.security.util.HostnameChecker;
+import sun.security.validator.ValidatorException;
+
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
@@ -49,19 +61,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
-import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sun.security.util.HostnameChecker;
-import sun.security.validator.ValidatorException;
 
 /**
  * This class implements an X509 Trust Manager. The certificates it trusts are

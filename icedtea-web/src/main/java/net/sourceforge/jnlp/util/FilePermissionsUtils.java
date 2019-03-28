@@ -19,7 +19,6 @@ package net.sourceforge.jnlp.util;
 import net.sourceforge.jnlp.config.DirectoryValidator;
 import net.sourceforge.jnlp.config.DirectoryValidator.DirectoryCheckResults;
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

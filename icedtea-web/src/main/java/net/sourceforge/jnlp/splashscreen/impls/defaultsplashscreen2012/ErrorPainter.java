@@ -36,23 +36,15 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.splashscreen.impls.defaultsplashscreen2012;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.util.Observable;
-
 import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
 import net.sourceforge.jnlp.splashscreen.parts.BasicComponentSplashScreen;
 import net.sourceforge.jnlp.splashscreen.parts.InformationElement;
 import net.sourceforge.jnlp.splashscreen.parts.extensions.ExtensionManager;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.*;
+import java.util.Observable;
 
 public final class ErrorPainter extends BasePainter {
 

@@ -5,18 +5,17 @@
  */
 package net.sourceforge.jnlp.runtime.html;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

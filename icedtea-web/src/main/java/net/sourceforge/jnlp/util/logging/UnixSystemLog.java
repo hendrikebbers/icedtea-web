@@ -36,7 +36,6 @@
 
 package net.sourceforge.jnlp.util.logging;
 
-import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import org.slf4j.Logger;

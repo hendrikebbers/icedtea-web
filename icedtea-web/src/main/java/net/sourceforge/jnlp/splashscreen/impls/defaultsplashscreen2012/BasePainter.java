@@ -36,36 +36,26 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.splashscreen.impls.defaultsplashscreen2012;
 
-import java.awt.BasicStroke;
-import net.sourceforge.jnlp.splashscreen.impls.*;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.List;
-
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-
-import net.sourceforge.swing.SwingUtils;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.splashscreen.SplashUtils.SplashReason;
+import net.sourceforge.jnlp.splashscreen.impls.DefaultSplashScreen2012;
 import net.sourceforge.jnlp.splashscreen.parts.BasicComponentSplashScreen;
 import net.sourceforge.jnlp.splashscreen.parts.InfoItem;
 import net.sourceforge.jnlp.splashscreen.parts.InformationElement;
 import net.sourceforge.jnlp.splashscreen.parts.extensions.ExtensionManager;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.ScreenFinder;
+import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.awt.*;
+import java.awt.font.TextAttribute;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 public class BasePainter implements Observer {
 

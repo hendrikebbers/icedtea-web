@@ -16,15 +16,13 @@
 
 package net.sourceforge.jnlp.util;
 
+import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
-
-import java.awt.Component;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 

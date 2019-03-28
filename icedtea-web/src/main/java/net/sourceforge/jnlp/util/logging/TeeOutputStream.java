@@ -38,16 +38,15 @@ exception statement from your version. */
 package net.sourceforge.jnlp.util.logging;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextFormatter;
-
 import net.sourceforge.jnlp.util.logging.headers.Header;
 import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * Behaves like the 'tee' command, sends output to both actual std stream and a

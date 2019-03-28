@@ -16,18 +16,24 @@
 
 package net.sourceforge.jnlp.runtime;
 
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.*;
+import java.security.AllPermission;
+import java.security.CodeSource;
+import java.security.NoSuchAlgorithmException;
+import java.security.Permission;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Policy;
+import java.security.ProtectionDomain;
+import java.security.URIParameter;
 import java.util.Enumeration;
-
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.jdk89acesses.SunMiscLauncher;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Policy for JNLP environment.  This class delegates to the

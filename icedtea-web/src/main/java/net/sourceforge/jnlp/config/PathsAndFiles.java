@@ -36,21 +36,19 @@ exception statement from your version.
 */
 package net.sourceforge.jnlp.config;
 
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.util.OsUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jnlp.security.SecurityDialog;
-import net.sourceforge.jnlp.util.OsUtil;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.APPLET_TRUST_SETTINGS;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.DEPLOYMENT_CONFIG_FILE;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.DEPLOYMENT_PROPERTIES;
-
-import net.sourceforge.jnlp.runtime.Translator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PathsAndFiles {
     private final static Logger LOG = LoggerFactory.getLogger(PathsAndFiles.class);

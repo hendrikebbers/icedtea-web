@@ -37,11 +37,11 @@ exception statement from your version. */
 
 package net.sourceforge.jnlp.util.logging.headers;
 
-import java.util.Date;
-
 import net.sourceforge.jnlp.util.logging.MessageLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 public class PluginMessage  implements MessageWithHeader{
 

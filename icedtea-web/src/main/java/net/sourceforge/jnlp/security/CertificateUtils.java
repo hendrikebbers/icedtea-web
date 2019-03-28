@@ -37,6 +37,11 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security;
 
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.util.encoding.BASE64Encoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -54,11 +59,6 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 import java.util.Random;
-
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.util.encoding.BASE64Encoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Common utilities to manipulate certificates. Provides methods to add

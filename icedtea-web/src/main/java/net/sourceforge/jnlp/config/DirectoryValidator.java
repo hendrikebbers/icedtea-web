@@ -4,15 +4,16 @@
  */
 package net.sourceforge.jnlp.config;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 public class DirectoryValidator {
 

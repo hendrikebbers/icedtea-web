@@ -36,18 +36,17 @@
  */
 package net.sourceforge.jnlp.security.dialogs;
 
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
+import net.sourceforge.jnlp.util.ImageResources;
+import net.sourceforge.jnlp.util.ScreenFinder;
+import net.sourceforge.swing.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import javax.swing.JDialog;
-import net.sourceforge.swing.SwingUtils;
-import net.sourceforge.jnlp.util.ImageResources;
-import net.sourceforge.jnlp.util.ScreenFinder;
 
 /**
  * This class encapsulate viwable part of SecurityDialog, so it do not need to

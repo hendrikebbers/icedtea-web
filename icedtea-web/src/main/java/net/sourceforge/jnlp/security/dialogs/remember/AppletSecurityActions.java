@@ -35,6 +35,11 @@
  */
 package net.sourceforge.jnlp.security.dialogs.remember;
 
+import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.MatchingALACAttributePanel;
+import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.UnsignedAppletTrustWarningPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,12 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.MatchingALACAttributePanel;
-import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.UnsignedAppletTrustWarningPanel;
-import net.sourceforge.jnlp.splashscreen.SplashUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 //from legacy, just wrapper around map
 public class AppletSecurityActions implements Iterable<SavedRememberAction> {

@@ -32,6 +32,10 @@
  statement from your version.*/
 package sun.applet;
 
+import net.sourceforge.jnlp.NetxPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.lang.reflect.Field;
@@ -40,11 +44,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
-import net.sourceforge.jnlp.NetxPanel;
-import net.sourceforge.jnlp.controlpanel.ControlPanel;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class AppletViewerPanelAccess extends AppletViewerPanel {
 

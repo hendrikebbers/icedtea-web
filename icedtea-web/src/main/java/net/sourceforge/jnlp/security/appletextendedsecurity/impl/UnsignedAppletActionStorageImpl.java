@@ -35,6 +35,17 @@
  */
 package net.sourceforge.jnlp.security.appletextendedsecurity.impl;
 
+import net.sourceforge.jnlp.security.appletextendedsecurity.InvalidLineException;
+import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionEntry;
+import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionStorage;
+import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
+import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
+import net.sourceforge.jnlp.util.FileUtils;
+import net.sourceforge.jnlp.util.lockingfile.LockingReaderWriter;
+import net.sourceforge.jnlp.util.lockingfile.StorageIoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -42,18 +53,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
-import net.sourceforge.jnlp.security.appletextendedsecurity.InvalidLineException;
-import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionEntry;
-import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionStorage;
-import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletTrustConfirmation;
-import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
-import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.lockingfile.LockingReaderWriter;
-import net.sourceforge.jnlp.util.lockingfile.StorageIoException;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UnsignedAppletActionStorageImpl extends LockingReaderWriter implements UnsignedAppletActionStorage {
 

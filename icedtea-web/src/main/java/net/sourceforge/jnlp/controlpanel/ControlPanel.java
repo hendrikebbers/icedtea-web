@@ -18,15 +18,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package net.sourceforge.jnlp.controlpanel;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.controlpanel.JVMPanel.JvmValidationResult;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.security.viewer.CertificatePane;
+import net.sourceforge.jnlp.util.ImageResources;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.naming.ConfigurationException;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -34,35 +43,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.naming.ConfigurationException;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.controlpanel.JVMPanel.JvmValidationResult;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.CertificateUtils;
-import net.sourceforge.jnlp.security.viewer.CertificatePane;
-import net.sourceforge.jnlp.util.ImageResources;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.swing.SwingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * This is the control panel for Java. It provides a GUI for modifying the

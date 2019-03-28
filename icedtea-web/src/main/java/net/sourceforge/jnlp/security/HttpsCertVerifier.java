@@ -37,7 +37,11 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.security.util.DerValue;
+import sun.security.util.HostnameChecker;
+import sun.security.x509.X500Name;
 
 import java.io.IOException;
 import java.security.KeyStore;
@@ -53,14 +57,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.sourceforge.jnlp.MalformedXMLParser;
-import net.sourceforge.jnlp.util.logging.OutputController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sun.security.util.DerValue;
-import sun.security.util.HostnameChecker;
-import sun.security.x509.X500Name;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 public class HttpsCertVerifier implements CertVerifier {
 

@@ -35,15 +35,11 @@
  */
 package net.sourceforge.jnlp.controlpanel.desktopintegrationeditor;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import net.sourceforge.jnlp.security.dialogs.SecurityDialogPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 

@@ -35,12 +35,12 @@
  */
 package net.sourceforge.jnlp.controlpanel.desktopintegrationeditor;
 
-import java.awt.Color;
+import net.sourceforge.swing.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JComponent;
-import javax.swing.Timer;
-import net.sourceforge.swing.SwingUtils;
 
 public class Blinker {
 

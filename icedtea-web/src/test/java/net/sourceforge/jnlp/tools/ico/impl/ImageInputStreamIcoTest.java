@@ -36,13 +36,14 @@
  exception statement from your version. */
 package net.sourceforge.jnlp.tools.ico.impl;
 
-import java.awt.Color;
+import org.junit.Assert;
+import org.junit.Test;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.imageio.ImageIO;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class ImageInputStreamIcoTest {
 

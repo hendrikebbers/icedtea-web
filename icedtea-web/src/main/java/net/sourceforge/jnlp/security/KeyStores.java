@@ -36,6 +36,13 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.security;
 
+import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,16 +56,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
-
-import net.sourceforge.jnlp.cache.NativeLibraryStorage;
-import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
-
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The {@code KeyStores} class allows easily accessing the various KeyStores

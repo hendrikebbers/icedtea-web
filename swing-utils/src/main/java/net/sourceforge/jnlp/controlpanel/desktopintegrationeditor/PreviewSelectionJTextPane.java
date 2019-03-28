@@ -35,14 +35,14 @@
  */
 package net.sourceforge.jnlp.controlpanel.desktopintegrationeditor;
 
+import javax.swing.*;
+import javax.swing.text.html.HTMLEditorKit;
 import java.io.File;
 import java.util.List;
-import javax.swing.JList;
-import javax.swing.JTextPane;
-import javax.swing.text.html.HTMLEditorKit;
-//import net.sourceforge.jnlp.util.logging.OutputController;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
+
+//import net.sourceforge.jnlp.util.logging.OutputController;
 
 public class PreviewSelectionJTextPane extends JTextPane {
 

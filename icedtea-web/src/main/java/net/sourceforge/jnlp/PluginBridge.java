@@ -22,6 +22,15 @@
 
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
+import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.util.StreamUtils;
+import net.sourceforge.jnlp.util.UrlUtils;
+import net.sourceforge.jnlp.util.encoding.BASE64Decoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -35,15 +44,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
-import net.sourceforge.jnlp.cache.UpdatePolicy;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.util.StreamUtils;
-import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.encoding.BASE64Decoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Allows reuse of code that expects a JNLPFile object,

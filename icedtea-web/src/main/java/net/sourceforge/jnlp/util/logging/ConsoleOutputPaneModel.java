@@ -1,5 +1,12 @@
 package net.sourceforge.jnlp.util.logging;
 
+import net.sourceforge.jnlp.util.logging.headers.Header;
+import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
+import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
+import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
+import net.sourceforge.jnlp.util.logging.headers.PluginHeader;
+import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,13 +14,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 import java.util.regex.Pattern;
-
-import net.sourceforge.jnlp.util.logging.headers.Header;
-import net.sourceforge.jnlp.util.logging.headers.JavaMessage;
-import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
-import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
-import net.sourceforge.jnlp.util.logging.headers.PluginHeader;
-import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
 
 public class ConsoleOutputPaneModel {
 

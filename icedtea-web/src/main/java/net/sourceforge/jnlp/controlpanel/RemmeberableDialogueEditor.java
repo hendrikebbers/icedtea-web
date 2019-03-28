@@ -35,27 +35,21 @@
  */
 package net.sourceforge.jnlp.controlpanel;
 
-import java.awt.Button;
-import java.awt.GridLayout;
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
+import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
+import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
+import net.sourceforge.jnlp.security.dialogs.remember.SavedRememberAction;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListDataListener;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
-import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
-import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
-import net.sourceforge.jnlp.security.dialogs.remember.SavedRememberAction;
 
 /**
  * This dialog provides way to manage rememberable dialogues

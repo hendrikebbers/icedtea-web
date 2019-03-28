@@ -16,26 +16,26 @@
 
 package net.sourceforge.jnlp.cache;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.net.*;
-import java.util.*;
-import java.util.List;
-import javax.swing.*;
-import javax.swing.Timer;
-import javax.jnlp.*;
-
-import net.sourceforge.jnlp.security.KeyStores;
-import net.sourceforge.swing.SwingUtils;
-
-import net.sourceforge.jnlp.runtime.*;
+import net.sourceforge.jnlp.runtime.ApplicationInstance;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.ImageResources;
 import net.sourceforge.jnlp.util.ScreenFinder;
-import net.sourceforge.jnlp.util.logging.OutputController;
+import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jnlp.DownloadServiceListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * Show the progress of downloads.

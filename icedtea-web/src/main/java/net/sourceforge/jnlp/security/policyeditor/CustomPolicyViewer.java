@@ -38,10 +38,9 @@ package net.sourceforge.jnlp.security.policyeditor;
 
 import sun.security.provider.PolicyParser;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -50,17 +49,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.TreeSet;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * This implements a simple list viewer for custom policies, ie policies

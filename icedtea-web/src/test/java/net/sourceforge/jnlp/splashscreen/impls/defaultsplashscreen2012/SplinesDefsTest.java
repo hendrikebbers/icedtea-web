@@ -36,11 +36,10 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.splashscreen.impls.defaultsplashscreen2012;
 
-import net.sourceforge.jnlp.splashscreen.impls.defaultsplashscreen2012.SplinesDefs;
-import java.awt.Point;
-import java.awt.Polygon;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.awt.*;
 
 public class SplinesDefsTest {
 

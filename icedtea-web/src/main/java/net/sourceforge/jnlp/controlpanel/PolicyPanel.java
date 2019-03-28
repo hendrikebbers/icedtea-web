@@ -36,12 +36,20 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.controlpanel;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.security.policyeditor.PolicyEditor;
+import net.sourceforge.jnlp.security.policyeditor.PolicyEditor.PolicyEditorWindow;
+import net.sourceforge.jnlp.util.FilePermissionsUtils;
+import net.sourceforge.jnlp.util.FileUtils;
+import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
+import net.sourceforge.jnlp.util.FileUtilsDialogs;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -50,25 +58,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.security.SecurityUtil;
-import net.sourceforge.jnlp.security.policyeditor.PolicyEditor;
-import net.sourceforge.jnlp.security.policyeditor.PolicyEditor.PolicyEditorWindow;
-import net.sourceforge.jnlp.util.FilePermissionsUtils;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
-import net.sourceforge.jnlp.util.FileUtilsDialogs;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.swing.SwingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * Implements a Policy Settings panel for the itweb-settings control panel.

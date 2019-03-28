@@ -37,25 +37,16 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security.dialogs;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.lang.reflect.Method;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
-import net.sourceforge.jnlp.runtime.html.AppletExtractor;
 import net.sourceforge.jnlp.security.CertVerifier;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.PlainTextFormatter;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.Method;
 
 /**
  * Provides a JPanel for use in JNLP warning dialogs.

@@ -16,43 +16,6 @@
 
 package net.sourceforge.jnlp.runtime;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import java.awt.EventQueue;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.Authenticator;
-import java.net.InetAddress;
-import java.net.ProxySelector;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
-import java.security.AllPermission;
-import java.security.KeyStore;
-import java.security.Policy;
-import java.security.Security;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.jnlp.ServiceManager;
-import javax.naming.ConfigurationException;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.text.html.parser.ParserDelegator;
-
 import net.sourceforge.jnlp.DefaultLaunchHandler;
 import net.sourceforge.jnlp.GuiLaunchHandler;
 import net.sourceforge.jnlp.LaunchHandler;
@@ -78,6 +41,39 @@ import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.net.www.protocol.jar.URLJarFile;
+
+import javax.jnlp.ServiceManager;
+import javax.naming.ConfigurationException;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.swing.*;
+import javax.swing.text.html.parser.ParserDelegator;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.Authenticator;
+import java.net.InetAddress;
+import java.net.ProxySelector;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.security.AllPermission;
+import java.security.KeyStore;
+import java.security.Policy;
+import java.security.Security;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * <p>

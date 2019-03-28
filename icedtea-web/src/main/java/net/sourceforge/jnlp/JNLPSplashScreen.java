@@ -37,26 +37,21 @@ exception statement from your version. */
 
 package net.sourceforge.jnlp;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Insets;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.swing.JDialog;
-import net.sourceforge.swing.SwingUtils;
 import net.sourceforge.jnlp.cache.ResourceTracker;
 import net.sourceforge.jnlp.splashscreen.SplashPanel;
 import net.sourceforge.jnlp.splashscreen.SplashUtils;
 import net.sourceforge.jnlp.splashscreen.parts.InformationElement;
 import net.sourceforge.jnlp.util.ImageResources;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.ScreenFinder;
+import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class JNLPSplashScreen extends JDialog {
 

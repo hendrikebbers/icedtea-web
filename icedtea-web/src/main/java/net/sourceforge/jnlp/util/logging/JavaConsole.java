@@ -36,13 +36,21 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.util.logging;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.util.ImageResources;
+import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
+import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
+import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -59,30 +67,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Properties;
 import java.util.Set;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.DefaultFormatter;
 
-import net.sourceforge.jnlp.cache.CacheUtil;
-import net.sourceforge.swing.SwingUtils;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.util.ImageResources;
-import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
-import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
-import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * A simple Java console for IcedTeaPlugin and JavaWS

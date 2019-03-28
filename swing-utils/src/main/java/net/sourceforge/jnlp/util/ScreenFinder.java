@@ -37,16 +37,7 @@ exception statement from your version. */
 package net.sourceforge.jnlp.util;
 
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
+import java.awt.*;
 //import net.sourceforge.jnlp.util.logging.OutputController;
 
 public class ScreenFinder {

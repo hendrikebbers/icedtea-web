@@ -16,6 +16,21 @@
 
 package net.sourceforge.jnlp.cache;
 
+import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.config.PathsAndFiles;
+import net.sourceforge.jnlp.controlpanel.CachePane;
+import net.sourceforge.jnlp.runtime.ApplicationInstance;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.runtime.Translator;
+import net.sourceforge.jnlp.security.ConnectionFactory;
+import net.sourceforge.jnlp.util.FileUtils;
+import net.sourceforge.jnlp.util.OsUtil;
+import net.sourceforge.jnlp.util.PropertiesFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.jnlp.DownloadServiceListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -47,23 +62,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import javax.jnlp.DownloadServiceListener;
-
-import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.controlpanel.CachePane;
-import net.sourceforge.jnlp.runtime.ApplicationInstance;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.runtime.Translator;
 import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import net.sourceforge.jnlp.security.ConnectionFactory;
-import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.OsUtil;
-import net.sourceforge.jnlp.util.PropertiesFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides static methods to interact with the cache, download

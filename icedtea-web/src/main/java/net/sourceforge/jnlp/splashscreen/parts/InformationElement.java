@@ -39,16 +39,15 @@ http://docs.oracle.com/javase/6/docs/technotes/guides/javaws/developersguide/syn
  */
 package net.sourceforge.jnlp.splashscreen.parts;
 
+import net.sourceforge.jnlp.InformationDesc;
+import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.runtime.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.sourceforge.jnlp.InformationDesc;
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.runtime.AppletInstance;
-import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class is wrapper arround the *information* tag element which should

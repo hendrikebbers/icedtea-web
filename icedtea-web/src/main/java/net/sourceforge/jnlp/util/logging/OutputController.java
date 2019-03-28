@@ -35,21 +35,19 @@
  */
 package net.sourceforge.jnlp.util.logging;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.LinkedList;
-import java.util.List;
-
 import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**

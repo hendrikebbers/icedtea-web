@@ -37,14 +37,16 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.services;
 
-import java.io.*;
-import javax.jnlp.*;
-
 import net.sourceforge.jnlp.security.AccessType;
 import net.sourceforge.jnlp.util.FileUtils;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.jnlp.FileContents;
+import javax.jnlp.FileSaveService;
+import javax.swing.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The FileSaveService JNLP service.

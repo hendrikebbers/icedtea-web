@@ -37,12 +37,16 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.about;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.util.ScreenFinder;
+import net.sourceforge.jnlp.util.docprovider.TextsProvider;
+import net.sourceforge.jnlp.util.docprovider.formatters.formatters.HtmlFormatter;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -50,19 +54,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import net.sourceforge.jnlp.runtime.html.browser.LinksPanel;
-import net.sourceforge.jnlp.util.ScreenFinder;
-import net.sourceforge.jnlp.util.docprovider.TextsProvider;
-import net.sourceforge.jnlp.util.docprovider.formatters.formatters.HtmlFormatter;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.swing.SwingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 public final class AboutDialog extends JPanel implements Runnable, ActionListener {
 

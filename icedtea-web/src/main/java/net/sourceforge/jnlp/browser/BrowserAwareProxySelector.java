@@ -36,7 +36,12 @@ exception statement from your version.
 */
 package net.sourceforge.jnlp.browser;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.runtime.JNLPProxySelector;
+import net.sourceforge.jnlp.runtime.PacEvaluator;
+import net.sourceforge.jnlp.runtime.PacEvaluatorFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,15 +54,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.runtime.JNLPProxySelector;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.runtime.PacEvaluator;
-import net.sourceforge.jnlp.runtime.PacEvaluatorFactory;
-import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * A ProxySelector which can read proxy settings from a browser's

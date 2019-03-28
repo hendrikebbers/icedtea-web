@@ -16,18 +16,16 @@
 
 package net.sourceforge.jnlp.util;
 
+import net.sourceforge.jnlp.util.lockingfile.LockedFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import net.sourceforge.jnlp.tools.CertInformation;
-import net.sourceforge.jnlp.util.lockingfile.LockedFile;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A properties object backed by a specified file without throwing

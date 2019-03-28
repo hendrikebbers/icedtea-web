@@ -37,16 +37,14 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.runtime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Properties;
-
-import net.sourceforge.jnlp.services.XSingleInstanceService;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class PacEvaluatorFactory {

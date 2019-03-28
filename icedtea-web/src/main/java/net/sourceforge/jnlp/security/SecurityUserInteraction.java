@@ -7,6 +7,7 @@ import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexRetur
 import net.sourceforge.jnlp.security.dialogresults.NamePassword;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandboxLimited;
+
 import java.net.URL;
 import java.util.Set;
 

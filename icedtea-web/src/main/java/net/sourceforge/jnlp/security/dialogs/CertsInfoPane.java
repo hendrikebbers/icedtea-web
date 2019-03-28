@@ -37,37 +37,41 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security.dialogs;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
-import java.util.ArrayList;
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.security.MessageDigest;
-/**
- * Do not remove this two unused imports, nor expands its "*" call.
- * It is workaround to allow itw to run on jdk8 and older and also on jdk9 and newer
- */
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sun.security.x509.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.lang.reflect.Method;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeSelectionModel;
 import net.sourceforge.jnlp.security.CertVerifier;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.SecurityUtil;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.security.dialogresults.SetValueHandler;
 import net.sourceforge.jnlp.security.dialogresults.Yes;
-import net.sourceforge.jnlp.util.logging.OutputController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.security.x509.CertificateValidity;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.security.cert.CertPath;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
+
+/**
+ * Do not remove this two unused imports, nor expands its "*" call.
+ * It is workaround to allow itw to run on jdk8 and older and also on jdk9 and newer
+ */
 
 /**
  * Provides the panel for the Certificate Info dialog. This dialog displays data from

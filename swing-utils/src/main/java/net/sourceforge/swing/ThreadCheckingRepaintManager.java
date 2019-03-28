@@ -7,10 +7,10 @@ http://web.archive.org/web/20150523152453/https://weblogs.java.net/blog/alexfrom
  */
 package net.sourceforge.swing;
 
+import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
+
 import static net.sourceforge.swing.SwingUtils.trace;
 
 /**

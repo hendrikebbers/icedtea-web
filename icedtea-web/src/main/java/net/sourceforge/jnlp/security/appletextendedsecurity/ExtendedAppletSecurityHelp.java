@@ -35,22 +35,17 @@
  */
 package net.sourceforge.jnlp.security.appletextendedsecurity;
 
-import java.awt.Dimension;
-import java.io.IOException;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import net.sourceforge.jnlp.runtime.Translator;
-import net.sourceforge.jnlp.security.dialogs.MissingPermissionsAttributePanel;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import java.awt.*;
+import java.io.IOException;
 
 public class ExtendedAppletSecurityHelp extends javax.swing.JDialog implements HyperlinkListener {
 

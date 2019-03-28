@@ -36,10 +36,8 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security.policyeditor;
 
-import java.awt.Window;
-
-import javax.swing.JDialog;
-import javax.swing.JProgressBar;
+import javax.swing.*;
+import java.awt.*;
 
 public class IndeterminateProgressDialog extends JDialog {
 
