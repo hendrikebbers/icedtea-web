@@ -414,7 +414,7 @@ final public class VariableX509TrustManager {
          return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
             @Override
             public Boolean run() {
-                YesNoSandbox r = SecurityDialogs.showCertWarningDialog(
+                YesNoSandbox r = SecurityUserInteraction.getInstance().showCertWarning(
                         AccessType.UNVERIFIED, null,
                         new HttpsCertVerifier(chain, authType,
                                 isTrusted, hostMatched,

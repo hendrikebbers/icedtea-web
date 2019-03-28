@@ -31,6 +31,7 @@ import javax.swing.event.EventListenerList;
 
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.security.AccessType;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.util.OsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -289,10 +290,10 @@ public class ApplicationInstance {
             case ShortcutDesc.CREATE_ALWAYS:
                 return new AccessWarningPaneComplexReturn(true);
             case ShortcutDesc.CREATE_ASK_USER:
-                return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
+                return SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
             case ShortcutDesc.CREATE_ASK_USER_IF_HINTED:
                 if (sd != null && (sd.onDesktop() || sd.toMenu())) {
-                    return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
+                    return SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
                 }
             case ShortcutDesc.CREATE_ALWAYS_IF_HINTED:
                 if (sd != null && (sd.onDesktop() || sd.toMenu())) {

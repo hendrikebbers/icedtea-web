@@ -48,11 +48,10 @@ import net.sourceforge.jnlp.JARDesc;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.PluginBridge;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
-import net.sourceforge.jnlp.runtime.JnlpBoot;
+import net.sourceforge.jnlp.runtime.SecurityDelegate;
 import net.sourceforge.jnlp.security.CertVerifier;
 import net.sourceforge.jnlp.security.SecurityDialogs;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.YesNo;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
@@ -61,7 +60,6 @@ import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
 import net.sourceforge.jnlp.security.dialogs.remember.ExecuteAppletAction;
 import net.sourceforge.jnlp.security.dialogs.remember.RememberableDialog;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,7 +217,7 @@ public class UnsignedAppletTrustConfirmation {
             return;
         }
 
-        YesNo warningResponse = SecurityDialogs.showUnsignedWarningDialog(file);
+        YesNo warningResponse = SecurityUserInteraction.getInstance().showUnsignedWarning(file);
 
         LOG.debug("Decided action for unsigned applet at " + file.getCodeBase() + " was " + warningResponse);
 
@@ -237,7 +235,7 @@ public class UnsignedAppletTrustConfirmation {
             return;
         }
 
-        YesNoSandbox warningResponse = SecurityDialogs.showPartiallySignedWarningDialog(file, certVerifier, securityDelegate);
+        YesNoSandbox warningResponse = SecurityUserInteraction.getInstance().showPartiallySignedWarning(file, certVerifier, securityDelegate);
 
         LOG.debug("Decided action for unsigned applet at " + file.getCodeBase() + " was " + warningResponse);
         

@@ -48,11 +48,10 @@ import java.security.cert.X509Certificate;
 import javax.swing.JDialog;
 import java.awt.Window;
 
-import net.sourceforge.jnlp.controlpanel.JVMPanel;
 import net.sourceforge.swing.SwingUtils;
 
 import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
+import net.sourceforge.jnlp.runtime.SecurityDelegate;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.security.dialogs.AccessWarningPane;
 import net.sourceforge.jnlp.security.dialogs.AppletWarningPane;
@@ -67,7 +66,6 @@ import net.sourceforge.jnlp.security.dialogs.SecurityDialogPanel;
 import net.sourceforge.jnlp.security.dialogs.SingleCertInfoPane;
 import net.sourceforge.jnlp.security.dialogs.ViwableDialog;
 import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.AppTrustWarningDialog;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

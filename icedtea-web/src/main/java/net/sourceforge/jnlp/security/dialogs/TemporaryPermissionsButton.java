@@ -59,13 +59,11 @@ import javax.swing.JPopupMenu;
 
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
-import net.sourceforge.jnlp.runtime.html.AppletExtractor;
+import net.sourceforge.jnlp.runtime.SecurityDelegate;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditor.PolicyEditorWindow;
 import net.sourceforge.jnlp.security.policyeditor.PolicyEditorPermissions;
 import net.sourceforge.jnlp.security.policyeditor.PolicyIdentifier;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.security.provider.PolicyParser;

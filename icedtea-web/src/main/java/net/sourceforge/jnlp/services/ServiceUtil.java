@@ -44,6 +44,7 @@ import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.AccessType;
 import net.sourceforge.jnlp.security.SecurityDialogs;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
@@ -276,7 +277,7 @@ public class ServiceUtil {
             Boolean b = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
                 @Override
                 public Boolean run() {
-                    AccessWarningPaneComplexReturn r = SecurityDialogs.showAccessWarningDialog(tmpType,
+                    AccessWarningPaneComplexReturn r = SecurityUserInteraction.getInstance().showAccessWarning(tmpType,
                             tmpApp.getJNLPFile(), tmpExtras);
                     if (r == null) {
                         return false;

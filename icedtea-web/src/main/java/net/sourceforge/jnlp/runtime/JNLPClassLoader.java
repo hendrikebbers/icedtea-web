@@ -2363,45 +2363,6 @@ public class JNLPClassLoader extends URLClassLoader {
     }
 
     /**
-     * SecurityDelegate, in real usage, relies on having a "parent"
-     * JNLPClassLoader instance. However, JNLPClassLoaders are very large,
-     * heavyweight, difficult-to-mock objects, which means that unit testing on
-     * anything that uses a SecurityDelegate can become very difficult. For
-     * example, JarCertVerifier is designed separated from the ClassLoader so it
-     * can be tested in isolation. However, JCV needs some sort of access back
-     * to JNLPClassLoader instances to be able to invoke setRunInSandbox(). The
-     * SecurityDelegate handles this, allowing JCV to be tested without
-     * instantiating JNLPClassLoaders, by creating a fake SecurityDelegate that
-     * does not require one.
-     */
-    public static interface SecurityDelegate {
-
-        public boolean isPluginApplet();
-
-        public boolean userPromptedForPartialSigning();
-
-        public boolean userPromptedForSandbox();
-
-        public SecurityDesc getCodebaseSecurityDesc(final JARDesc jarDesc, final URL codebaseHost);
-
-        public SecurityDesc getClassLoaderSecurity(final URL codebaseHost) throws LaunchException;
-
-        public SecurityDesc getJarPermissions(final URL codebaseHost);
-
-        public void promptUserOnPartialSigning() throws LaunchException;
-
-        public void setRunInSandbox() throws LaunchException;
-
-        public boolean getRunInSandbox();
-
-        public void addPermission(final Permission perm);
-
-        public void addPermissions(final PermissionCollection perms);
-
-        public void addPermissions(final Collection<Permission> perms);
-    }
-
-    /**
      * Handles security decision logic for the JNLPClassLoader, eg which
      * permission level to assign to JARs.
      */

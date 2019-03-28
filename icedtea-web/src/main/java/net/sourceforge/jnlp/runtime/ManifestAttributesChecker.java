@@ -53,9 +53,8 @@ import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.ResourcesDesc;
 import net.sourceforge.jnlp.SecurityDesc;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SigningState;
-import net.sourceforge.jnlp.security.SecurityDialogs;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
 import net.sourceforge.jnlp.security.appletextendedsecurity.AppletStartupSecuritySettings;
 import net.sourceforge.jnlp.util.ClasspathMatcher.ClasspathMatchers;
@@ -287,7 +286,7 @@ public class ManifestAttributesChecker {
                 throw new LaunchException("Your Extended applets security is at 'Very high', and this application is missing the 'permissions' attribute in manifest. This is fatal");
             }
             if (itwSecurityLevel == AppletSecurityLevel.ASK_UNSIGNED) {
-                final boolean userApproved = SecurityDialogs.showMissingPermissionsAttributeDialogue(file);
+                final boolean userApproved = SecurityUserInteraction.getInstance().showMissingPermissionsAttribute(file);
                 if (!userApproved) {
                     throw new LaunchException("Your Extended applets security is at 'high' and this application is missing the 'permissions' attribute in manifest. And you have refused to run it.");
                 } else {
@@ -412,7 +411,7 @@ public class ManifestAttributesChecker {
             att = file.getManifestsAttributes().getApplicationLibraryAllowableCodebase();
         }
         if (att == null) {
-            final boolean userApproved = SecurityDialogs.showMissingALACAttributePanel(file, documentBase, usedUrls);
+            final boolean userApproved = SecurityUserInteraction.getInstance().showMissingALACAttribute(file, documentBase, usedUrls);
             if (!userApproved) {
                 throw new LaunchException("The application uses non-codebase resources, has no Application-Library-Allowable-Codebase Attribute, and was blocked from running by the user");
             } else {
@@ -428,7 +427,7 @@ public class ManifestAttributesChecker {
                 }
             }
         }
-        final boolean userApproved = isLowSecurity() || SecurityDialogs.showMatchingALACAttributePanel(file, documentBase, usedUrls);
+        final boolean userApproved = isLowSecurity() || SecurityUserInteraction.getInstance().showMatchingALACAttribute(file, documentBase, usedUrls);
         if (!userApproved) {
             throw new LaunchException("The application uses non-codebase resources, which do match its Application-Library-Allowable-Codebase Attribute, but was blocked from running by the user.");
         } else {

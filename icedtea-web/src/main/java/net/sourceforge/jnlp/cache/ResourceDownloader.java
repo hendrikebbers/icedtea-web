@@ -36,6 +36,7 @@ import net.sourceforge.jnlp.runtime.Boot;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.ConnectionFactory;
 import net.sourceforge.jnlp.security.SecurityDialogs;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
 import net.sourceforge.jnlp.util.HttpUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
@@ -300,7 +301,7 @@ public class ResourceDownloader implements Runnable {
                     if (response.result == 511) {
                         if (!InetSecurity511Panel.isSkip()) {
 
-                            boolean result511 = SecurityDialogs.show511Dialogue(resource);
+                            boolean result511 = SecurityUserInteraction.getInstance().show511(resource);
                             if (!result511) {
                                 throw new RuntimeException("Terminated on users request after encauntering 'http 511 authentication'.");
                             }

@@ -1,42 +1,22 @@
-/* SecurityUserInteraction.getInstance().java
- Copyright (C) 2010 Red Hat, Inc.
-
- This file is part of IcedTea.
-
- IcedTea is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License as published by
- the Free Software Foundation, version 2.
-
- IcedTea is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with IcedTea; see the file COPYING.  If not, write to
- the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- 02110-1301 USA.
-
- Linking this library statically or dynamically with other modules is
- making a combined work based on this library.  Thus, the terms and
- conditions of the GNU General Public License cover the whole
- combination.
-
- As a special exception, the copyright holders of this library give you
- permission to link this library with independent modules to produce an
- executable, regardless of the license terms of these independent
- modules, and to copy and distribute the resulting executable under
- terms of your choice, provided that you also meet, for each linked
- independent module, the terms and conditions of the license of that
- module.  An independent module is a module which is not derived from
- or based on this library.  If you modify this library, you may extend
- this exception to your version of the library, but you are not
- obligated to do so.  If you do not wish to do so, delete this
- exception statement from your version.
- */
 package net.sourceforge.jnlp.security;
 
-import java.awt.Dialog.ModalityType;
+import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.cache.Resource;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.runtime.SecurityDelegate;
+import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
+import net.sourceforge.jnlp.security.dialogresults.DialogResult;
+import net.sourceforge.jnlp.security.dialogresults.NamePassword;
+import net.sourceforge.jnlp.security.dialogresults.YesCancel;
+import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
+import net.sourceforge.jnlp.security.dialogresults.YesNoSandboxLimited;
+import net.sourceforge.jnlp.util.UrlUtils;
+import net.sourceforge.swing.SwingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.NetPermission;
@@ -46,40 +26,9 @@ import java.security.PrivilegedAction;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.JDialog;
+public class SwingSecurityUserInteraction implements SecurityUserInteraction {
 
-import net.sourceforge.swing.SwingUtils;
-
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.cache.Resource;
-import net.sourceforge.jnlp.runtime.SecurityDelegate;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
-import net.sourceforge.jnlp.security.dialogresults.DialogResult;
-import net.sourceforge.jnlp.security.dialogresults.NamePassword;
-import net.sourceforge.jnlp.security.dialogresults.YesCancel;
-import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
-import net.sourceforge.jnlp.security.dialogresults.YesNoSandboxLimited;
-import net.sourceforge.jnlp.util.UrlUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * <p>
- * A factory for showing many possible types of security warning to the user.
- * </p>
- * <p>
- * This contains all the public methods that classes outside this package should
- * use instead of using {@link SecurityDialog} directly.
- * </p>
- * <p>
- * All of these methods post a message to the
- * {@link SecurityDialogMessageHandler} and block waiting for a response.
- * </p>
- */
-public class SecurityDialogs {
-
-    private final static Logger LOG = LoggerFactory.getLogger(SecurityDialogs.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SwingSecurityUserInteraction.class);
 
     /**
      * Shows a warning dialog for different types of system access (i.e. file
@@ -90,8 +39,8 @@ public class SecurityDialogs {
      * @param extras array of objects used as extra.toString or similarly later
      * @return true if permission was granted by the user, false otherwise.
      */
-    public static AccessWarningPaneComplexReturn showAccessWarningDialog(final AccessType accessType,
-            final JNLPFile file, final Object[] extras) {
+    public AccessWarningPaneComplexReturn showAccessWarning(final AccessType accessType,
+                                                                         final JNLPFile file, final Object[] extras) {
 
         final SecurityDialogMessage message = new SecurityDialogMessage(file);
 
@@ -110,7 +59,7 @@ public class SecurityDialogs {
      * @param file the file to be base as information source for this dialogue
      * @return true if permission was granted by the user, false otherwise.
      */
-    public static YesNoSandboxLimited showUnsignedWarningDialog(JNLPFile file) {
+    public YesNoSandboxLimited showUnsignedWarning(JNLPFile file) {
 
         final SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.UNSIGNED_WARNING;
@@ -136,8 +85,8 @@ public class SecurityDialogs {
      * wants the applet to run with only sandbox permissions, or CANCEL if the
      * user did not accept running the applet
      */
-    public static YesNoSandbox showCertWarningDialog(AccessType accessType,
-            JNLPFile file, CertVerifier certVerifier, SecurityDelegate securityDelegate) {
+    public YesNoSandbox showCertWarning(AccessType accessType,
+                                                     JNLPFile file, CertVerifier certVerifier, SecurityDelegate securityDelegate) {
 
         final SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.CERT_WARNING;
@@ -159,8 +108,8 @@ public class SecurityDialogs {
      * @param securityDelegate the delegate for security atts.
      * @return true if permission was granted by the user, false otherwise.
      */
-    public static YesNoSandbox showPartiallySignedWarningDialog(JNLPFile file, CertVerifier certVerifier,
-            SecurityDelegate securityDelegate) {
+    public YesNoSandbox showPartiallySignedWarning(JNLPFile file, CertVerifier certVerifier,
+                                                                SecurityDelegate securityDelegate) {
 
         final SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.PARTIALLYSIGNED_WARNING;
@@ -185,7 +134,7 @@ public class SecurityDialogs {
      * @throws SecurityException if the caller does not have the appropriate
      * permissions.
      */
-    public static NamePassword showAuthenicationPrompt(String host, int port, String prompt, String type) {
+    public NamePassword showAuthenicationPrompt(String host, int port, String prompt, String type) {
 
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -204,7 +153,7 @@ public class SecurityDialogs {
         return (NamePassword) response;
     }
 
-    public static boolean showMissingALACAttributePanel(JNLPFile file, URL codeBase, Set<URL> remoteUrls) {
+    public boolean showMissingALACAttribute(JNLPFile file, URL codeBase, Set<URL> remoteUrls) {
 
         SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.MISSING_ALACA;
@@ -225,7 +174,7 @@ public class SecurityDialogs {
         return selectedValue.toBoolean();
     }
 
-    public static boolean showMatchingALACAttributePanel(JNLPFile file, URL documentBase, Set<URL> remoteUrls) {
+    public boolean showMatchingALACAttribute(JNLPFile file, URL documentBase, Set<URL> remoteUrls) {
 
         SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.MATCHING_ALACA;
@@ -246,7 +195,7 @@ public class SecurityDialogs {
 
     }
 
-    public static boolean showMissingPermissionsAttributeDialogue(JNLPFile file) {
+    public boolean showMissingPermissionsAttribute(JNLPFile file) {
 
         SecurityDialogMessage message = new SecurityDialogMessage(file);
         message.dialogType = DialogType.UNSIGNED_EAS_NO_PERMISSIONS_WARNING;
@@ -271,7 +220,7 @@ public class SecurityDialogs {
      * type of message, but generally an Integer corresponding to the value 0
      * indicates success/proceed, and everything else indicates failure
      */
-    private static DialogResult getUserResponse(final SecurityDialogMessage message) {
+    private DialogResult getUserResponse(final SecurityDialogMessage message) {
         /*
          * Want to show a security warning, while blocking the client
          * application. This would be easy except there is a bug in showing
@@ -298,7 +247,7 @@ public class SecurityDialogs {
             SwingUtils.info(fakeDialog);
             fakeDialog.setSize(0, 0);
             fakeDialog.setResizable(false);
-            fakeDialog.setModalityType(ModalityType.APPLICATION_MODAL);
+            fakeDialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
             fakeDialog.addWindowListener(new WindowAdapter() {
 
                 @Override
@@ -343,7 +292,7 @@ public class SecurityDialogs {
 
     // false = termiante ITW
     // true = continue
-    public static boolean show511Dialogue(Resource r) {
+    public boolean show511(Resource r) {
         SecurityDialogMessage message = new SecurityDialogMessage(null);
         message.dialogType = DialogType.SECURITY_511;
         message.extras = new Object[]{r.getLocation()};
@@ -353,5 +302,4 @@ public class SecurityDialogs {
         }
         return true;
     }
-
 }

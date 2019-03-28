@@ -298,49 +298,49 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     private void testAllDialogs(ExpectedResults r) throws MalformedURLException {
         //anything but  shoertcut
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(r.p, r1.getRegularReturn().getValue());
         //shortcut
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(r.p, r2.getRegularReturn().getValue());
-        YesNo r3 = SecurityDialogs.showUnsignedWarningDialog(crtJnlpF());
+        YesNo r3 = SecurityUserInteraction.getInstance().showUnsignedWarning(crtJnlpF());
         Assert.assertEquals(r.ea, r3);
         //cant emualte security delegate now
-        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
+        //YesNoSandbox r4 = SecurityUserInteraction.getInstance().showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         //Assert.assertEquals(r.p, r4.getValue());
-        //YesNo r5 = SecurityDialogs.showPartiallySignedWarningDialog(crtJnlpF(), null, null);
+        //YesNo r5 = SecurityUserInteraction.getInstance().showPartiallySignedWarningDialog(crtJnlpF(), null, null);
         //Assert.assertEquals(r.ea, r5);
-        NamePassword r6 = SecurityDialogs.showAuthenicationPrompt(null, 123456, null, null);
+        NamePassword r6 = SecurityUserInteraction.getInstance().showAuthenicationPrompt(null, 123456, null, null);
         Assert.assertEquals(r.np, r6);
-        boolean r7 = SecurityDialogs.showMissingALACAttributePanel(crtJnlpF(), null, new HashSet<URL>());
+        boolean r7 = SecurityUserInteraction.getInstance().showMissingALACAttribute(crtJnlpF(), null, new HashSet<URL>());
         Assert.assertEquals(r.b, r7);
-        boolean r8 = SecurityDialogs.showMatchingALACAttributePanel(crtJnlpF(), url, new HashSet<URL>());
+        boolean r8 = SecurityUserInteraction.getInstance().showMatchingALACAttribute(crtJnlpF(), url, new HashSet<URL>());
         Assert.assertEquals(r.b, r8);
-        boolean r9 = SecurityDialogs.showMissingPermissionsAttributeDialogue(crtJnlpF());
+        boolean r9 = SecurityUserInteraction.getInstance().showMissingPermissionsAttribute(crtJnlpF());
         Assert.assertEquals(r.b, r9);
     }
 
     private void testAllDialogsNullResaults() throws MalformedURLException {
         //anything but  shoertcut
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(null, r1);
         //shortcut
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(null, r2);
-        YesNo r3 = SecurityDialogs.showUnsignedWarningDialog(crtJnlpF());
+        YesNo r3 = SecurityUserInteraction.getInstance().showUnsignedWarning(crtJnlpF());
         Assert.assertEquals(null, r3);
         //cant emualte security delegate now
-        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
+        //YesNoSandbox r4 = SecurityUserInteraction.getInstance().showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         //Assert.assertEquals(r.p, r4.getValue());
-        //YesNo r5 = SecurityDialogs.showPartiallySignedWarningDialog(crtJnlpF(), null, null);
+        //YesNo r5 = SecurityUserInteraction.getInstance().showPartiallySignedWarningDialog(crtJnlpF(), null, null);
         //Assert.assertEquals(r.ea, r5);
-        NamePassword r6 = SecurityDialogs.showAuthenicationPrompt(null, 123456, null, null);
+        NamePassword r6 = SecurityUserInteraction.getInstance().showAuthenicationPrompt(null, 123456, null, null);
         Assert.assertEquals(null, r6);
-        boolean r7 = SecurityDialogs.showMissingALACAttributePanel(crtJnlpF(), null, new HashSet<URL>());
+        boolean r7 = SecurityUserInteraction.getInstance().showMissingALACAttribute(crtJnlpF(), null, new HashSet<URL>());
         Assert.assertEquals(false, r7);
-        boolean r8 = SecurityDialogs.showMatchingALACAttributePanel(crtJnlpF(), url, new HashSet<URL>());
+        boolean r8 = SecurityUserInteraction.getInstance().showMatchingALACAttribute(crtJnlpF(), url, new HashSet<URL>());
         Assert.assertEquals(false, r8);
-        boolean r9 = SecurityDialogs.showMissingPermissionsAttributeDialogue(crtJnlpF());
+        boolean r9 = SecurityUserInteraction.getInstance().showMissingPermissionsAttribute(crtJnlpF());
         Assert.assertEquals(false, r9);
     }
 
@@ -398,56 +398,56 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
         try {
             metcounter++;
             //anything but  shoertcut
-            SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
+            SecurityUserInteraction.getInstance().showAccessWarning(AccessType.PRINTER, crtJnlpF(), null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
             //shortcut
-            SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+            SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showUnsignedWarningDialog(crtJnlpF());
+            SecurityUserInteraction.getInstance().showUnsignedWarning(crtJnlpF());
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
+            SecurityUserInteraction.getInstance().showCertWarning(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showPartiallySignedWarningDialog(crtJnlpF(), null, null);
+            SecurityUserInteraction.getInstance().showPartiallySignedWarning(crtJnlpF(), null, null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showAuthenicationPrompt(null, 123456, null, null);
+            SecurityUserInteraction.getInstance().showAuthenicationPrompt(null, 123456, null, null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showMissingALACAttributePanel(crtJnlpF(), null, null);
+            SecurityUserInteraction.getInstance().showMissingALACAttribute(crtJnlpF(), null, null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showMatchingALACAttributePanel(crtJnlpF(), url, new HashSet<URL>());
+            SecurityUserInteraction.getInstance().showMatchingALACAttribute(crtJnlpF(), url, new HashSet<URL>());
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
-            SecurityDialogs.showMissingPermissionsAttributeDialogue(crtJnlpF());
+            SecurityUserInteraction.getInstance().showMissingPermissionsAttribute(crtJnlpF());
         } catch (NullPointerException ex) {
             npecounter++;
         }
@@ -628,20 +628,20 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
             + ".* \\Q" + urlstr + "\\E ";
 
     private void runRememeberableClasses(ExpectedResults r) throws MalformedURLException {
-        boolean r7 = SecurityDialogs.showMissingALACAttributePanel(crtJnlpF(), null, new HashSet<URL>());
+        boolean r7 = SecurityUserInteraction.getInstance().showMissingALACAttribute(crtJnlpF(), null, new HashSet<URL>());
         Assert.assertEquals(r.b, r7);
-        boolean r8 = SecurityDialogs.showMatchingALACAttributePanel(crtJnlpF(), url, new HashSet<URL>());
+        boolean r8 = SecurityUserInteraction.getInstance().showMatchingALACAttribute(crtJnlpF(), url, new HashSet<URL>());
         Assert.assertEquals(r.b, r8);
         boolean r9 = testUnsignedBehaviour();
         Assert.assertEquals(r.b, r9);
         //skiping this one, ahrd to mock certVerifier
         // boolean r5 = testPartiallySignedBehaviour();
         //Assert.assertEquals(r.b, r5);
-        boolean r6 = SecurityDialogs.showMissingPermissionsAttributeDialogue(crtJnlpF());
+        boolean r6 = SecurityUserInteraction.getInstance().showMissingPermissionsAttribute(crtJnlpF());
         Assert.assertEquals(r.b, r6);
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(r.p, r1.getRegularReturn().getValue());
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityUserInteraction.getInstance().showAccessWarning(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(r.p, r2.getRegularReturn().getValue());
 
     }
