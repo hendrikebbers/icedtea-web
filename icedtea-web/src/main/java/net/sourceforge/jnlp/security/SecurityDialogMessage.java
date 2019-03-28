@@ -43,8 +43,6 @@ import java.util.concurrent.Semaphore;
 import javax.swing.JDialog;
 
 import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
-import net.sourceforge.jnlp.security.SecurityDialogs.DialogType;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 
 /**

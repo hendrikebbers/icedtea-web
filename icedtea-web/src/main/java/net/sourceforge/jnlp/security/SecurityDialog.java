@@ -53,8 +53,6 @@ import net.sourceforge.swing.SwingUtils;
 
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
-import net.sourceforge.jnlp.security.SecurityDialogs.DialogType;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.security.dialogs.AccessWarningPane;
 import net.sourceforge.jnlp.security.dialogs.AppletWarningPane;

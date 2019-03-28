@@ -45,7 +45,6 @@ import java.util.Map;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.tools.CertInformation;

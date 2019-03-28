@@ -25,7 +25,7 @@ import java.security.Permission;
 
 
 import net.sourceforge.jnlp.about.AboutDialog;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
+import net.sourceforge.jnlp.security.AccessType;
 import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.WeakList;

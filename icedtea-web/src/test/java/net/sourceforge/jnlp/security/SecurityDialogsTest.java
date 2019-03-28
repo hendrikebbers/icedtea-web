@@ -298,15 +298,15 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     private void testAllDialogs(ExpectedResults r) throws MalformedURLException {
         //anything but  shoertcut
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(r.p, r1.getRegularReturn().getValue());
         //shortcut
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(r.p, r2.getRegularReturn().getValue());
         YesNo r3 = SecurityDialogs.showUnsignedWarningDialog(crtJnlpF());
         Assert.assertEquals(r.ea, r3);
         //cant emualte security delegate now
-        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(SecurityDialogs.AccessType.UNVERIFIED, crtJnlpF(), null, null);
+        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         //Assert.assertEquals(r.p, r4.getValue());
         //YesNo r5 = SecurityDialogs.showPartiallySignedWarningDialog(crtJnlpF(), null, null);
         //Assert.assertEquals(r.ea, r5);
@@ -322,15 +322,15 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     private void testAllDialogsNullResaults() throws MalformedURLException {
         //anything but  shoertcut
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(null, r1);
         //shortcut
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(null, r2);
         YesNo r3 = SecurityDialogs.showUnsignedWarningDialog(crtJnlpF());
         Assert.assertEquals(null, r3);
         //cant emualte security delegate now
-        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(SecurityDialogs.AccessType.UNVERIFIED, crtJnlpF(), null, null);
+        //YesNoSandbox r4 = SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         //Assert.assertEquals(r.p, r4.getValue());
         //YesNo r5 = SecurityDialogs.showPartiallySignedWarningDialog(crtJnlpF(), null, null);
         //Assert.assertEquals(r.ea, r5);
@@ -398,14 +398,14 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
         try {
             metcounter++;
             //anything but  shoertcut
-            SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.PRINTER, crtJnlpF(), null);
+            SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
         try {
             metcounter++;
             //shortcut
-            SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+            SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
@@ -417,7 +417,7 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
         }
         try {
             metcounter++;
-            SecurityDialogs.showCertWarningDialog(SecurityDialogs.AccessType.UNVERIFIED, crtJnlpF(), null, null);
+            SecurityDialogs.showCertWarningDialog(AccessType.UNVERIFIED, crtJnlpF(), null, null);
         } catch (NullPointerException ex) {
             npecounter++;
         }
@@ -639,9 +639,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
         //Assert.assertEquals(r.b, r5);
         boolean r6 = SecurityDialogs.showMissingPermissionsAttributeDialogue(crtJnlpF());
         Assert.assertEquals(r.b, r6);
-        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.PRINTER, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r1 = SecurityDialogs.showAccessWarningDialog(AccessType.PRINTER, crtJnlpF(), null);
         Assert.assertEquals(r.p, r1.getRegularReturn().getValue());
-        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(SecurityDialogs.AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
+        AccessWarningPaneComplexReturn r2 = SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, crtJnlpF(), null);
         Assert.assertEquals(r.p, r2.getRegularReturn().getValue());
 
     }

@@ -56,12 +56,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.security.util.HostnameChecker;
