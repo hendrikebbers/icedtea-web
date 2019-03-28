@@ -16,14 +16,13 @@
 
 package net.sourceforge.jnlp.cache;
 
-import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTED;
-import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTING;
-import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADED;
-import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADING;
-import static net.sourceforge.jnlp.cache.Resource.Status.ERROR;
-import static net.sourceforge.jnlp.cache.Resource.Status.PRECONNECT;
-import static net.sourceforge.jnlp.cache.Resource.Status.PREDOWNLOAD;
-import static net.sourceforge.jnlp.cache.Resource.Status.PROCESSING;
+import net.sourceforge.jnlp.DownloadOptions;
+import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.event.DownloadEvent;
+import net.sourceforge.jnlp.event.DownloadListener;
+import net.sourceforge.jnlp.util.UrlUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -33,15 +32,14 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 
-import net.sourceforge.jnlp.DownloadOptions;
-import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.event.DownloadEvent;
-import net.sourceforge.jnlp.event.DownloadListener;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTED;
+import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTING;
+import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADED;
+import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADING;
+import static net.sourceforge.jnlp.cache.Resource.Status.ERROR;
+import static net.sourceforge.jnlp.cache.Resource.Status.PRECONNECT;
+import static net.sourceforge.jnlp.cache.Resource.Status.PREDOWNLOAD;
+import static net.sourceforge.jnlp.cache.Resource.Status.PROCESSING;
 
 /**
  * This class tracks the downloading of various resources of a

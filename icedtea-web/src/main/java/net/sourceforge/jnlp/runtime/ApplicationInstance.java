@@ -16,7 +16,26 @@
 
 package net.sourceforge.jnlp.runtime;
 
-import java.awt.Window;
+import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.PropertyDesc;
+import net.sourceforge.jnlp.SecurityDesc;
+import net.sourceforge.jnlp.ShortcutDesc;
+import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.event.ApplicationEvent;
+import net.sourceforge.jnlp.event.ApplicationListener;
+import net.sourceforge.jnlp.security.AccessType;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
+import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
+import net.sourceforge.jnlp.util.GenericDesktopEntry;
+import net.sourceforge.jnlp.util.OsUtil;
+import net.sourceforge.jnlp.util.WeakList;
+import net.sourceforge.jnlp.util.XDesktopEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.awt.AppContext;
+
+import javax.swing.event.EventListenerList;
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,28 +45,6 @@ import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
-
-import javax.swing.event.EventListenerList;
-
-import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.security.AccessType;
-import net.sourceforge.jnlp.security.SecurityUserInteraction;
-import net.sourceforge.jnlp.util.OsUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sun.awt.AppContext;
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.PropertyDesc;
-import net.sourceforge.jnlp.SecurityDesc;
-import net.sourceforge.jnlp.ShortcutDesc;
-import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.event.ApplicationEvent;
-import net.sourceforge.jnlp.event.ApplicationListener;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
-import net.sourceforge.jnlp.util.GenericDesktopEntry;
-import net.sourceforge.jnlp.util.WeakList;
-import net.sourceforge.jnlp.util.XDesktopEntry;
 
 /**
  * Represents a running instance of an application described in a

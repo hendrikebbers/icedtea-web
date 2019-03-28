@@ -1,12 +1,17 @@
 package net.sourceforge.jnlp.cache;
 
-import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTED;
-import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTING;
-import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADED;
-import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADING;
-import static net.sourceforge.jnlp.cache.Resource.Status.ERROR;
-import static net.sourceforge.jnlp.cache.Resource.Status.PRECONNECT;
-import static net.sourceforge.jnlp.cache.Resource.Status.PREDOWNLOAD;
+import net.sourceforge.jnlp.DownloadOptions;
+import net.sourceforge.jnlp.OptionsDefinitions;
+import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.runtime.Boot;
+import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.security.ConnectionFactory;
+import net.sourceforge.jnlp.security.SecurityUserInteraction;
+import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
+import net.sourceforge.jnlp.util.HttpUtils;
+import net.sourceforge.jnlp.util.UrlUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,21 +33,13 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
 import java.util.zip.GZIPInputStream;
 
-import net.sourceforge.jnlp.DownloadOptions;
-import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.runtime.AppletAudioClip;
-import net.sourceforge.jnlp.runtime.Boot;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.security.ConnectionFactory;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.security.SecurityUserInteraction;
-import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
-import net.sourceforge.jnlp.util.HttpUtils;
-import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTED;
+import static net.sourceforge.jnlp.cache.Resource.Status.CONNECTING;
+import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADED;
+import static net.sourceforge.jnlp.cache.Resource.Status.DOWNLOADING;
+import static net.sourceforge.jnlp.cache.Resource.Status.ERROR;
+import static net.sourceforge.jnlp.cache.Resource.Status.PRECONNECT;
+import static net.sourceforge.jnlp.cache.Resource.Status.PREDOWNLOAD;
 
 public class ResourceDownloader implements Runnable {
 
