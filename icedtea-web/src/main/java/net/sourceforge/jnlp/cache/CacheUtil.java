@@ -38,6 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +53,6 @@ import javax.jnlp.DownloadServiceListener;
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.controlpanel.CachePane;
 import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
@@ -896,6 +896,44 @@ public class CacheUtil {
         }
     }
 
+    /**
+     * This creates the data for the table.
+     *
+     * @return ArrayList containing an Object array of data for each row in the
+     * table.
+     */
+    public static ArrayList<Object[]> generateData() {
+        DirectoryNode root = new DirectoryNode("Root", PathsAndFiles.CACHE_DIR.getFile(), null);
+        CacheDirectory.getDirStructure(root);
+        ArrayList<Object[]> data = new ArrayList<>();
+
+        for (DirectoryNode identifier : root.getChildren()) {
+            for (DirectoryNode type : identifier.getChildren()) {
+                for (DirectoryNode domain : type.getChildren()) {
+                    //after domain, there is optional port dir. It is skipped here (as is skipped path on domain)
+                    for (DirectoryNode leaf : CacheDirectory.getLeafData(domain)) {
+                        final File f = leaf.getFile();
+                        PropertiesFile pf = new PropertiesFile(new File(f.toString() + CacheDirectory.INFO_SUFFIX));
+                        // if jnlp-path in .info equals path of app to delete mark to delete
+                        String jnlpPath = pf.getProperty(CacheEntry.KEY_JNLP_PATH);
+                        Object[] o = {
+                            leaf,
+                            f.getParentFile(),
+                            type,
+                            domain,
+                            f.length(),
+                            new Date(f.lastModified()),
+                            jnlpPath
+                        };
+                        data.add(o);
+                    }
+                }
+            }
+        }
+
+        return data;
+    }
+
     static class CacheJnlpId extends CacheId {
 
         public CacheJnlpId(String id) {
@@ -904,7 +942,7 @@ public class CacheUtil {
 
         @Override
         public void populate() {
-            ArrayList<Object[]> all = CachePane.generateData();
+            ArrayList<Object[]> all = generateData();
             for (Object[] object : all) {
                 if (id.equals(object[6])) {
                     this.files.add(object);
@@ -937,7 +975,7 @@ public class CacheUtil {
 
         @Override
         public void populate() {
-            ArrayList<Object[]> all = CachePane.generateData();
+            ArrayList<Object[]> all = generateData();
             for (Object[] object : all) {
                 if (id.equals(object[3].toString())) {
                     this.files.add(object);

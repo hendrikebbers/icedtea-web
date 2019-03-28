@@ -37,14 +37,13 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security;
 
+import java.awt.*;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JDialog;
 
 import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
-import net.sourceforge.jnlp.security.SecurityDialogs.DialogType;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 
 /**
@@ -62,7 +61,7 @@ public final class SecurityDialogMessage {
      * These fields contain information need to display the correct dialog type
      */
 
-    public DialogType dialogType;
+    public JobAttributes.DialogType dialogType;
     public AccessType accessType;
     //all informations dilaogs needs are in file. 
     //The only known exception is, and should remain, showAuthenicationPrompt

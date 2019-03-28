@@ -43,8 +43,6 @@ import net.sourceforge.jnlp.ParserSettings;
 import static net.sourceforge.jnlp.runtime.Boot.init;
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
-import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
-import net.sourceforge.jnlp.util.logging.OutputController;
 
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import org.slf4j.Logger;

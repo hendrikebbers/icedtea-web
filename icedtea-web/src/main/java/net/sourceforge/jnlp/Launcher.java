@@ -41,9 +41,7 @@ import net.sourceforge.jnlp.services.InstanceExistsException;
 import net.sourceforge.jnlp.services.ServiceUtil;
 
 import javax.swing.text.html.parser.ParserDelegator;
-import net.sourceforge.jnlp.splashscreen.SplashUtils;
 import net.sourceforge.jnlp.util.StreamUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 
 import org.slf4j.Logger;
@@ -857,7 +855,7 @@ public class Launcher {
     
     private LaunchException launchError(LaunchException ex, AppletInstance applet) {
         if (applet != null) {
-            SplashUtils.showErrorCaught(ex, applet);
+            //TODO-KARAKUN
         }
         if (handler != null) {
             handler.launchError(ex);

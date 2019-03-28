@@ -51,10 +51,8 @@ import java.util.Set;
 import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
 
 import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.PropertiesFile;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

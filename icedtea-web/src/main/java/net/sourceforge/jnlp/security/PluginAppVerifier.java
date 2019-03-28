@@ -47,7 +47,6 @@ import java.util.Map;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SecurityDelegate;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.tools.CertInformation;
@@ -168,16 +167,17 @@ public class PluginAppVerifier implements AppVerifier {
                         dialogType = AccessType.UNVERIFIED;
                     }
 
-                    YesNoSandbox action = SecurityDialogs.showCertWarningDialog(
-                            dialogType, file, jcv, securityDelegate);
-                    if (action != null && action.toBoolean()) {
-                        if (action.compareValue(BasicDialogValue.Primitive.SANDBOX)) {
-                            securityDelegate.setRunInSandbox();
-                        }
-                        alreadyApprovedByUser.add(cPath);
-                        trustFoundOrApproved = true;
-                        break;
-                    }
+                    //TODO-KARAKUN
+                    //YesNoSandbox action = SecurityDialogs.showCertWarningDialog(
+                    //        dialogType, file, jcv, securityDelegate);
+                    //if (action != null && action.toBoolean()) {
+                    //    if (action.compareValue(BasicDialogValue.Primitive.SANDBOX)) {
+                    //        securityDelegate.setRunInSandbox();
+                    //    }
+                    //    alreadyApprovedByUser.add(cPath);
+                    //    trustFoundOrApproved = true;
+                    //    break;
+                    // }
                 }
             }
             if (!trustFoundOrApproved) {

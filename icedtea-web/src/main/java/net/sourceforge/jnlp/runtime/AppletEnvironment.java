@@ -30,7 +30,6 @@ import javax.swing.*;
 
 import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.services.ServiceUtil;
-import net.sourceforge.jnlp.splashscreen.SplashController;
 import net.sourceforge.jnlp.util.*;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;

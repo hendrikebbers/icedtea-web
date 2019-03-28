@@ -48,7 +48,6 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.JDialog;
 
-import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.swing.SwingUtils;
 
 import net.sourceforge.jnlp.JNLPFile;
@@ -62,7 +61,6 @@ import net.sourceforge.jnlp.security.dialogresults.YesCancel;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandbox;
 import net.sourceforge.jnlp.security.dialogresults.YesNoSandboxLimited;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,45 +81,6 @@ public class SecurityDialogs {
 
     private final static Logger LOG = LoggerFactory.getLogger(SecurityDialogs.class);
 
-
-    /**
-     * Types of dialogs we can create
-     */
-    public static enum DialogType {
-
-        CERT_WARNING,
-        MORE_INFO,
-        CERT_INFO,
-        SINGLE_CERT_INFO,
-        ACCESS_WARNING,
-        PARTIALLYSIGNED_WARNING,
-        UNSIGNED_WARNING, /* requires confirmation with 'high-security' setting */
-        APPLET_WARNING,
-        AUTHENTICATION,
-        UNSIGNED_EAS_NO_PERMISSIONS_WARNING, /* when Extended applet security is at High Security and no permission attribute is find, */
-        MISSING_ALACA, /*alaca - Application-Library-Allowable-Codebase Attribute*/
-        MATCHING_ALACA,
-        SECURITY_511
-    }
-
-    /**
-     * The types of access which may need user permission.
-     */
-    public static enum AccessType {
-
-        READ_FILE,
-        WRITE_FILE,
-        CREATE_DESTKOP_SHORTCUT,
-        CLIPBOARD_READ,
-        CLIPBOARD_WRITE,
-        PRINTER,
-        NETWORK,
-        VERIFIED,
-        UNVERIFIED,
-        PARTIALLYSIGNED,
-        UNSIGNED, /* requires confirmation with 'high-security' setting */
-        SIGNING_ERROR
-    }
 
     /**
      * Shows a warning dialog for different types of system access (i.e. file

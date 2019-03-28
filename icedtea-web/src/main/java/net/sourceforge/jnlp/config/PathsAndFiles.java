@@ -41,7 +41,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import static net.sourceforge.jnlp.config.DeploymentConfiguration.APPLET_TRUST_SETTINGS;

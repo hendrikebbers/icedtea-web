@@ -31,15 +31,12 @@ import java.util.zip.GZIPInputStream;
 import net.sourceforge.jnlp.DownloadOptions;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.runtime.AppletAudioClip;
 import net.sourceforge.jnlp.runtime.Boot;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.ConnectionFactory;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
+import net.sourceforge.jnlp.security.SecurityUtils;
 import net.sourceforge.jnlp.util.HttpUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -298,12 +295,13 @@ public class ResourceDownloader implements Runnable {
 
                     UrlRequestResult response = getUrlResponseCodeWithRedirectonResult(url, requestProperties, requestMethod);
                     if (response.result == 511) {
-                        if (!InetSecurity511Panel.isSkip()) {
+                        if (!SecurityUtils.isSkip()) {
 
-                            boolean result511 = SecurityDialogs.show511Dialogue(resource);
-                            if (!result511) {
-                                throw new RuntimeException("Terminated on users request after encauntering 'http 511 authentication'.");
-                            }
+                            //TODO-KARAKUN
+                            //boolean result511 = SecurityDialogs.show511Dialogue(resource);
+                            //if (!result511) {
+                            //    throw new RuntimeException("Terminated on users request after encauntering 'http 511 authentication'.");
+                           // }
                             //try again, what to do with original resource was nowhere specified
                             i--;
                             continue;

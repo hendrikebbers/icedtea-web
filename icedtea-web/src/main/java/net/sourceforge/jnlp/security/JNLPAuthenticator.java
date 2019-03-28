@@ -56,12 +56,12 @@ public class JNLPAuthenticator extends Authenticator {
         int port = getRequestingPort();
         String prompt = getRequestingPrompt();
 
-        NamePassword response = SecurityDialogs.showAuthenicationPrompt(host, port, prompt, type);
-        if (response == null) {
+     //TODO-KARAKUN   NamePassword response = SecurityDialogs.showAuthenicationPrompt(host, port, prompt, type);
+     //   if (response == null) {
             return null;
-        } else {
-            return new PasswordAuthentication(response.getName(), response.getPassword());
-        }
+     //   } else {
+     //       return new PasswordAuthentication(response.getName(), response.getPassword());
+     //   }
     }
 
 }

@@ -29,7 +29,7 @@ import java.security.ProtectionDomain;
 
 import javax.swing.event.EventListenerList;
 
-import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.security.AccessType;
 import net.sourceforge.jnlp.util.OsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +41,8 @@ import net.sourceforge.jnlp.ShortcutDesc;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.event.ApplicationEvent;
 import net.sourceforge.jnlp.event.ApplicationListener;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
 import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
 import net.sourceforge.jnlp.util.GenericDesktopEntry;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.WeakList;
 import net.sourceforge.jnlp.util.XDesktopEntry;
 
@@ -290,10 +287,10 @@ public class ApplicationInstance {
             case ShortcutDesc.CREATE_ALWAYS:
                 return new AccessWarningPaneComplexReturn(true);
             case ShortcutDesc.CREATE_ASK_USER:
-                return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
+                //TODO-KARAKUN return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
             case ShortcutDesc.CREATE_ASK_USER_IF_HINTED:
                 if (sd != null && (sd.onDesktop() || sd.toMenu())) {
-                    return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
+                    //TODO-KARAKUN return SecurityDialogs.showAccessWarningDialog(AccessType.CREATE_DESTKOP_SHORTCUT, file, null);
                 }
             case ShortcutDesc.CREATE_ALWAYS_IF_HINTED:
                 if (sd != null && (sd.onDesktop() || sd.toMenu())) {

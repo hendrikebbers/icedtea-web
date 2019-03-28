@@ -42,30 +42,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
-import net.sourceforge.jnlp.controlpanel.DocumentAdapter;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import static net.sourceforge.jnlp.runtime.JNLPRuntime.getConfiguration;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.runtime.html.browser.LinkingBrowser;
 import net.sourceforge.jnlp.security.SecurityDialog;
+import net.sourceforge.jnlp.security.SecurityUtils;
 import net.sourceforge.jnlp.security.dialogresults.BasicDialogValue;
 import net.sourceforge.jnlp.security.dialogresults.DialogResult;
 import net.sourceforge.jnlp.security.dialogresults.YesCancelSkip;
-import static net.sourceforge.jnlp.security.dialogs.SecurityDialogPanel.htmlWrap;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,12 +68,7 @@ public class InetSecurity511Panel extends SecurityDialogPanel {
 
 
     private static final String INFO_LINK = "https://tools.ietf.org/html/rfc6585#section-6";
-    private static boolean skip = false;
     private final LinkingBrowser tabes;
-
-    public static boolean isSkip() {
-        return skip;
-    }
 
     public InetSecurity511Panel(final SecurityDialog sd, final URL url) {
         super(sd);
@@ -121,7 +109,7 @@ public class InetSecurity511Panel extends SecurityDialogPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                skip = ignoreInSession.isSelected();
+                SecurityUtils.skip = ignoreInSession.isSelected();
             }
         });
         menu.add(ignoreInSession);
@@ -168,7 +156,7 @@ public class InetSecurity511Panel extends SecurityDialogPanel {
     public DialogResult readFromStdIn(String what) {
         YesCancelSkip l = YesCancelSkip.readValue(what);
         if (l.compareValue(BasicDialogValue.Primitive.SKIP)) {
-            skip = true;
+            SecurityUtils.skip = true;
             l = YesCancelSkip.yes();
         }
         return l;

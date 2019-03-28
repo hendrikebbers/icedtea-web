@@ -42,10 +42,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.MatchingALACAttributePanel;
-import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.UnsignedAppletTrustWarningPanel;
-import net.sourceforge.jnlp.splashscreen.SplashUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,10 +142,12 @@ public class AppletSecurityActions implements Iterable<SavedRememberAction> {
             ExecuteAppletAction q = ExecuteAppletAction.fromChar(nwX);
             if (i == 0) {
                 SavedRememberAction sa = new SavedRememberAction(q, legacyToCurrent(x));//maybe better switch then toChar?
-                asas.actions.put(classToKey(UnsignedAppletTrustWarningPanel.class), sa);
+               // asas.actions.put(classToKey(UnsignedAppletTrustWarningPanel.class), sa);
+                //TODO-KARAKUN
             } else if (i == 1) {
                 SavedRememberAction sa = new SavedRememberAction(q, legacyToCurrent(x));//maybe better switch then toChar?
-                asas.actions.put(classToKey(MatchingALACAttributePanel.class), sa);
+              //  asas.actions.put(classToKey(MatchingALACAttributePanel.class), sa);
+                //TODO-KARAKUN
             } else {
                 LOG.debug("Unknown saved legacy item on position " + i + " of char: " + x);
             }

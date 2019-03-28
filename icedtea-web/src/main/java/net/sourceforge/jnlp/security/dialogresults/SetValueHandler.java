@@ -38,7 +38,6 @@ package net.sourceforge.jnlp.security.dialogresults;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import net.sourceforge.jnlp.security.SecurityDialog;
 
 /**
  * Creates a handler that sets a dialog's value and then disposes it when

@@ -40,9 +40,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
-import net.sourceforge.jnlp.NetxPanel;
-import net.sourceforge.jnlp.controlpanel.ControlPanel;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

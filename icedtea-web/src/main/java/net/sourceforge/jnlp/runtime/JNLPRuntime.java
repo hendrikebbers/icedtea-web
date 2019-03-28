@@ -54,7 +54,6 @@ import javax.swing.UIManager;
 import javax.swing.text.html.parser.ParserDelegator;
 
 import net.sourceforge.jnlp.DefaultLaunchHandler;
-import net.sourceforge.jnlp.GuiLaunchHandler;
 import net.sourceforge.jnlp.LaunchHandler;
 import net.sourceforge.jnlp.Launcher;
 import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
@@ -66,10 +65,8 @@ import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.security.JNLPAuthenticator;
 import net.sourceforge.jnlp.security.KeyStores;
-import net.sourceforge.jnlp.security.SecurityDialogMessageHandler;
 import net.sourceforge.jnlp.security.SecurityUtil;
 import net.sourceforge.jnlp.services.XServiceManagerStub;
-import net.sourceforge.jnlp.util.BasicExceptionDialog;
 import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.FileUtils;
 import net.sourceforge.jnlp.util.logging.JavaConsole;
@@ -116,9 +113,6 @@ public class JNLPRuntime {
 
     /** the security policy */
     private static JNLPPolicy policy;
-
-    /** handles all security message to show appropriate security dialogs */
-    private static SecurityDialogMessageHandler securityDialogMessageHandler;
 
     /** a default launch handler */
     private static LaunchHandler handler = null;
@@ -249,7 +243,7 @@ public class JNLPRuntime {
             if (isHeadless()) {
                 handler = new DefaultLaunchHandler(OutputController.getInputOutputController());
             } else {
-                handler = new GuiLaunchHandler(OutputController.getInputOutputController());
+                throw new RuntimeException("TODO-KARAKUN: Hendrik");
             }
         }
 
@@ -264,8 +258,6 @@ public class JNLPRuntime {
             Policy.setPolicy(policy); // do first b/c our SM blocks setPolicy
             System.setSecurityManager(security);
         }
-
-        securityDialogMessageHandler = startSecurityThreads();
 
         // wire in custom authenticator for SSL connections
         try {
@@ -349,23 +341,6 @@ public class JNLPRuntime {
             LOG.error("ERROR", e);
             throw e;
         }
-    }
-
-    /**
-     * This must NOT be called form the application ThreadGroup. An application
-     * can inject events into its {@link EventQueue} and bypass the security
-     * dialogs.
-     *
-     * @return a {@link SecurityDialogMessageHandler} that can be used to post
-     * security messages
-     */
-    private static SecurityDialogMessageHandler startSecurityThreads() {
-        ThreadGroup securityThreadGroup = new ThreadGroup("NetxSecurityThreadGroup");
-        SecurityDialogMessageHandler runner = new SecurityDialogMessageHandler();
-        Thread securityThread = new Thread(securityThreadGroup, runner, "NetxSecurityThread");
-        securityThread.setDaemon(true);
-        securityThread.start();
-        return runner;
     }
 
     /**
@@ -572,19 +547,6 @@ public class JNLPRuntime {
     public static void setSecurityEnabled(boolean enabled) {
         checkInitialized();
         securityEnabled = enabled;
-    }
-
-    /**
-     *
-     * @return the {@link SecurityDialogMessageHandler} that should be used to
-     * post security dialog messages
-     */
-    public static SecurityDialogMessageHandler getSecurityDialogHandler() {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new AllPermission());
-        }
-        return securityDialogMessageHandler;
     }
 
     /**
@@ -869,9 +831,6 @@ public class JNLPRuntime {
     public static void exit(int i) {
         try {
             OutputController.getInputOutputController().close();
-            while (BasicExceptionDialog.areShown()){
-                Thread.sleep(100);
-            }
         } catch (Exception ex) {
             //to late
         }

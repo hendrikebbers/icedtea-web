@@ -35,8 +35,6 @@ package net.sourceforge.jnlp.jdk89acesses;
 import java.lang.reflect.Method;
 import javax.swing.ImageIcon;
 
-import net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel.AppTrustWarningPanel;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -32,7 +32,6 @@ import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
-import net.sourceforge.jnlp.security.viewer.CertificateViewer;
 import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.docprovider.IcedTeaWebTextsProvider;
 import net.sourceforge.jnlp.util.docprovider.JavaWsTextsProvider;
@@ -127,7 +126,8 @@ public final class Boot implements PrivilegedAction<Void> {
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.VIEWER)) {
             try {
-                CertificateViewer.main(null);
+                //TODO-KARAKUN
+               // CertificateViewer.main(null);
             } catch (Exception e) {
                 LOG.error("ERROR", e);
             } finally {
@@ -266,17 +266,18 @@ public final class Boot implements PrivilegedAction<Void> {
 
         Map<String, List<String>> extra = new HashMap<>();
 
-        if (optionParser.hasOption(OptionsDefinitions.OPTIONS.HTML)) {
-            boolean run = new HtmlBoot(optionParser).run(extra);
-            if (!run) {
-                return null;
-            }
-        } else {
+        //TODO-KARAKUN
+        //if (optionParser.hasOption(OptionsDefinitions.OPTIONS.HTML)) {
+        //    boolean run = new HtmlBoot(optionParser).run(extra);
+        //    if (!run) {
+        //        return null;
+        //    }
+        //} else {
             boolean run = new JnlpBoot(optionParser).run(extra);
             if (!run) {
                 return null;
             }
-        }
+        //}
         return null;
     }
 

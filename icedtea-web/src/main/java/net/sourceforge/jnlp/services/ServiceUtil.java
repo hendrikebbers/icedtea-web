@@ -38,14 +38,10 @@ import javax.jnlp.SingleInstanceService;
 import javax.jnlp.UnavailableServiceException;
 
 import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.cache.CacheLRUWrapper;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.security.SecurityDialogs;
-import net.sourceforge.jnlp.security.SecurityDialogs.AccessType;
-import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
-import net.sourceforge.jnlp.util.logging.OutputController;
+import net.sourceforge.jnlp.security.AccessType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -276,12 +272,13 @@ public class ServiceUtil {
             Boolean b = AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
                 @Override
                 public Boolean run() {
-                    AccessWarningPaneComplexReturn r = SecurityDialogs.showAccessWarningDialog(tmpType,
-                            tmpApp.getJNLPFile(), tmpExtras);
-                    if (r == null) {
+                    //TODO-KARAKUN
+                    //AccessWarningPaneComplexReturn r = SecurityDialogs.showAccessWarningDialog(tmpType,
+                      //      tmpApp.getJNLPFile(), tmpExtras);
+                    //if (r == null) {
                         return false;
-                    }
-                    return r.toBoolean();
+                    //}
+                    //return r.toBoolean();
                 }
             });
 
