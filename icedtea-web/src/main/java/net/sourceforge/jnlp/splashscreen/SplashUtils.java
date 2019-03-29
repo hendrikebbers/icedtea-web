@@ -36,10 +36,10 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.splashscreen;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.runtime.AppletEnvironment;
 import net.sourceforge.jnlp.runtime.AppletInstance;
 import net.sourceforge.jnlp.runtime.Boot;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.splashscreen.impls.DefaultErrorSplashScreen2012;
 import net.sourceforge.jnlp.splashscreen.impls.DefaultSplashScreen2012;
 import org.slf4j.Logger;
@@ -112,7 +112,7 @@ public class SplashUtils {
 
     
     private static SplashReason getReason() {
-        if (JNLPRuntime.isWebstartApplication()) {
+        if (JnlpRuntimeState.isWebstartApplication()) {
             return SplashReason.JAVAWS;
         } else {
             return SplashReason.APPLET;

@@ -36,6 +36,7 @@ exception statement from your version.
 package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.JARDesc;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
@@ -337,14 +338,14 @@ public class JNLPClassLoaderTest extends NoStdOutErrTest {
      */
     public void testNameClashInNestedJars() throws Exception {
         //for this test is enought to not crash jvm
-        boolean verifyBackup = JNLPRuntime.isVerifying();
+        boolean verifyBackup = JnlpRuntimeState.isVerifying();
         File dirHolder = File.createTempFile("pf-", ".jar");
         dirHolder.deleteOnExit();
         File jarLocation = new File(dirHolder.getParentFile(), "pf.jar");
         jarLocation.deleteOnExit();
         try {
             //it is invalid jar, so we have to disable checks first
-            JNLPRuntime.setVerify(false);
+            JnlpRuntimeState.setVerify(false);
             InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("net/sourceforge/jnlp/runtime/pf.jar-orig");
             Files.copy(is, jarLocation.toPath());
             final DummyJNLPFileWithJar jnlpFile = new DummyJNLPFileWithJar(jarLocation);
@@ -356,7 +357,7 @@ public class JNLPClassLoaderTest extends NoStdOutErrTest {
 
             };
         } finally {
-            JNLPRuntime.setVerify(verifyBackup);
+            JnlpRuntimeState.setVerify(verifyBackup);
         }
 
     }

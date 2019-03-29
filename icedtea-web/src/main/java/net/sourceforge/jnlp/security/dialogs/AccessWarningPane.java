@@ -38,6 +38,7 @@ exception statement from your version.
 package net.sourceforge.jnlp.security.dialogs;
 
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.ShortcutDesc;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
@@ -217,7 +218,7 @@ public class AccessWarningPane extends SecurityDialogPanel implements Rememberab
             c.gridy++;
             infoPanel.add(desktopCheck,c);
             c.gridy++;
-            if (!JNLPRuntime.isWebstartApplication()) {
+            if (!JnlpRuntimeState.isWebstartApplication()) {
                 htmlPanelDesktop = new HtmlShortcutPanel();
                 infoPanel.add(htmlPanelDesktop, c);
                 htmlPanelDesktop.setVisible(false);
@@ -225,7 +226,7 @@ public class AccessWarningPane extends SecurityDialogPanel implements Rememberab
             }
             infoPanel.add(menuCheck,c);
             c.gridy++;
-            if (!JNLPRuntime.isWebstartApplication()) {
+            if (!JnlpRuntimeState.isWebstartApplication()) {
                 htmlPanelMenu = new HtmlShortcutPanel();
                 infoPanel.add(htmlPanelMenu, c);
                 htmlPanelMenu.setVisible(false);

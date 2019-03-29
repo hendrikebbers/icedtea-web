@@ -1,6 +1,6 @@
 package net.sourceforge.jnlp.util.logging;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
 import net.sourceforge.swing.SwingUtils;
@@ -129,7 +129,7 @@ public class ConsoleOutputPane extends JPanel implements Observer {
         setHeadersCheckBoxesEnabled(showHeaders.isSelected());
         setMessagesCheckBoxesEnabled(showMessage.isSelected());
         refresh.setEnabled(!autorefresh.isSelected());
-        if (JNLPRuntime.isWebstartApplication()) {
+        if (JnlpRuntimeState.isWebstartApplication()) {
             showPlugin.setSelected(false);
             showPreInit.setSelected(false);
             showPostInit.setSelected(false);

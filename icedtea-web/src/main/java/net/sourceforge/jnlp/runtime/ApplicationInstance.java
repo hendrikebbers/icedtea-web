@@ -17,6 +17,7 @@
 package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.PropertyDesc;
 import net.sourceforge.jnlp.SecurityDesc;
 import net.sourceforge.jnlp.ShortcutDesc;
@@ -217,7 +218,7 @@ public class ApplicationInstance {
 	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): file - "
 	                    + possibleDesktopFile.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
-	            if (JNLPRuntime.isOnline()) {
+	            if (JnlpRuntimeState.isOnline()) {
 	                entry.refreshExistingShortcuts(false, true); //update
 	            }
 	        }
@@ -225,7 +226,7 @@ public class ApplicationInstance {
 	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): file - "
 	                    + possibleMenuFile.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
-	            if (JNLPRuntime.isOnline()) {
+	            if (JnlpRuntimeState.isOnline()) {
 	                entry.refreshExistingShortcuts(true, false); //update
 	            }
 	        }
@@ -233,7 +234,7 @@ public class ApplicationInstance {
 	            LOG.debug("ApplicationInstance.addMenuAndDesktopEntries(): generated file - "
 	                    + generatedJnlp.getAbsolutePath() + " already exists. Refreshing and not proceeding with desktop additions");
 	            exists = true;
-	            if (JNLPRuntime.isOnline()) {
+	            if (JnlpRuntimeState.isOnline()) {
 	                entry.refreshExistingShortcuts(true, true); //update
 	            }
 	        }
@@ -255,7 +256,7 @@ public class ApplicationInstance {
      * @return true if a desktop shortcut should be created
      */
     private AccessWarningPaneComplexReturn getComplexReturn(ShortcutDesc sd) {
-        if (JNLPRuntime.isTrustAll()) {
+        if (JnlpRuntimeState.isTrustAll()) {
             boolean mainResult = (sd != null && (sd.onDesktop() || sd.getMenu() != null));
             AccessWarningPaneComplexReturn r = new AccessWarningPaneComplexReturn(mainResult);
             if (mainResult){

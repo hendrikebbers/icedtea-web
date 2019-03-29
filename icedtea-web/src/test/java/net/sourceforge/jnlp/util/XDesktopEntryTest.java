@@ -38,6 +38,7 @@ package net.sourceforge.jnlp.util;
 
 import net.sourceforge.jnlp.InformationDesc;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.PluginBridgeTest;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
@@ -93,8 +94,8 @@ public class XDesktopEntryTest {
 
     @BeforeClass
     public static void saveJnlpRuntimeHtml() {
-        wasHtml = JNLPRuntime.isHtml();
-        wasJavaws = JNLPRuntime.isWebstartApplication();
+        wasHtml = JnlpRuntimeState.isHtml();
+        wasJavaws = JnlpRuntimeState.isWebstartApplication();
     }
 
     private static void setIsWebstart(boolean value) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -105,13 +106,13 @@ public class XDesktopEntryTest {
 
     @After
     public void restoreJnlpRuntimeHtml() throws Exception {
-        JNLPRuntime.setHtml(wasHtml);
+        JnlpRuntimeState.setHtml(wasHtml);
         setIsWebstart(wasJavaws);
     }
 
     @AfterClass
     public static void restoreJnlpRuntimeHtmlFinally() throws Exception {
-        JNLPRuntime.setHtml(wasHtml);
+        JnlpRuntimeState.setHtml(wasHtml);
         setIsWebstart(wasJavaws);
     }
 
@@ -318,7 +319,7 @@ public class XDesktopEntryTest {
     }
 
     private void testHtmlOccurences(boolean html, boolean javaws, boolean menu, AccessWarningPaneComplexReturn.ShortcutResult.Shortcut type, int occurences) throws Exception {
-        JNLPRuntime.setHtml(html);
+        JnlpRuntimeState.setHtml(html);
         setIsWebstart(javaws);
         JNLPFile jnlpf = new DummyJnlpWithTitle();
         XDesktopEntry xde = new XDesktopEntry(jnlpf);

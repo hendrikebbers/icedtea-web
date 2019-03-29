@@ -139,9 +139,9 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
     @Override
     protected synchronized void createAppletThread() {
         // initialize JNLPRuntime in the main threadgroup
-        synchronized (JNLPRuntime.initMutex) {
+        synchronized (JnlpRuntimeState.initMutex) {
             //The custom NetX Policy and SecurityManager are set here.
-            if (!JNLPRuntime.isInitialized()) {
+            if (!JnlpRuntimeState.isInitialized()) {
                 LOG.debug("initializing JNLPRuntime...");
 
                 JNLPRuntime.initialize(false);

@@ -227,10 +227,10 @@ public class Launcher {
 
         JNLPRuntime.markNetxRunning();
 
-        if (!JNLPRuntime.isOfflineForced()) {
+        if (!JnlpRuntimeState.isOfflineForced()) {
             //Xoffline NOT specified
             //First checks whether offline-allowed tag is specified inside the jnlp file.
-            if (!file.getInformation().isOfflineAllowed() && !JNLPRuntime.isOnlineDetected()) {
+            if (!file.getInformation().isOfflineAllowed() && !JnlpRuntimeState.isOnlineDetected()) {
                 {
                     LOG.debug("Remote systems unreachable, and client application is not able to run offline. Exiting.");
                     return null;
@@ -238,7 +238,7 @@ public class Launcher {
             }
         } else {
             //Xoffline IS specified
-            if (!file.getInformation().isOfflineAllowed() && !JNLPRuntime.isOnlineDetected()) {
+            if (!file.getInformation().isOfflineAllowed() && !JnlpRuntimeState.isOnlineDetected()) {
                 {
                     LOG.debug("Remote systems unreachable, and client application is not able to run offline. However, you specified -Xoffline argument. Attmpting to run.");
                 }
@@ -286,7 +286,7 @@ public class Launcher {
      * @return the application instance
      */
     public ApplicationInstance launch(URL location) throws LaunchException {
-        JNLPRuntime.saveHistory(location.toExternalForm());
+        JnlpRuntimeState.saveHistory(location.toExternalForm());
         return launch(fromUrl(location));
     }
 
@@ -513,7 +513,7 @@ public class Launcher {
                 return null;
             }
 
-            if (JNLPRuntime.getForksAllowed() && file.needsNewVM()) {
+            if (JnlpRuntimeState.getForksAllowed() && file.needsNewVM()) {
                 if (!JNLPRuntime.isHeadless()){
                     SplashScreen sp = SplashScreen.getSplashScreen();
                     if (sp!=null) {
@@ -522,7 +522,7 @@ public class Launcher {
                 }
                 List<String> netxArguments = new LinkedList<String>();
                 netxArguments.add("-Xnofork");
-                netxArguments.addAll(JNLPRuntime.getInitialArguments());
+                netxArguments.addAll(JnlpRuntimeState.getInitialArguments());
                 launchExternal(file.getNewVMArgs(), netxArguments);
                 return null;
             }
@@ -638,7 +638,7 @@ public class Launcher {
             throw launchError(new LaunchException(file, null, R("LSFatal"), R("LCClient"), R("LNotApplet"), R("LNotAppletInfo")));
         }
       
-        if (JNLPRuntime.getForksAllowed() && file.needsNewVM()) {
+        if (JnlpRuntimeState.getForksAllowed() && file.needsNewVM()) {
             if (!JNLPRuntime.isHeadless()) {
                 SplashScreen sp = SplashScreen.getSplashScreen();
                 if (sp != null) {

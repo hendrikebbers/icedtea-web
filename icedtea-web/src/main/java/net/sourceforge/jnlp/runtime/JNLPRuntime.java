@@ -18,8 +18,8 @@ package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.DefaultLaunchHandler;
 import net.sourceforge.jnlp.GuiLaunchHandler;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.LaunchHandler;
-import net.sourceforge.jnlp.Launcher;
 import net.sourceforge.jnlp.browser.BrowserAwareProxySelector;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
@@ -50,7 +50,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.swing.*;
-import javax.swing.text.html.parser.ParserDelegator;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,19 +58,13 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.Authenticator;
-import java.net.InetAddress;
 import java.net.ProxySelector;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.security.AllPermission;
 import java.security.KeyStore;
 import java.security.Policy;
 import java.security.Security;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
@@ -99,97 +92,18 @@ public class JNLPRuntime {
     private final static Logger LOG = LoggerFactory.getLogger(JNLPRuntime.class);
 
 
-    /**
-     * java-abrt-connector can print out specific application String method, it is good to save visited urls for reproduce purposes.
-     * For javaws we can read the destination jnlp from commandline
-     * However for plugin (url arrive via pipes). Also for plugin we can not be sure which opened tab/window
-     * have caused the crash. Thats why the individual urls are added, not replaced.
-     */
-    private static String history = "";
-
-    /** the security manager */
-    private static JNLPSecurityManager security;
-
+    public static JNLPSecurityManager security;
     /** the security policy */
-    private static JNLPPolicy policy;
-
+    public static JNLPPolicy policy;
     /** handles all security message to show appropriate security dialogs */
-    private static SecurityDialogMessageHandler securityDialogMessageHandler;
-
+    public static SecurityDialogMessageHandler securityDialogMessageHandler;
     /** a default launch handler */
-    private static LaunchHandler handler = null;
-
+    public static LaunchHandler handler = null;
     /** default download indicator */
-    private static DownloadIndicator indicator = null;
-
+    public static DownloadIndicator indicator = null;
     /** update policy that controls when to check for updates */
-    private static UpdatePolicy updatePolicy = UpdatePolicy.ALWAYS;
+    public static UpdatePolicy updatePolicy = UpdatePolicy.ALWAYS;
 
-    /** whether initialized */
-    private static boolean initialized = false;
-
-    /** whether netx is in command-line mode (headless) */
-    private static boolean headless = false;
-    private static boolean headlessChecked = false;
-
-    /** whether we'll be checking for jar signing */
-    private static boolean verify = true;
-
-    /** whether the runtime uses security */
-    private static boolean securityEnabled = true;
-
-    /** mutex to wait on, for initialization */
-    public static Object initMutex = new Object();
-
-    /** set to true if this is a webstart application. */
-    private static boolean isWebstartApplication;
-
-    /** set to false to indicate another JVM should not be spawned, even if necessary */
-    private static boolean forksAllowed = true;
-
-    /** all security dialogs will be consumed and pretented as being verified by user and allowed.*/
-    private static boolean trustAll=false;
-    
-    /** flag keeping rest of jnlpruntime live that javaws was lunched as -html */
-    private static boolean html=false;
-
-    /** all security dialogs will be consumed and we will pretend the Sandbox option was chosen */
-    private static boolean trustNone = false;
-    
-    /** allows 301.302.303.307.308 redirects to be followed when downloading resources*/
-    private static boolean allowRedirect = false;;
-    
-    /** when this is true, ITW will not attempt any inet connections and will work only with what is in cache*/
-    private static boolean offlineForced = false;
-
-    private static Boolean onlineDetected = null;
-
-
-    /** 
-     * Header is not checked and so eg
-     * <a href="https://en.wikipedia.org/wiki/Gifar">gifar</a> exploit is
-     * possible.<br/>
-     * However if jar file is a bit corrupted, then it sometimes can work so 
-     * this switch can disable the header check.
-     * @see <a href="https://en.wikipedia.org/wiki/Gifar">Gifar attack</a>
-     */
-    private static boolean ignoreHeaders=false;
-
-    /** contains the arguments passed to the jnlp runtime */
-    private static List<String> initialArguments;
-
-    /** a lock which is held to indicate that an instance of netx is running */
-    private static FileLock fileLock;
-
-    /**
-     * Returns whether the JNLP runtime environment has been
-     * initialized. Once initialized, some properties such as the
-     * base directory cannot be changed. Before
-     * @return whether this runtime was already initialilsed
-     */
-    public static boolean isInitialized() {
-        return initialized;
-    }
 
     /**
      * Initialize the JNLP runtime environment by installing the
@@ -209,7 +123,7 @@ public class JNLPRuntime {
      * @throws IllegalStateException if the runtime was previously initialized
      */
     public static void initialize(boolean isApplication) throws IllegalStateException {
-        checkInitialized();
+        JnlpRuntimeState.checkInitialized();
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -231,7 +145,7 @@ public class JNLPRuntime {
             LOG.debug(R("RConfigurationError")+": "+getConfiguration().getLoadingException().getMessage());
         }
 
-        isWebstartApplication = isApplication;
+        JnlpRuntimeState.isWebstartApplication = isApplication;
 
         //Setting the system property for javawebstart's version.
         //The version stored will be the same as java's version.
@@ -254,9 +168,9 @@ public class JNLPRuntime {
         policy = new JNLPPolicy();
         security = new JNLPSecurityManager(); // side effect: create JWindow
 
-        doMainAppContextHacks();
+        JnlpRuntimeState.doMainAppContextHacks();
 
-        if (securityEnabled) {
+        if (JnlpRuntimeState.securityEnabled) {
             Policy.setPolicy(policy); // do first b/c our SM blocks setPolicy
             System.setSecurityManager(security);
         }
@@ -292,7 +206,7 @@ public class JNLPRuntime {
 
         URLJarFile.setCallBack(CachedJarFileCallback.getInstance());
 
-        initialized = true;
+        JnlpRuntimeState.initialized = true;
 
     }
 
@@ -364,77 +278,15 @@ public class JNLPRuntime {
         return runner;
     }
 
+
     /**
-     * Performs a few hacks that are needed for the main AppContext
-     *
-     * @see Launcher#doPerApplicationAppContextHacks
+     * @return whether debug statements for the JNLP client code
+     * should be printed.
      */
-    private static void doMainAppContextHacks() {
-
-        /*
-         * With OpenJDK6 (but not with 7) a per-AppContext dtd is maintained.
-         * This dtd is created by the ParserDelgate. However, the code in
-         * HTMLEditorKit (used to render HTML in labels and textpanes) creates
-         * the ParserDelegate only if there are no existing ParserDelegates. The
-         * result is that all other AppContexts see a null dtd.
-         */
-        new ParserDelegator();
+    public static boolean isDebug() {
+        return DebugUtils.isSetDebug() ||  DebugUtils.isPluginDebug() || LogConfig.getLogConfig().isEnableLogging();
     }
 
-
-    public static void setOfflineForced(boolean b) {
-        offlineForced = b;
-        LOG.debug("Forcing of offline set to: " + offlineForced);
-    }
-
-    public static boolean isOfflineForced() {
-        return offlineForced;
-    }
-
-    public static void setOnlineDetected(boolean online) {
-        onlineDetected = online;
-        LOG.debug("Detected online set to: " + onlineDetected);
-    }
-
-    public static boolean isOnlineDetected() {
-        if (onlineDetected == null) {
-            //"file" protocol do not do online check
-            //sugest online for this case
-            return true;
-        }
-        return onlineDetected;
-    }
-
-    public static boolean isOnline() {
-        if (isOfflineForced()) {
-            return false;
-        }
-        return isOnlineDetected();
-    }
-
-    public static void detectOnline(URL location) {
-        if (onlineDetected != null) {
-            return;
-        }
-
-        JNLPRuntime.setOnlineDetected(isConnectable(location));
-    }
-
-    public static boolean isConnectable(URL location) {
-        if (location.getProtocol().equals("file")) {
-            return true;
-        }
-
-        try {
-            InetAddress.getByName(location.getHost());
-        } catch (UnknownHostException e) {
-            LOG.debug("The host of " + location.toExternalForm() + " file seems down, or you are simply offline.");
-            return false;
-        }
-
-        return true;
-    }
-   
     /**
      * see <a href="https://en.wikipedia.org/wiki/Double-checked_locking#Usage_in_Java">Double-checked locking in Java</a>
      * for cases how not to do lazy initialization
@@ -482,93 +334,17 @@ public class JNLPRuntime {
     }
 
     /**
-     * @return true if a webstart application has been initialized, and false
-     * for a plugin applet.
-     */
-    public static boolean isWebstartApplication() {
-        return isWebstartApplication;
-    }
-
-    /**
      * @return whether the JNLP client will use any AWT/Swing
      * components.
      */
     public static boolean isHeadless() {
-        if (!headless && !headlessChecked) {
+        if (!JnlpRuntimeState.headless && !JnlpRuntimeState.headlessChecked) {
             checkHeadless();
 
         }
-        return headless;
+        return JnlpRuntimeState.headless;
     }
 
-    /**
-     * @return whether we are verifying code signing.
-     */
-    public static boolean isVerifying() {
-        return verify;
-    }
-
-    /**
-     * Sets whether the JNLP client will use any AWT/Swing
-     * components.  In headless mode, client features that use the
-     * AWT are disabled such that the client can be used in
-     * headless mode ({@code java.awt.headless=true}).
-     *
-     * @param enabled true if application do not wont/need gui or X at all
-     * @throws IllegalStateException if the runtime was previously initialized
-     */
-    public static void setHeadless(boolean enabled) {
-        checkInitialized();
-        headless = enabled;
-    }
-    
-    public static void setAllowRedirect(boolean enabled) {
-        checkInitialized();
-        allowRedirect = enabled;
-    }
-
-    public static boolean isAllowRedirect() {
-        return allowRedirect;
-    }
-    
-
-    /**
-     * Sets whether we will verify code signing.
-     *
-     * @param enabled true if app should verify signatures
-     * @throws IllegalStateException if the runtime was previously initialized
-     */
-    public static void setVerify(boolean enabled) {
-        checkInitialized();
-        verify = enabled;
-    }
-
-    /**
-     * Returns whether the secure runtime environment is enabled.
-     * @return true if security manager is created
-     */
-    public static boolean isSecurityEnabled() {
-        return securityEnabled;
-    }
-
-    /**
-     * Sets whether to enable the secure runtime environment.
-     * Disabling security can increase performance for some
-     * applications, and can be used to use netx with other code
-     * that uses its own security manager or policy.
-     * <p>
-     * Disabling security is not recommended and should only be
-     * used if the JNLP files opened are trusted. This method can
-     * only be called before initalizing the runtime.
-     * </p>
-     *
-     * @param enabled whether security should be enabled
-     * @throws IllegalStateException if the runtime is already initialized
-     */
-    public static void setSecurityEnabled(boolean enabled) {
-        checkInitialized();
-        securityEnabled = enabled;
-    }
 
     /**
      *
@@ -613,14 +389,6 @@ public class JNLPRuntime {
     }
 
     /**
-     * @return whether debug statements for the JNLP client code
-     * should be printed.
-     */
-    public static boolean isDebug() {
-        return DebugUtils.isSetDebug() ||  DebugUtils.isPluginDebug() || LogConfig.getLogConfig().isEnableLogging();
-    }
-
-    /**
      * Sets whether debug statements for the JNLP client code
      * should be printed to the standard output.
      *
@@ -657,7 +425,7 @@ public class JNLPRuntime {
      */
     public static void setDefaultLaunchHandler(LaunchHandler handler) {
         checkExitClass();
-        JNLPRuntime.handler = handler;
+        handler = handler;
     }
 
     /**
@@ -676,7 +444,7 @@ public class JNLPRuntime {
      */
     public static void setDefaultDownloadIndicator(DownloadIndicator indicator) {
         checkExitClass();
-        JNLPRuntime.indicator = indicator;
+        indicator = indicator;
     }
 
     /**
@@ -686,36 +454,12 @@ public class JNLPRuntime {
         return indicator;
     }
 
-    public static String getLocalisedTimeStamp(Date timestamp) {
-        return DateFormat.getInstance().format(timestamp);
-    }
-
-    /**
-     * @return {@code true} if the current runtime will fork
-     */
-    public static boolean getForksAllowed() {
-        return forksAllowed;
-    }
-
-    public static void setForksAllowed(boolean value) {
-        checkInitialized();
-        forksAllowed = value;
-    }
-
-    /**
-     * Throws an exception if called when the runtime is already initialized.
-     */
-    private static void checkInitialized() {
-        if (initialized)
-            throw new IllegalStateException("JNLPRuntime already initialized.");
-    }
-
     /**
      * Throws an exception if called with security enabled but a caller is not
      * the exit class and the runtime has been initialized.
      */
     private static void checkExitClass() {
-        if (securityEnabled && initialized)
+        if (JnlpRuntimeState.securityEnabled && JnlpRuntimeState.initialized)
             if (!security.isExitClass())
                 throw new IllegalStateException("Caller is not the exit class");
     }
@@ -728,12 +472,12 @@ public class JNLPRuntime {
         //    headless = true;
         try {
             if ("true".equalsIgnoreCase(System.getProperty("java.awt.headless"))) {
-                headless = true;
+                JnlpRuntimeState.headless = true;
             }
-            if (!headless) {
+            if (!JnlpRuntimeState.headless) {
                 boolean noCheck = Boolean.valueOf(JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.IGNORE_HEADLESS_CHECK));
                 if (noCheck) {
-                    headless = false;
+                    JnlpRuntimeState.headless = false;
                     LOG.debug(DeploymentConfiguration.IGNORE_HEADLESS_CHECK + " set to " + noCheck + ". Avoding headless check.");
                 } else {
                     try {
@@ -741,27 +485,15 @@ public class JNLPRuntime {
                             throw new HeadlessException();
                         }
                     } catch (HeadlessException ex) {
-                        headless = true;
+                        JnlpRuntimeState.headless = true;
                         LOG.error("ERROR", ex);
                     }
                 }
             }
         } catch (SecurityException ex) {
         } finally {
-            headlessChecked = true;
+            JnlpRuntimeState.headlessChecked = true;
         }
-    }
-
-    public static void setInitialArgments(List<String> args) {
-        checkInitialized();
-        SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager != null)
-            securityManager.checkPermission(new AllPermission());
-        initialArguments = args;
-    }
-
-    public static List<String> getInitialArguments() {
-        return initialArguments;
     }
 
     /**
@@ -770,7 +502,7 @@ public class JNLPRuntime {
      * acquiring a shared lock on it
      */
     public synchronized static void markNetxRunning() {
-        if (fileLock != null) return;
+        if (JnlpRuntimeState.fileLock != null) return;
         try {
             String message = "This file is used to check if netx is running";
 
@@ -785,17 +517,17 @@ public class JNLPRuntime {
 
             FileInputStream is = new FileInputStream(netxRunningFile);
             FileChannel channel = is.getChannel();
-            fileLock = channel.lock(0, 1, true);
-            if (!fileLock.isShared()){ // We know shared locks aren't offered on this system.
+            JnlpRuntimeState.fileLock = channel.lock(0, 1, true);
+            if (!JnlpRuntimeState.fileLock.isShared()){ // We know shared locks aren't offered on this system.
                 FileLock temp = null;
                 for (long pos = 1; temp == null && pos < Long.MAX_VALUE - 1; pos++){
                     temp = channel.tryLock(pos, 1, false); // No point in requesting for shared lock.
                 }
-                fileLock.release(); // We can release now, since we hold another lock.
-                fileLock = temp; // Keep the new lock so we can release later.
+                JnlpRuntimeState.fileLock.release(); // We can release now, since we hold another lock.
+                JnlpRuntimeState.fileLock = temp; // Keep the new lock so we can release later.
             }
             
-            if (fileLock != null && fileLock.isShared()) {
+            if (JnlpRuntimeState.fileLock != null && JnlpRuntimeState.fileLock.isShared()) {
                 LOG.debug("Acquired shared lock on " +
                             netxRunningFile.toString() + " to indicate javaws is running");
             }
@@ -806,60 +538,10 @@ public class JNLPRuntime {
         Runtime.getRuntime().addShutdownHook(new Thread("JNLPRuntimeShutdownHookThread") {
             @Override
             public void run() {
-                markNetxStopped();
+                JnlpRuntimeState.markNetxStopped();
                 CacheUtil.cleanCache();
             }
         });
-    }
-
-    /**
-     * Indicate that netx is stopped by releasing the shared lock on
-     * {@link DeploymentConfiguration#KEY_USER_NETX_RUNNING_FILE}.
-     */
-    private static void markNetxStopped() {
-        if (fileLock == null) {
-            return;
-        }
-        try {
-            fileLock.release();
-            fileLock.channel().close();
-            fileLock = null;
-            LOG.debug("Release shared lock on " + PathsAndFiles.MAIN_LOCK.getFullPath());
-        } catch (IOException e) {
-            LOG.error("ERROR", e);
-        }
-    }
-
-    public static void setHtml(boolean html) {
-        JNLPRuntime.html = html;
-    }
-
-    public static boolean isHtml() {
-        return html;
-    }
-
-    public static void setTrustAll(boolean b) {
-        trustAll=b;
-    }
-
-    public static boolean isTrustAll() {
-        return trustAll;
-    }
-
-    public static void setTrustNone(final boolean b) {
-        trustNone = b;
-    }
-
-    public static boolean isTrustNone() {
-        return trustNone;
-    }
-
-    public static boolean isIgnoreHeaders() {
-        return ignoreHeaders;
-    }
-
-    public static void setIgnoreHeaders(boolean ignoreHeaders) {
-        JNLPRuntime.ignoreHeaders = ignoreHeaders;
     }
 
     public static void exit(int i) {
@@ -874,19 +556,5 @@ public class JNLPRuntime {
         System.exit(i);
     }
 
-
-    public static void saveHistory(String documentBase) {
-        JNLPRuntime.history += " " + documentBase + " ";
-    }
-
-    /**
-     * Used by java-abrt-connector via reflection
-     * @return history
-     */
-    private static String getHistory() {
-        return history;
-    }
-    
-    
 
 }

@@ -21,6 +21,7 @@ import net.sourceforge.jnlp.JARDesc;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.JNLPMatcher;
 import net.sourceforge.jnlp.JNLPMatcherException;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.LaunchDesc;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.NullJnlpFileException;
@@ -349,7 +350,7 @@ public class JNLPClassLoader extends URLClassLoader {
 
     public static boolean isCertUnderestimated() {
         return Boolean.valueOf(JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.KEY_SECURITY_ITW_IGNORECERTISSUES))
-                && !JNLPRuntime.isSecurityEnabled();
+                && !JnlpRuntimeState.isSecurityEnabled();
     }
 
     private static void consultCertificateSecurityException(LaunchException ex) throws LaunchException {
@@ -729,7 +730,7 @@ public class JNLPClassLoader extends URLClassLoader {
             }
         }
 
-        if (JNLPRuntime.isVerifying()) {
+        if (JnlpRuntimeState.isVerifying()) {
 
             try {
                 jcv.add(initialJars, tracker);
@@ -2012,7 +2013,7 @@ public class JNLPClassLoader extends URLClassLoader {
      * to load something unsigned out of the codebase.
      */
     private void checkPartialSigningWithUser() {
-        if (signing == SigningState.FULL && JNLPRuntime.isVerifying()) {
+        if (signing == SigningState.FULL && JnlpRuntimeState.isVerifying()) {
             signing = SigningState.PARTIAL;
             try {
                 securityDelegate.promptUserOnPartialSigning();

@@ -305,7 +305,7 @@ public class SecurityDesc {
         if (grantAwtPermissions) {
             permissions.add(new AWTPermission("showWindowWithoutWarningBanner"));
         }
-        if (JNLPRuntime.isWebstartApplication()) {
+        if (JnlpRuntimeState.isWebstartApplication()) {
             if (file == null) {
                 throw new NullJnlpFileException("Can not return sandbox permissions, file is null");
             }

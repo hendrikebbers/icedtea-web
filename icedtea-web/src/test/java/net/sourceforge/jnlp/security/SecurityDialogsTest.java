@@ -38,6 +38,7 @@ package net.sourceforge.jnlp.security;
 
 import net.sourceforge.jnlp.InformationDesc;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
@@ -170,10 +171,10 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
     @BeforeClass
     public static void saveJnlpRuntime() {
         wasHeadless = JNLPRuntime.isHeadless();
-        wasTrustAll = JNLPRuntime.isTrustAll();
+        wasTrustAll = JnlpRuntimeState.isTrustAll();
         //trutNone is not used in dialogues, its considered as default
         //but is ussed in Unsigned... dialogs family
-        wasTrustNone = JNLPRuntime.isTrustNone();
+        wasTrustNone = JnlpRuntimeState.isTrustNone();
         prompt = JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.KEY_SECURITY_PROMPT_USER);
         seclevel = JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.KEY_SECURITY_LEVEL);
     }
@@ -197,18 +198,18 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @AfterClass
     public static void restoreJnlpRuntimeFinally() throws Exception {
-        JNLPRuntime.setHeadless(wasHeadless);
-        JNLPRuntime.setTrustAll(wasTrustAll);
-        JNLPRuntime.setTrustNone(wasTrustNone);
+        JnlpRuntimeState.setHeadless(wasHeadless);
+        JnlpRuntimeState.setTrustAll(wasTrustAll);
+        JnlpRuntimeState.setTrustNone(wasTrustNone);
         setPrompt(prompt);
         JNLPRuntime.getConfiguration().setProperty(DeploymentConfiguration.KEY_SECURITY_LEVEL, seclevel);
     }
 
     @Test(timeout = 10000)//if gui pops up
     public void testDialogsHeadlessTrustAllPrompt() throws Exception {
-        JNLPRuntime.setHeadless(true);
-        JNLPRuntime.setTrustAll(true);
-        JNLPRuntime.setTrustNone(false); //ignored
+        JnlpRuntimeState.setHeadless(true);
+        JnlpRuntimeState.setTrustAll(true);
+        JnlpRuntimeState.setTrustNone(false); //ignored
         setPrompt(true); //should not metter becasue is headless
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         try {
@@ -228,9 +229,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testDialogsHeadlessTrustNonePrompt() throws Exception {
-        JNLPRuntime.setHeadless(true);
-        JNLPRuntime.setTrustAll(false);
-        JNLPRuntime.setTrustNone(false); //used by Unsigne
+        JnlpRuntimeState.setHeadless(true);
+        JnlpRuntimeState.setTrustAll(false);
+        JnlpRuntimeState.setTrustNone(false); //used by Unsigne
         setPrompt(true); //should not metter becasue is headless
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         fakeQueue();
@@ -254,9 +255,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testDialogsNotHeadlessTrustAllDontPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false); //should not metter as is nto asking
-        JNLPRuntime.setTrustAll(true);
-        JNLPRuntime.setTrustNone(false); //ignored
+        JnlpRuntimeState.setHeadless(false); //should not metter as is nto asking
+        JnlpRuntimeState.setTrustAll(true);
+        JnlpRuntimeState.setTrustNone(false); //ignored
         setPrompt(false);
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         try {
@@ -276,9 +277,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testDialogsNotHeadlessTrustNoneDontPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false); //should not metter as is nto asking
-        JNLPRuntime.setTrustAll(false);
-        JNLPRuntime.setTrustNone(false); //ignored
+        JnlpRuntimeState.setHeadless(false); //should not metter as is nto asking
+        JnlpRuntimeState.setTrustAll(false);
+        JnlpRuntimeState.setTrustNone(false); //ignored
         setPrompt(false);
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         try {
@@ -495,9 +496,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testDialogsNotHeadlessTrustNonePrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(false);//should notmetter
-        JNLPRuntime.setTrustNone(false); //ignored
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(false);//should notmetter
+        JnlpRuntimeState.setTrustNone(false); //ignored
         setPrompt(true);
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         countNPES();
@@ -506,9 +507,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testNormaDialogsNotHeadlessTrustAllPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(true);
-        JNLPRuntime.setTrustNone(false);
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(true);
+        JnlpRuntimeState.setTrustNone(false);
         setPrompt(true);
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         countNPES();
@@ -516,9 +517,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testUnsignedDialogsNotHeadlessTrustAllPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(true);
-        JNLPRuntime.setTrustNone(false);
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(true);
+        JnlpRuntimeState.setTrustNone(false);
         setPrompt(true); //ignored
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         checkUnsignedActing(true);
@@ -537,9 +538,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testUnsignedDialogsNotHeadlessTrustNonePrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(false);
-        JNLPRuntime.setTrustNone(true);
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(false);
+        JnlpRuntimeState.setTrustNone(true);
         setPrompt(true); //ignored
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         boolean r10 = testUnsignedBehaviour();
@@ -565,9 +566,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testUnsignedDialogsNotHeadlessTrustNoneTrustAllPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(true);
-        JNLPRuntime.setTrustNone(true);
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(true);
+        JnlpRuntimeState.setTrustNone(true);
         setPrompt(true); //ignored
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         boolean a = testUnsignedBehaviour();
@@ -594,9 +595,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
 
     @Test(timeout = 10000)//if gui pops up
     public void testUnsignedDialogsNotHeadlessPrompt() throws Exception {
-        JNLPRuntime.setHeadless(false);
-        JNLPRuntime.setTrustAll(false);
-        JNLPRuntime.setTrustNone(false);
+        JnlpRuntimeState.setHeadless(false);
+        JnlpRuntimeState.setTrustAll(false);
+        JnlpRuntimeState.setTrustNone(false);
         setPrompt(true); //ignored
         setAS(AppletSecurityLevel.ALLOW_UNSIGNED);
         checkUnsignedActing(true);
@@ -650,9 +651,9 @@ public class SecurityDialogsTest extends NoStdOutErrTest {
     public void testRemeberBehaviour() throws Exception {
         File f = PathsAndFiles.APPLET_TRUST_SETTINGS_USER.getFile();
         try {
-            JNLPRuntime.setHeadless(false);
-            JNLPRuntime.setTrustAll(false);
-            JNLPRuntime.setTrustNone(false);
+            JnlpRuntimeState.setHeadless(false);
+            JnlpRuntimeState.setTrustAll(false);
+            JnlpRuntimeState.setTrustNone(false);
             setPrompt(true); //ignored
             setAS(AppletSecurityLevel.ASK_UNSIGNED);
             /*Everything is on default, which means ask always everywhere*/

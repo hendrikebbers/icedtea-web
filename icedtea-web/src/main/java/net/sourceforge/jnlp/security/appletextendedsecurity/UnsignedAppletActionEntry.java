@@ -35,7 +35,7 @@
  */
 package net.sourceforge.jnlp.security.appletextendedsecurity;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.security.dialogs.remember.AppletSecurityActions;
 
 import java.io.IOException;
@@ -111,7 +111,7 @@ public class UnsignedAppletActionEntry {
     }
     
     public String getLocalisedTimeStamp() {
-        return JNLPRuntime.getLocalisedTimeStamp(timeStamp);
+        return JnlpRuntimeState.getLocalisedTimeStamp(timeStamp);
     }
 
     public UrlRegEx getDocumentBase() {

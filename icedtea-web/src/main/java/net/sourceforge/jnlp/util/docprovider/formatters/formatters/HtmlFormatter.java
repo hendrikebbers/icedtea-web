@@ -36,7 +36,7 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.util.docprovider.formatters.formatters;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 
 import java.util.Date;
 import java.util.Map;
@@ -103,7 +103,7 @@ public class HtmlFormatter extends ReplacingTextFormatter {
                 + "    <meta http-equiv=\"content-type\" content=\"application/xhtml+xml; charset=" + encoding + "\" />\n"
                 + "  </head>\n"
                 + "  <body>\n"
-                + "    <H5  align=\"right\">" + id + ": " + getVersion() + ", " + JNLPRuntime.getLocalisedTimeStamp(new Date()) + "</H5>";
+                + "    <H5  align=\"right\">" + id + ": " + getVersion() + ", " + JnlpRuntimeState.getLocalisedTimeStamp(new Date()) + "</H5>";
     }
 
     @Override

@@ -37,6 +37,7 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
@@ -308,7 +309,7 @@ public class SecurityDialogMessageHandler implements Runnable {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
             @Override
             public Boolean run() {
-                return JNLPRuntime.isTrustAll();
+                return JnlpRuntimeState.isTrustAll();
             }
         });
     }
@@ -322,7 +323,7 @@ public class SecurityDialogMessageHandler implements Runnable {
         return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
             @Override
             public Boolean run() {
-                return JNLPRuntime.isTrustNone();
+                return JnlpRuntimeState.isTrustNone();
             }
         });
     }

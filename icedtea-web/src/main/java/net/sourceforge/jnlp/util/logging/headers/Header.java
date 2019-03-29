@@ -36,7 +36,7 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version. */
 package net.sourceforge.jnlp.util.logging.headers;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.util.logging.MessageLevel;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.logging.TeeOutputStream;
@@ -76,7 +76,7 @@ public class Header {
     }
 
     public Header(MessageLevel level, StackTraceElement[] stack, Thread thread, Date d, boolean isC) {
-        this.application = JNLPRuntime.isWebstartApplication();
+        this.application = JnlpRuntimeState.isWebstartApplication();
         this.level = level;
         this.timestamp = d;
         this.date = timestamp.toString();

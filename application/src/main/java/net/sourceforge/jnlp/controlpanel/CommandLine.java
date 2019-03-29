@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 package net.sourceforge.jnlp.controlpanel;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.ConfiguratonValidator;
@@ -511,7 +512,7 @@ public class CommandLine {
                 JNLPRuntime.setDebug(true);
             }
             if (optionParser.hasOption(OptionsDefinitions.OPTIONS.HEADLESS)) {
-                JNLPRuntime.setHeadless(true);
+                JnlpRuntimeState.setHeadless(true);
             }
             DeploymentConfiguration.move14AndOlderFilesTo15StructureCatched();
             if (args.length == 0) {

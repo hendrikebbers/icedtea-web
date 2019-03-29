@@ -17,8 +17,8 @@
 package net.sourceforge.jnlp.cache;
 
 import net.sourceforge.jnlp.DownloadOptions;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.Version;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.UrlUtils;
 import net.sourceforge.jnlp.util.WeakList;
 
@@ -434,7 +434,7 @@ public class Resource {
     }
 
     public boolean isConnectable() {
-        return JNLPRuntime.isConnectable(this.location);
+        return JnlpRuntimeState.isConnectable(this.location);
     }
 
     @Override

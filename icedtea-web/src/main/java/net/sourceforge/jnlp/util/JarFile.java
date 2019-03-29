@@ -36,7 +36,7 @@
  exception statement from your version. */
 package net.sourceforge.jnlp.util;
 
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 
 import java.io.Closeable;
 import java.io.File;
@@ -101,7 +101,7 @@ public class JarFile extends java.util.jar.JarFile implements Closeable {
      * a Jar.
      */
     private void verifyZipHeader(File file) throws IOException {
-        if (!JNLPRuntime.isIgnoreHeaders()) {
+        if (!JnlpRuntimeState.isIgnoreHeaders()) {
             InputStream s = new FileInputStream(file);
 
             /*

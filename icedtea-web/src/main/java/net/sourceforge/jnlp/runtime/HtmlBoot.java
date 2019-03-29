@@ -36,6 +36,7 @@
 package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.JNLPSplashScreen;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.PluginBridge;
@@ -128,7 +129,7 @@ public final class HtmlBoot {
         );
         }
         List<String> vars = optionParser.getParams(OptionsDefinitions.OPTIONS.HTML);
-        JNLPRuntime.setForksAllowed(false);//needed?
+        JnlpRuntimeState.setForksAllowed(false);//needed?
         ParserSettings settings = Boot.init(extra);
         if (settings == null) {
             return false;

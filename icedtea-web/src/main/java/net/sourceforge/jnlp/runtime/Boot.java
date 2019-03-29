@@ -15,6 +15,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 package net.sourceforge.jnlp.runtime;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
@@ -122,7 +123,7 @@ public final class Boot implements PrivilegedAction<Void> {
             SunToolkit.createNewAppContext();
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.HEADLESS)) {
-            JNLPRuntime.setHeadless(true);
+            JnlpRuntimeState.setHeadless(true);
         }
 
         DeploymentConfiguration.move14AndOlderFilesTo15StructureCatched();
@@ -188,22 +189,22 @@ public final class Boot implements PrivilegedAction<Void> {
             JNLPRuntime.setDefaultUpdatePolicy(UpdatePolicy.NEVER);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.NOFORK)) {
-            JNLPRuntime.setForksAllowed(false);
+            JnlpRuntimeState.setForksAllowed(false);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.TRUSTALL)) {
-            JNLPRuntime.setTrustAll(true);
+            JnlpRuntimeState.setTrustAll(true);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.HTML)) {
-            JNLPRuntime.setHtml(true);
+            JnlpRuntimeState.setHtml(true);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.TRUSTNONE)) {
-            JNLPRuntime.setTrustNone(true);
+            JnlpRuntimeState.setTrustNone(true);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.NOHEADERS)) {
-            JNLPRuntime.setIgnoreHeaders(true);
+            JnlpRuntimeState.setIgnoreHeaders(true);
         }
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.REDIRECT)) {
-            JNLPRuntime.setAllowRedirect(true);
+            JnlpRuntimeState.setAllowRedirect(true);
         }
 
         //if it is browser go by ots own, otherwise procedd with normal ITW logic
@@ -212,7 +213,7 @@ public final class Boot implements PrivilegedAction<Void> {
             LinkingBrowser.showStandAloneWindow(url, false);
         } else {
 
-            JNLPRuntime.setInitialArgments(Arrays.asList(argsIn));
+            JnlpRuntimeState.setInitialArgments(Arrays.asList(argsIn));
 
             AccessController.doPrivileged(new Boot());
         }
@@ -351,8 +352,8 @@ public final class Boot implements PrivilegedAction<Void> {
     }
 
     static ParserSettings init(Map<String, List<String>> extra) {
-        JNLPRuntime.setSecurityEnabled(!optionParser.hasOption(OptionsDefinitions.OPTIONS.NOSEC));
-        JNLPRuntime.setOfflineForced(optionParser.hasOption(OptionsDefinitions.OPTIONS.OFFLINE));
+        JnlpRuntimeState.setSecurityEnabled(!optionParser.hasOption(OptionsDefinitions.OPTIONS.NOSEC));
+        JnlpRuntimeState.setOfflineForced(optionParser.hasOption(OptionsDefinitions.OPTIONS.OFFLINE));
         JNLPRuntime.initialize(true);
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.LISTCACHEIDS)) {

@@ -1,10 +1,10 @@
 package net.sourceforge.jnlp.cache;
 
 import net.sourceforge.jnlp.DownloadOptions;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.runtime.Boot;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.ConnectionFactory;
 import net.sourceforge.jnlp.security.SecurityUserInteraction;
 import net.sourceforge.jnlp.security.dialogs.InetSecurity511Panel;
@@ -124,7 +124,7 @@ public class ResourceDownloader implements Runnable {
     }
 
     private void initializeResource() {
-        if (!JNLPRuntime.isOfflineForced() && resource.isConnectable()) {
+        if (!JnlpRuntimeState.isOfflineForced() && resource.isConnectable()) {
             initializeOnlineResource();
         } else {
             initializeOfflineResource();
@@ -312,7 +312,7 @@ public class ResourceDownloader implements Runnable {
                             LOG.debug("Although " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " the target was null. Not following");
                         } else {
                             LOG.debug("Resource " + resource.toString() + " got redirect " + response.result + " code for " + requestMethod + " request for " + url.toExternalForm() + " adding " + response.URL.toExternalForm() + " to list of possible urls");
-                            if (!JNLPRuntime.isAllowRedirect()) {
+                            if (!JnlpRuntimeState.isAllowRedirect()) {
                                 throw new RedirectionException("The resource " + url.toExternalForm() + " is being redirected (" + response.result + ") to " + response.URL.toExternalForm() + ". This is disabled by default. If you wont to allow it, run javaws with -allowredirect parameter.");
                             }
                             urls.add(response.URL);

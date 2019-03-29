@@ -37,12 +37,12 @@
 package net.sourceforge.jnlp.runtime.html;
 
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.ParseException;
 import net.sourceforge.jnlp.parser.Parser;
 import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +83,7 @@ public class AppletExtractor {
         this(html, null);
     }
     public AppletExtractor(URL html, ParserSettings ps) {
-        JNLPRuntime.saveHistory(html.toExternalForm());
+        JnlpRuntimeState.saveHistory(html.toExternalForm());
         this.html = html;
         this.ps = ps;
     }

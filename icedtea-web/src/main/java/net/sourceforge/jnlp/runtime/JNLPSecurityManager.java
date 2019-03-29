@@ -16,6 +16,7 @@
 
 package net.sourceforge.jnlp.runtime;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.security.AccessType;
 import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.WeakList;
@@ -275,7 +276,7 @@ class JNLPSecurityManager extends AWTSecurityManager {
         //      if (false)
         //        System.out.println("Checking permission: " + perm.toString());
 
-        if (!JNLPRuntime.isWebstartApplication() &&
+        if (!JnlpRuntimeState.isWebstartApplication() &&
                 ("setPolicy".equals(name) || "setSecurityManager".equals(name))) {
             throw new SecurityException(R("RCantReplaceSM"));
         }

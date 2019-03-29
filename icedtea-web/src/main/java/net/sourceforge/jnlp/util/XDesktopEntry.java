@@ -18,13 +18,13 @@ package net.sourceforge.jnlp.util;
 
 import net.sourceforge.jnlp.IconDesc;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.Launcher;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.PathsAndFiles;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.security.dialogresults.AccessWarningPaneComplexReturn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,9 +158,9 @@ public class XDesktopEntry implements GenericDesktopEntry {
         }
         String exec;
         String title = "xdesktop writing";
-        if (JNLPRuntime.isWebstartApplication()) {
+        if (JnlpRuntimeState.isWebstartApplication()) {
             String htmlSwitch = "";
-            if (JNLPRuntime.isHtml()){
+            if (JnlpRuntimeState.isHtml()){
                 htmlSwitch = " "+OptionsDefinitions.OPTIONS.HTML.option;
             }
             exec = "Exec="

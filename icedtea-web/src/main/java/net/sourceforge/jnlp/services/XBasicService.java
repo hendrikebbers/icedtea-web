@@ -18,6 +18,7 @@ package net.sourceforge.jnlp.services;
 import net.sourceforge.jnlp.InformationDesc;
 import net.sourceforge.jnlp.JARDesc;
 import net.sourceforge.jnlp.JNLPFile;
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.config.BasicValueValidators;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.ApplicationInstance;
@@ -104,8 +105,8 @@ class XBasicService implements BasicService {
     public boolean isOffline() {
 
         URL url = findFirstURLFromJNLPFile();
-        JNLPRuntime.detectOnline(url);
-        return !JNLPRuntime.isOnline();
+        JnlpRuntimeState.detectOnline(url);
+        return !JnlpRuntimeState.isOnline();
     }
 
     /**

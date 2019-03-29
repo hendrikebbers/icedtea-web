@@ -36,11 +36,11 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.util.docprovider;
 
+import net.sourceforge.jnlp.JnlpRuntimeState;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.config.Defaults;
 import net.sourceforge.jnlp.config.InfrastructureFileDescriptor;
 import net.sourceforge.jnlp.config.Setting;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.runtime.Translator;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.Formatter;
 import net.sourceforge.jnlp.util.docprovider.formatters.formatters.HtmlFormatter;
@@ -402,7 +402,7 @@ public abstract class TextsProvider {
 
     public static void main(String[] args) throws IOException {
         // Shutdown hook from OutputController was causing hanging build on Windows. It's not used on headless.
-        JNLPRuntime.setHeadless(true);
+        JnlpRuntimeState.setHeadless(true);
         
         if (args.length == 0) {
             System.out.println(" * IcedTea-Web self documentation tool list of arguments *");
