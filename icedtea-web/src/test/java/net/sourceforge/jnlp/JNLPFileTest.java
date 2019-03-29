@@ -144,7 +144,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         InputStream is = new ByteArrayInputStream(jnlpContext.getBytes());
 
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false,false,false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false,false,false));
 
         Assert.assertEquals("http://icedtea.claspath.org/", jnlpFile.getCodeBase().toExternalForm());
         Assert.assertEquals("redhat.embeddedjnlp", jnlpFile.getApplet().getMainClass());
@@ -181,7 +181,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://www.redhat.com/");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false,false,false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false,false,false));
 
         ResourcesDesc resources;
         Map<String,String> properties;
@@ -239,7 +239,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false,false,false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false,false,false));
         DownloadOptions downloadOptions = jnlpFile.getDownloadOptions();
 
         Assert.assertTrue(downloadOptions.useExplicitPack());
@@ -271,7 +271,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false,false,false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false,false,false));
         DownloadOptions downloadOptions = jnlpFile.getDownloadOptions();
 
         Assert.assertFalse(downloadOptions.useExplicitPack());
@@ -295,7 +295,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
         String jnlpContents = minimalJnlp.replace("SECURITY", "");
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
 
@@ -305,7 +305,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.ALL, jnlpFile.getRequestedPermissionLevel());
     }
 
@@ -315,7 +315,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
 
@@ -325,7 +325,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     
@@ -335,7 +335,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.J2EE, jnlpFile.getRequestedPermissionLevel());
     }
     
@@ -346,7 +346,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     
@@ -357,7 +357,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
-        JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
+        JNLPFile jnlpFile = new JNLPCreator().create(is, codeBase, new ParserSettings(false, false, false));
         Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     

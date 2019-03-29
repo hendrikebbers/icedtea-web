@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
-package net.sourceforge.jnlp.parser;
+package net.sourceforge.jnlp;
 
-import net.sourceforge.jnlp.parser.RequiredElementException;
+import net.sourceforge.jnlp.RequiredElementException;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
