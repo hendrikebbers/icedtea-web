@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-package net.sourceforge.jnlp;
+package net.sourceforge.jnlp.parser;
 
-import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
+import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.UpdateDesc.Check;
 import net.sourceforge.jnlp.UpdateDesc.Policy;
 import org.slf4j.Logger;
@@ -223,7 +223,7 @@ public final class Parser {
         return spec;
     }
 
-    UpdateDesc getUpdate(Node parent) throws ParseException {
+    public UpdateDesc getUpdate(Node parent) throws ParseException {
         UpdateDesc updateDesc = null;
         Node child = parent.getFirstChild();
         while (child != null) {
@@ -404,7 +404,7 @@ public final class Parser {
         // require version attribute
         getRequiredAttribute(node, "version", null);
 
-        return new JREDesc(new Version.JreVersion(version.toString(), strict), location, vmArgs, initialHeap, maxHeap, resources);
+        return new JREDesc(new JreVersion(version.toString(), strict), location, vmArgs, initialHeap, maxHeap, resources);
     }
 
     /**
@@ -494,7 +494,7 @@ public final class Parser {
      *
      * @throws RequiredElementException
      */
-    void checkForInformation() throws RequiredElementException {
+    public void checkForInformation() throws RequiredElementException {
         LOG.debug("Homepage: " + file.getInformation().getHomepage());
         LOG.debug("Description: " + file.getInformation().getDescription());
         file.getTitle(strict);
@@ -796,7 +796,7 @@ public final class Parser {
      * @return the component descriptor.
      * @throws net.sourceforge.jnlp.ParseException
      */
-    ComponentDesc getComponent(Node parent) throws ParseException {
+    public ComponentDesc getComponent(Node parent) throws ParseException {
 
         if (1 < getChildNodes(parent, "component-desc").length) {
             throw new ParseException(R("PTwoDescriptors"));
@@ -1374,8 +1374,8 @@ public final class Parser {
         return result;
     }
 
-    public static final String MALFORMED_PARSER_CLASS = "net.sourceforge.jnlp.MalformedXMLParser";
-    public static final String NORMAL_PARSER_CLASS = "net.sourceforge.jnlp.XMLParser";
+    private static final String MALFORMED_PARSER_CLASS = "net.sourceforge.jnlp.MalformedXMLParser";
+    private static final String NORMAL_PARSER_CLASS = "net.sourceforge.jnlp.XMLParser";
 
     /**
      * @return the root node from the XML document in the specified input

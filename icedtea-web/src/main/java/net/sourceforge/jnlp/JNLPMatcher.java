@@ -37,6 +37,8 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.parser.Parser;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

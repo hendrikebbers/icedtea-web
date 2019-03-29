@@ -22,6 +22,7 @@
         <module>swing-utils</module>
         <module>icedtea-web</module>
         <module>application</module>
+        <module>jnlp-domain</module>
     </modules>
 
 </project>

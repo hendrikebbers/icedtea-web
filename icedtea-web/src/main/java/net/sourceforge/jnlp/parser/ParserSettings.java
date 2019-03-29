@@ -35,8 +35,9 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version.
 */
 
-package net.sourceforge.jnlp;
+package net.sourceforge.jnlp.parser;
 
+import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 
 /**

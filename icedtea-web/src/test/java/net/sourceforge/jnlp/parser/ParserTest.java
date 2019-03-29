@@ -35,8 +35,12 @@ obligated to do so.  If you do not wish to do so, delete this
 exception statement from your version.
  */
 
-package net.sourceforge.jnlp;
+package net.sourceforge.jnlp.parser;
 
+import net.sourceforge.jnlp.InformationDesc;
+import net.sourceforge.jnlp.Node;
+import net.sourceforge.jnlp.ParseException;
+import net.sourceforge.jnlp.parser.*;
 import net.sourceforge.jnlp.testextensions.mock.MockJNLPFile;
 import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
 import org.junit.Assert;

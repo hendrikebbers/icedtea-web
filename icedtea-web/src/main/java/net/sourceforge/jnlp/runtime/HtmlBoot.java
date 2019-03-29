@@ -37,7 +37,7 @@ package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.JNLPSplashScreen;
 import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.runtime.html.AppletExtractor;
 import net.sourceforge.jnlp.runtime.html.AppletParser;

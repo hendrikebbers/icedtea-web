@@ -60,7 +60,7 @@ import java.io.PipedOutputStream;
  *
  * Used by net.sourceforge.jnlp.Parser
  */
-class XMLParser {
+public class XMLParser {
 
     /**
      * Parses input from an InputStream and returns a Node representing the

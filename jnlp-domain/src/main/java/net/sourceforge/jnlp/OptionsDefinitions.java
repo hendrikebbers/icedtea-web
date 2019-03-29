@@ -36,13 +36,6 @@ exception statement from your version.
 */
 package net.sourceforge.jnlp;
 
-import net.sourceforge.jnlp.util.docprovider.TextsProvider;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
 public class OptionsDefinitions {
@@ -162,103 +155,6 @@ public class OptionsDefinitions {
         public String getMessage() {
             return R(messageKey);
         }
-    }
-
-    public static List<OPTIONS> getItwsettingsCommands() {
-        return Arrays.asList(new OPTIONS[]{
-            OPTIONS.HELP2,
-            OPTIONS.LIST,
-            OPTIONS.GET,
-            OPTIONS.INFO,
-            OPTIONS.SET,
-            OPTIONS.RESET,
-            OPTIONS.RESETALL,
-            OPTIONS.HEADLESS,
-            OPTIONS.CHECK,
-            OPTIONS.VERBOSE
-        });
-    }
-
-    public static List<OPTIONS> getPolicyEditorOptions() {
-        return Arrays.asList(new OPTIONS[]{
-            OPTIONS.HELP1,
-            OPTIONS.FILE,
-            OPTIONS.DEFAULTFILE,
-            OPTIONS.CODEBASE,
-            OPTIONS.SIGNEDBY,
-            OPTIONS.PRINCIPALS,
-            OPTIONS.VERBOSE
-            }
-        );
-    }
-
-    public static List<OPTIONS> getJavaWsControlOptions() {
-        return Arrays.asList(new OPTIONS[]{
-            OPTIONS.ABOUT,
-            OPTIONS.VIEWER,
-            OPTIONS.CLEARCACHE,
-            OPTIONS.LISTCACHEIDS,
-            OPTIONS.LICENSE,
-            OPTIONS.HELP1}
-        );
-    }
-
-    public static List<OPTIONS> getJavaWsRuntimeOptions() {
-        return Arrays.asList(new OPTIONS[]{
-            OPTIONS.VERSION,
-            OPTIONS.ARG,
-            OPTIONS.PARAM,
-            OPTIONS.PROPERTY,
-            OPTIONS.UPDATE,
-            OPTIONS.VERBOSE,
-            OPTIONS.NOSEC,
-            OPTIONS.NOUPDATE,
-            OPTIONS.HEADLESS,
-            OPTIONS.STRICT,
-            OPTIONS.XML,
-            OPTIONS.REDIRECT,
-            OPTIONS.NOFORK,
-            OPTIONS.NOHEADERS,
-            OPTIONS.OFFLINE,
-            OPTIONS.TRUSTNONE,
-            OPTIONS.JNLP,
-            OPTIONS.HTML,
-            OPTIONS.BROWSER
-        });
-    }
-
-    public static List<OPTIONS> getJavaWsOptions() {
-        List<OPTIONS> l = new ArrayList<>();
-        l.addAll(getJavaWsRuntimeOptions());
-        l.addAll(getJavaWsControlOptions());
-        //trustall is not returned by getJavaWsRuntimeOptions
-        //or getJavaWsControlOptions, as it is not desired in documentation
-        l.add(OPTIONS.TRUSTALL);
-        return l;
-    }
-
-    public static void main(String[] args) throws IOException {
-        switch (args[0]) {
-            case TextsProvider.JAVAWS:
-                printOptions(getJavaWsOptions());
-                break;
-            case TextsProvider.ITWEB_SETTINGS:
-                printOptions(getItwsettingsCommands());
-                break;
-            case TextsProvider.POLICY_EDITOR:
-                printOptions(getPolicyEditorOptions());
-                break;
-            default:
-                break;
-        }
-    }
-
-    private static void printOptions(List<OPTIONS> options) {
-        StringBuilder sb = new StringBuilder();
-        for (OPTIONS option : options) {
-            sb.append(option.option).append(" ");
-        }
-        System.out.println(sb.toString().trim());
     }
 
 }

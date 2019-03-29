@@ -23,6 +23,7 @@
 package net.sourceforge.jnlp;
 
 import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.parser.ParserSettings;
 
 import java.io.IOException;
 import java.net.URL;

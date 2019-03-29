@@ -37,6 +37,7 @@ exception statement from your version.
 package net.sourceforge.jnlp.security.policyeditor;
 
 import net.sourceforge.jnlp.OptionsDefinitions;
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
@@ -1690,7 +1691,7 @@ public class PolicyEditor extends JPanel {
         // setup Swing EDT tracing:
         SwingUtils.setup();
 
-        final OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        final OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.VERBOSE)) {
             JNLPRuntime.setDebug(true);

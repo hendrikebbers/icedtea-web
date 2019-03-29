@@ -18,6 +18,7 @@ package net.sourceforge.jnlp;
 
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.runtime.AppletInstance;
 import net.sourceforge.jnlp.runtime.ApplicationInstance;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader;

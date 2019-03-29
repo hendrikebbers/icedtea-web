@@ -35,7 +35,7 @@ public class JREDesc {
     private static final Pattern heapPattern= Pattern.compile("\\d+[kmg]?");
 
     /** the platform version or the product version if location is not null */
-    final private Version.JreVersion version;
+    final private JreVersion version;
 
     /** the location of a JRE product or null */
     final private URL location;
@@ -64,7 +64,7 @@ public class JREDesc {
      * @param resources list of ResourceDesc objects
      * @throws net.sourceforge.jnlp.ParseException is something goes wrong
      */
-    public JREDesc(Version.JreVersion version, URL location,
+    public JREDesc(JreVersion version, URL location,
             String vmArgs, String initialHeapSize,
             String maximumHeapSize, List<ResourcesDesc> resources) throws ParseException {
         this.version = version;
@@ -80,7 +80,7 @@ public class JREDesc {
      * determine if this version corresponds to a platform or
      * product version.
      */
-    public Version.JreVersion getVersion() {
+    public JreVersion getVersion() {
         return version;
     }
 

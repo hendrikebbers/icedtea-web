@@ -37,6 +37,8 @@ exception statement from your version.
 
 package net.sourceforge.jnlp;
 
+import net.sourceforge.jnlp.parser.Parser;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.testextensions.annotations.Bug;
 import net.sourceforge.jnlp.testextensions.annotations.KnownToFail;
 import org.junit.Assert;

@@ -15,30 +15,29 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
-package net.sourceforge.jnlp;
+package net.sourceforge.jnlp.parser;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
+import net.sourceforge.jnlp.ParseException;
 
 /**
- * Thrown when a vendor that is required from the information tag is not found
+ * Thrown when a field that is required from the information tag is not found
  * under the current JVM's locale or as a generalized element.
  */
-public class MissingVendorException extends RequiredElementException {
+public class RequiredElementException extends ParseException {
 
     private static final long serialVersionUID = 1L;
-    private static final String message = R("PMissingElement", R("PMissingVendor"));
 
     /* (non-Javadoc)
      * @see net.sourceforge.jnlp.ParseException(String)
      */
-    public MissingVendorException() {
+    public RequiredElementException(String message) {
         super(message);
     }
 
     /* (non-Javadoc)
      * @see net.sourceforge.jnlp.ParseException(String, Throwable)
      */
-    public MissingVendorException(Throwable cause) {
+    public RequiredElementException(String message, Throwable cause) {
         super(message, cause);
     }
 }

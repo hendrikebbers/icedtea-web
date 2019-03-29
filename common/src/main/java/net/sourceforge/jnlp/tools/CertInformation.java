@@ -47,6 +47,8 @@ import java.util.List;
 import java.util.Map;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Maintains information about a CertPath that has signed at least one of the

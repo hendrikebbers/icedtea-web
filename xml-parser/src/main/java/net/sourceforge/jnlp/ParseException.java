@@ -55,7 +55,7 @@ public class ParseException extends Exception {
     }
     
     
-    static enum UsedParsers {
+    public static enum UsedParsers {
 
         MALFORMED, NORMAL
     }
@@ -63,11 +63,11 @@ public class ParseException extends Exception {
     private static UsedParsers expected;
     private static UsedParsers used;
 
-    static void setExpected(UsedParsers ex) {
+    public static void setExpected(UsedParsers ex) {
         expected = ex;
     }
 
-    static void setUsed(UsedParsers us) {
+    public static void setUsed(UsedParsers us) {
         used = us;
     }
     

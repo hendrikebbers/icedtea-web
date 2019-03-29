@@ -14,55 +14,40 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-package net.sourceforge.jnlp.event;
+package net.sourceforge.jnlp.runtime;
 
-import net.sourceforge.jnlp.cache.Resource;
-import net.sourceforge.jnlp.cache.ResourceTracker;
+import net.sourceforge.jnlp.runtime.ApplicationInstance;
 
-import java.net.URL;
 import java.util.EventObject;
 
 /**
- * This event is sent during the launch of an
- * application.
+ * This event is sent when an application is terminated.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.5 $
  */
-public class DownloadEvent extends EventObject {
+public class ApplicationEvent extends EventObject {
 
-    /** the tracker */
-    final transient private ResourceTracker tracker;
-
-    /** the resource */
-    final transient private Resource resource;
+    /** the application instance */
+    final transient private ApplicationInstance application;
 
     /**
      * Creates a launch event for the specified application
      * instance.
      *
-     * @param source the resource tracker
-     * @param resource the resource
+     * @param source the application instance
      */
-    public DownloadEvent(ResourceTracker source, Resource resource) {
+    public ApplicationEvent(ApplicationInstance source) {
         super(source);
 
-        this.tracker = source;
-        this.resource = resource;
+        this.application = source;
     }
 
     /**
-     * @return the tracker that owns the resource.
+     * @return  the application instance.
      */
-    public ResourceTracker getTracker() {
-        return tracker;
-    }
-
-    /**
-     * @return the location of the resource being downloaded.
-     */
-    public URL getResourceLocation() {
-        return resource.getLocation();
+    public ApplicationInstance getApplication() {
+        return application;
     }
 
 }

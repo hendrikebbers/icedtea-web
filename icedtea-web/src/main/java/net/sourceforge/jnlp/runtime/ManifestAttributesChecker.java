@@ -44,7 +44,7 @@ import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.ResourcesDesc;
 import net.sourceforge.jnlp.SecurityDesc;
-import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
+import net.sourceforge.jnlp.RequestedPermissionLevel;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader.SigningState;
 import net.sourceforge.jnlp.security.SecurityUserInteraction;

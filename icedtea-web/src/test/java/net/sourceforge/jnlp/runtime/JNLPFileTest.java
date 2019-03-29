@@ -38,7 +38,7 @@ package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.InformationDesc;
 import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.SecurityDesc;
+import net.sourceforge.jnlp.RequestedPermissionLevel;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.security.appletextendedsecurity.AppletSecurityLevel;
@@ -194,7 +194,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
         Assert.assertEquals("*.net  ftp://*uu.co.uk", jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.CALLER_ALLOWABLE)));
         Assert.assertEquals("*.com *.net *.cz *.co.uk", jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.CODEBASE)));
         // Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString(), jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.PERMISSIONS))); /* commented due to DummyJNLP being "signed" */
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.ALL.toHtmlString(), jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.PERMISSIONS)));
+        Assert.assertEquals(RequestedPermissionLevel.ALL.toHtmlString(), jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.PERMISSIONS)));
         Assert.assertEquals("false", jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.TRUSTED_LIBRARY)));
         Assert.assertEquals("false", jnlpFile.getManifestsAttributes().getAttribute(new Attributes.Name(JNLPFile.ManifestsAttributes.TRUSTED_ONLY)));
 

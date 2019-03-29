@@ -14,40 +14,55 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-package net.sourceforge.jnlp.event;
+package net.sourceforge.jnlp.cache;
 
-import net.sourceforge.jnlp.runtime.ApplicationInstance;
+import net.sourceforge.jnlp.cache.Resource;
+import net.sourceforge.jnlp.cache.ResourceTracker;
 
+import java.net.URL;
 import java.util.EventObject;
 
 /**
- * This event is sent when an application is terminated.
+ * This event is sent during the launch of an
+ * application.
  *
  * @author <a href="mailto:jmaxwell@users.sourceforge.net">Jon A. Maxwell (JAM)</a> - initial author
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.3 $
  */
-public class ApplicationEvent extends EventObject {
+public class DownloadEvent extends EventObject {
 
-    /** the application instance */
-    final transient private ApplicationInstance application;
+    /** the tracker */
+    final transient private ResourceTracker tracker;
+
+    /** the resource */
+    final transient private Resource resource;
 
     /**
      * Creates a launch event for the specified application
      * instance.
      *
-     * @param source the application instance
+     * @param source the resource tracker
+     * @param resource the resource
      */
-    public ApplicationEvent(ApplicationInstance source) {
+    public DownloadEvent(ResourceTracker source, Resource resource) {
         super(source);
 
-        this.application = source;
+        this.tracker = source;
+        this.resource = resource;
     }
 
     /**
-     * @return  the application instance.
+     * @return the tracker that owns the resource.
      */
-    public ApplicationInstance getApplication() {
-        return application;
+    public ResourceTracker getTracker() {
+        return tracker;
+    }
+
+    /**
+     * @return the location of the resource being downloaded.
+     */
+    public URL getResourceLocation() {
+        return resource.getLocation();
     }
 
 }

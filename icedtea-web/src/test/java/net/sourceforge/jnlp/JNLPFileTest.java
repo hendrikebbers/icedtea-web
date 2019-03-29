@@ -38,6 +38,7 @@ exception statement from your version.
 package net.sourceforge.jnlp;
 
 import net.sourceforge.jnlp.JNLPFile.Match;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.testextensions.annotations.Bug;
 import net.sourceforge.jnlp.testextensions.mock.MockJNLPFile;
 import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
@@ -295,17 +296,17 @@ public class JNLPFileTest extends NoStdOutErrTest {
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
 
     @Test
     public void testGetRequestedPermissionLevel2() throws MalformedURLException, ParseException {
-        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><"+SecurityDesc.RequestedPermissionLevel.ALL.toJnlpString()+"/></security>");
+        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><"+ RequestedPermissionLevel.ALL.toJnlpString()+"/></security>");
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.ALL, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.ALL, jnlpFile.getRequestedPermissionLevel());
     }
 
     @Test
@@ -315,7 +316,7 @@ public class JNLPFileTest extends NoStdOutErrTest {
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
 
     @Test
@@ -325,39 +326,39 @@ public class JNLPFileTest extends NoStdOutErrTest {
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     
     @Test
     public void testGetRequestedPermissionLevel5() throws MalformedURLException, ParseException {
-        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><"+SecurityDesc.RequestedPermissionLevel.J2EE.toJnlpString()+"/></security>");
+        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><"+ RequestedPermissionLevel.J2EE.toJnlpString()+"/></security>");
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.J2EE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.J2EE, jnlpFile.getRequestedPermissionLevel());
     }
     
     @Test
     //unknown for jnlp
     public void testGetRequestedPermissionLevel6() throws MalformedURLException, ParseException {
-        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><" + SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString() + "/></security>");
+        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><" + RequestedPermissionLevel.SANDBOX.toHtmlString() + "/></security>");
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     
     @Test
     //unknown for jnlp
     public void testGetRequestedPermissionLevel7() throws MalformedURLException, ParseException {
-        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><" + SecurityDesc.RequestedPermissionLevel.DEFAULT.toHtmlString() + "/></security>");
+        String jnlpContents = minimalJnlp.replace("SECURITY", "<security><" + RequestedPermissionLevel.DEFAULT.toHtmlString() + "/></security>");
 
         URL codeBase = new URL("http://icedtea.classpath.org");
         InputStream is = new ByteArrayInputStream(jnlpContents.getBytes());
         JNLPFile jnlpFile = new JNLPFile(is, codeBase, new ParserSettings(false, false, false));
-        Assert.assertEquals(SecurityDesc.RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
+        Assert.assertEquals(RequestedPermissionLevel.NONE, jnlpFile.getRequestedPermissionLevel());
     }
     
     @Test

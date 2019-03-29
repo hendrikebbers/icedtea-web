@@ -17,7 +17,8 @@ package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.PropertyDesc;
 import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.cache.CacheUtil;
@@ -111,7 +112,7 @@ public final class Boot implements PrivilegedAction<Void> {
         // setup Swing EDT tracing:
         SwingUtils.setup();
 
-        optionParser = new OptionParser(argsIn, OptionsDefinitions.getJavaWsOptions());
+        optionParser = new OptionParser(argsIn, OptionsDefinitionsPrinter.getJavaWsOptions());
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.VERBOSE)) {
             JNLPRuntime.setDebug(true);

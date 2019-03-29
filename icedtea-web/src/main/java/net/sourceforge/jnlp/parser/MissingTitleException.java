@@ -15,30 +15,33 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
-package net.sourceforge.jnlp;
+package net.sourceforge.jnlp.parser;
+
+import net.sourceforge.jnlp.parser.RequiredElementException;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
- * Thrown when the required information tag is not found
+ * Thrown when a title that is required from the information tag is not found
  * under the current JVM's locale or as a generalized element.
  */
-public class MissingInformationException extends RequiredElementException {
+public class MissingTitleException extends RequiredElementException {
 
     private static final long serialVersionUID = 1L;
-    private static final String message = R("PNoInfoElement");
+
+    private static final String message = R("PMissingElement", R("PMissingTitle"));
 
     /* (non-Javadoc)
      * @see net.sourceforge.jnlp.ParseException(String)
      */
-    public MissingInformationException() {
+    public MissingTitleException() {
         super(message);
     }
 
     /* (non-Javadoc)
      * @see net.sourceforge.jnlp.ParseException(String, Throwable)
      */
-    public MissingInformationException(Throwable cause) {
+    public MissingTitleException(Throwable cause) {
         super(message, cause);
     }
 }

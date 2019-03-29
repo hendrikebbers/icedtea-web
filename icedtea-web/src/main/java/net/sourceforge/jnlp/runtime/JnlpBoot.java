@@ -37,7 +37,7 @@ package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.Launcher;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
