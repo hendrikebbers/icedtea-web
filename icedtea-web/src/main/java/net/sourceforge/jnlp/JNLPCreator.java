@@ -103,7 +103,6 @@ public class JNLPCreator {
             throws ParseException {
         try {
             JNLPFile jnlpFile = new JNLPFile();
-            jnlpFile.setParserSettings(parserSettings);
 
             Node root = Parser.getRootNode(input, parserSettings);
             Parser parser = new Parser(jnlpFile, location, root, parserSettings, forceCodebase); // true == allow extensions

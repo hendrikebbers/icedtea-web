@@ -109,7 +109,6 @@ public final class PluginBridge extends JNLPFile {
         this.codeBase = codebase;
         this.sourceLocation = documentBase;
         this.params = params;
-        this.parserSettings = ParserSettings.getGlobalParserSettings();
 
         if (params.getJNLPHref() != null) {
             useJNLPHref = true;

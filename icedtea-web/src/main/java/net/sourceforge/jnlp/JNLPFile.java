@@ -16,7 +16,6 @@
 
 package net.sourceforge.jnlp;
 
-import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader;
 import net.sourceforge.jnlp.util.ClasspathMatcher;
 import net.sourceforge.jnlp.util.UrlUtils;
@@ -78,9 +77,6 @@ public class JNLPFile {
 
     /** the network location of this JNLP file */
     protected URL fileLocation;
-
-    /** the ParserSettings which were used to parse this file */
-    protected ParserSettings parserSettings = null;
 
     /** A key that uniquely identifies connected instances (main jnlp+ext) */
     protected String uniqueKey = null;
@@ -305,10 +301,6 @@ public class JNLPFile {
         return getInformation().getVendor();
     }
 
-    public void setParserSettings(ParserSettings parserSettings) {
-        this.parserSettings = parserSettings;
-    }
-
     /**
      * @return the JNLP file's network location as specified in the
      * JNLP file.
@@ -330,13 +322,6 @@ public class JNLPFile {
      */
     public String getUniqueKey() {
         return uniqueKey;
-    }
-
-    /**
-     * @return the ParserSettings that was used to parse this file
-     */
-    public ParserSettings getParserSettings() {
-        return parserSettings;
     }
 
     /**

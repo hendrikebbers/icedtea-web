@@ -15,7 +15,6 @@
 package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.*;
-import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.IllegalResourceDescriptorException;
 import net.sourceforge.jnlp.cache.NativeLibraryStorage;
@@ -23,6 +22,7 @@ import net.sourceforge.jnlp.cache.ResourceTracker;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.jdk89acesses.JarIndexAccess;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.security.AppVerifier;
 import net.sourceforge.jnlp.security.JNLPAppVerifier;
 import net.sourceforge.jnlp.security.PluginAppVerifier;
@@ -100,6 +100,7 @@ public class JNLPClassLoader extends URLClassLoader {
      */
     final public static String TEMPLATE = "JNLP-INF/APPLICATION_TEMPLATE.JNLP";
     final public static String APPLICATION = "JNLP-INF/APPLICATION.JNLP";
+    private ParserSettings parserSettings;
 
     /**
      * Actions to specify how cache is to be managed *
@@ -272,8 +273,8 @@ public class JNLPClassLoader extends URLClassLoader {
      * @param policy update policy of loader
      * @throws net.sourceforge.jnlp.LaunchException if app can not be loaded
      */
-    protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy) throws LaunchException {
-        this(file, policy, null, false);
+    protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy, ParserSettings parserSettings) throws LaunchException {
+        this(file, policy, null, false, parserSettings);
     }
 
     /**
@@ -288,8 +289,9 @@ public class JNLPClassLoader extends URLClassLoader {
      * comes.
      *
      */
-    protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase) throws LaunchException {
+    protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase, ParserSettings parserSettings) throws LaunchException {
         super(new URL[0], JNLPClassLoader.class.getClassLoader());
+        this.parserSettings = parserSettings;
 
         LOG.debug("New classloader: " + file.getFileLocation());
         strict = Boolean.valueOf(JNLPRuntime.getConfiguration().getProperty(DeploymentConfiguration.KEY_STRICT_JNLP_CLASSLOADER));
@@ -403,10 +405,10 @@ public class JNLPClassLoader extends URLClassLoader {
      * @param policy the update policy to use when downloading resources
      * @param mainName Overrides the main class name of the application
      */
-    private static JNLPClassLoader createInstance(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase) throws LaunchException {
+    private static JNLPClassLoader createInstance(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase, ParserSettings parserSettings) throws LaunchException {
         String uniqueKey = file.getUniqueKey();
         JNLPClassLoader baseLoader = uniqueKeyToLoader.get(uniqueKey);
-        JNLPClassLoader loader = new JNLPClassLoader(file, policy, mainName, enableCodeBase);
+        JNLPClassLoader loader = new JNLPClassLoader(file, policy, mainName, enableCodeBase, parserSettings);
 
         // If security level is 'high' or greater, we must check if the user allows unsigned applets 
         // when the JNLPClassLoader is created. We do so here, because doing so in the constructor 
@@ -452,8 +454,8 @@ public class JNLPClassLoader extends URLClassLoader {
      * @return existing classloader. creates new if none reliable exists
      * @throws net.sourceforge.jnlp.LaunchException when launch is doomed
      */
-    public static JNLPClassLoader getInstance(JNLPFile file, UpdatePolicy policy, boolean enableCodeBase) throws LaunchException {
-        return getInstance(file, policy, null, enableCodeBase);
+    public static JNLPClassLoader getInstance(JNLPFile file, UpdatePolicy policy, boolean enableCodeBase, ParserSettings parserSettings) throws LaunchException {
+        return getInstance(file, policy, null, enableCodeBase, parserSettings);
     }
 
     /**
@@ -467,7 +469,7 @@ public class JNLPClassLoader extends URLClassLoader {
      * @return existing classloader. creates new if none reliable exists
      * @throws net.sourceforge.jnlp.LaunchException when launch is doomed
      */
-    public static JNLPClassLoader getInstance(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase) throws LaunchException {
+    public static JNLPClassLoader getInstance(JNLPFile file, UpdatePolicy policy, String mainName, boolean enableCodeBase, ParserSettings parserSettings) throws LaunchException {
         JNLPClassLoader loader;
         String uniqueKey = file.getUniqueKey();
 
@@ -480,12 +482,12 @@ public class JNLPClassLoader extends URLClassLoader {
                     || (file.isApplication()
                     && !baseLoader.getJNLPFile().getFileLocation().equals(file.getFileLocation()))) {
 
-                loader = createInstance(file, policy, mainName, enableCodeBase);
+                loader = createInstance(file, policy, mainName, enableCodeBase, parserSettings);
             } else {
                 // if key is same and locations match, this is the loader we want
                 if (!file.isApplication()) {
                     // If this is an applet, we do need to consider its loader
-                    loader = new JNLPClassLoader(file, policy, mainName, enableCodeBase);
+                    loader = new JNLPClassLoader(file, policy, mainName, enableCodeBase, parserSettings);
 
                     if (baseLoader != null) {
                         baseLoader.merge(loader);
@@ -499,39 +501,6 @@ public class JNLPClassLoader extends URLClassLoader {
             loader.incrementLoaderUseCount();
 
             uniqueKeyToLoader.put(uniqueKey, loader);
-        }
-
-        return loader;
-    }
-
-    /**
-     * Returns a JNLP classloader for the JNLP file at the specified location.
-     *
-     * @param location the file's location
-     * @param uniqueKey key to manage applets/applications in shared vm
-     * @param version the file's version
-     * @param settings settings of parser
-     * @param policy the update policy to use when downloading resources
-     * @param mainName Overrides the main class name of the application
-     * @param enableCodeBase whether to enable codebase search or not
-     * @return classlaoder of this appp
-     * @throws java.io.IOException when IO fails
-     * @throws net.sourceforge.jnlp.ParseException when parsing fails
-     * @throws net.sourceforge.jnlp.LaunchException when launch is doomed
-     */
-    public static JNLPClassLoader getInstance(URL location, String uniqueKey, Version version, ParserSettings settings, UpdatePolicy policy, String mainName, boolean enableCodeBase)
-            throws IOException, ParseException, LaunchException {
-
-        JNLPClassLoader loader;
-
-        synchronized (getUniqueKeyLock(uniqueKey)) {
-            loader = uniqueKeyToLoader.get(uniqueKey);
-
-            if (loader == null || !location.equals(loader.getJNLPFile().getFileLocation())) {
-                JNLPFile jnlpFile = new JNLPCreator().create(location, uniqueKey, version, settings, policy);
-
-                loader = getInstance(jnlpFile, policy, mainName, enableCodeBase);
-            }
         }
 
         return loader;
@@ -563,7 +532,7 @@ public class JNLPClassLoader extends URLClassLoader {
         for (ExtensionDesc ext : extDescs) {
             try {
                 String uniqueKey = this.getJNLPFile().getUniqueKey();
-                JNLPClassLoader loader = getInstance(ext.getLocation(), uniqueKey, ext.getVersion(), file.getParserSettings(), updatePolicy, mainClass, this.enableCodeBase);
+                JNLPClassLoader loader = getInstance(file, updatePolicy, mainClass, this.enableCodeBase, parserSettings);
                 loaderList.add(loader);
             } catch (Exception ex) {
                 LOG.error("ERROR", ex);
@@ -1072,10 +1041,10 @@ public class JNLPClassLoader extends URLClassLoader {
                         JNLPMatcher matcher;
                         if (jeName.equals(APPLICATION)) { // If signed application was found
                             LOG.error("APPLICATION.JNLP has been located within signed JAR. Starting verfication...");
-                            matcher = new JNLPMatcher(inStream, jnlpStream, false, jnlp.getParserSettings());
+                            matcher = new JNLPMatcher(inStream, jnlpStream, false, this.parserSettings);
                         } else { // Otherwise template was found
                             LOG.error("APPLICATION_TEMPLATE.JNLP has been located within signed JAR. Starting verfication...");
-                            matcher = new JNLPMatcher(inStream, jnlpStream, true, jnlp.getParserSettings());
+                            matcher = new JNLPMatcher(inStream, jnlpStream, true, this.parserSettings);
                         }
                         // If signed JNLP file does not matches launching JNLP file, throw JNLPMatcherException
                         if (!matcher.isMatch()) {
