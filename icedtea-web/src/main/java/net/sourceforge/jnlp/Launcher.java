@@ -451,7 +451,7 @@ public class Launcher {
      */
     private JNLPFile fromUrl(URL location) throws LaunchException {
         try {
-            JNLPFile file = new JNLPFile(location, parserSettings);
+            JNLPFile file = new JNLPCreator().create(location, parserSettings);
             
             boolean isLocal = false;
             boolean haveHref = false;
@@ -474,7 +474,7 @@ public class Launcher {
             }
 
             if (isLocal && haveHref) {
-                JNLPFile fileFromHref = new JNLPFile(file.getSourceLocation(), parserSettings);
+                JNLPFile fileFromHref = new JNLPCreator().create(file.getSourceLocation(), parserSettings);
                 if (fileFromHref.getCodeBase() == null) {
                     fileFromHref.codeBase = file.getCodeBase();
                 }

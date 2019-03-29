@@ -28,10 +28,7 @@ import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
 import net.sourceforge.jnlp.util.encoding.BASE64Encoder;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 import java.io.IOException;

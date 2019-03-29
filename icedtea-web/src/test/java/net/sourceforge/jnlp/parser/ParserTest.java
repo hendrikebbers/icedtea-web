@@ -37,10 +37,7 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.parser;
 
-import net.sourceforge.jnlp.InformationDesc;
-import net.sourceforge.jnlp.Node;
-import net.sourceforge.jnlp.ParseException;
-import net.sourceforge.jnlp.parser.*;
+import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.testextensions.mock.MockJNLPFile;
 import net.sourceforge.jnlp.testextensions.util.logging.NoStdOutErrTest;
 import org.junit.Assert;

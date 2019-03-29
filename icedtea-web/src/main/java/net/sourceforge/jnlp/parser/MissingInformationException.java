@@ -17,7 +17,7 @@
 
 package net.sourceforge.jnlp.parser;
 
-import net.sourceforge.jnlp.parser.RequiredElementException;
+import net.sourceforge.jnlp.RequiredElementException;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 

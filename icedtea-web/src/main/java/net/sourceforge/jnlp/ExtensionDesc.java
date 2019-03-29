@@ -127,7 +127,7 @@ public class ExtensionDesc {
      */
     public void resolve() throws ParseException, IOException {
         if (file == null) {
-            file = new JNLPFile(location);
+            file = new JNLPCreator().create(location);
 
             LOG.debug("Resolve: {}", file.getInformation().getTitle());
 

@@ -14,24 +14,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 package net.sourceforge.jnlp.runtime;
 
-import net.sourceforge.jnlp.AppletDesc;
-import net.sourceforge.jnlp.ApplicationDesc;
-import net.sourceforge.jnlp.ExtensionDesc;
-import net.sourceforge.jnlp.JARDesc;
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.JNLPMatcher;
-import net.sourceforge.jnlp.JNLPMatcherException;
-import net.sourceforge.jnlp.JnlpRuntimeState;
-import net.sourceforge.jnlp.LaunchDesc;
-import net.sourceforge.jnlp.LaunchException;
-import net.sourceforge.jnlp.NullJnlpFileException;
-import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParseException;
+import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.parser.ParserSettings;
-import net.sourceforge.jnlp.PluginBridge;
-import net.sourceforge.jnlp.ResourcesDesc;
-import net.sourceforge.jnlp.SecurityDesc;
-import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.IllegalResourceDescriptorException;
 import net.sourceforge.jnlp.cache.NativeLibraryStorage;
@@ -544,7 +528,7 @@ public class JNLPClassLoader extends URLClassLoader {
             loader = uniqueKeyToLoader.get(uniqueKey);
 
             if (loader == null || !location.equals(loader.getJNLPFile().getFileLocation())) {
-                JNLPFile jnlpFile = new JNLPFile(location, uniqueKey, version, settings, policy);
+                JNLPFile jnlpFile = new JNLPCreator().create(location, uniqueKey, version, settings, policy);
 
                 loader = getInstance(jnlpFile, policy, mainName, enableCodeBase);
             }
