@@ -37,7 +37,6 @@
 package net.sourceforge.jnlp.util.logging.filelogs;
 
 import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.FileLog;
 import net.sourceforge.jnlp.util.logging.SingleStreamLogger;
 
 import java.io.BufferedWriter;
@@ -64,7 +63,7 @@ public final class WriterBasedFileLog implements SingleStreamLogger {
                 FileUtils.createRestrictedFile(futureFile, true);
             }
             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(fileName), append), "UTF-8"));
-            log(FileLog.getHeadlineHeader().toString() + " writer-based impl.");
+            log("TODO...." + " writer-based impl.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

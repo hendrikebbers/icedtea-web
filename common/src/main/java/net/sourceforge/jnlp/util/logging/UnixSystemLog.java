@@ -37,7 +37,6 @@
 package net.sourceforge.jnlp.util.logging;
 
 import net.sourceforge.jnlp.util.StreamUtils;
-import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +54,7 @@ public class UnixSystemLog implements SingleStreamLogger{
     
     @Override
     public void log(String message) {
-        final String s = "IcedTea-Web java error - for more info see itweb-settings debug options or console. See " + TextsProvider.ITW_BUGS + " for help.\nIcedTea-Web java error manual log: \n" + message;
+        final String s = "IcedTea-Web java error - for more info see itweb-settings debug options or console. See " +  "TODO" + " for help.\nIcedTea-Web java error manual log: \n" + message;
         try {
             String[] ss = s.split("\\n"); //exceptions have many lines
             for (String m : ss) {

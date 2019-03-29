@@ -37,7 +37,6 @@
 package net.sourceforge.jnlp.util.logging.filelogs;
 
 import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.FileLog;
 import net.sourceforge.jnlp.util.logging.SingleStreamLogger;
 
 import java.io.File;
@@ -78,7 +77,7 @@ public final class LogBasedFileLog implements SingleStreamLogger {
             impl = Logger.getLogger(loggerName);
             impl.setLevel(Level.ALL);
             impl.addHandler(fh);
-            log(FileLog.getHeadlineHeader().toString() + " log-based impl.");
+            log("TODO" + " log-based impl.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
