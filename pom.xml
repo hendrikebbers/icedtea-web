@@ -20,6 +20,7 @@
         <module>common</module>
         <module>xml-parser</module>
         <module>swing-utils</module>
+        <module>test-extensions</module>
         <module>icedtea-web</module>
         <module>application</module>
         <module>jnlp-domain</module>

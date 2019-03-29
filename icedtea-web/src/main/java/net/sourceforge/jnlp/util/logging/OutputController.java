@@ -35,7 +35,6 @@
  */
 package net.sourceforge.jnlp.util.logging;
 
-import net.sourceforge.jnlp.cache.DefaultDownloadIndicator;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
@@ -57,7 +56,7 @@ import java.util.List;
  */
 public class OutputController {
 
-    private final static Logger LOG = LoggerFactory.getLogger(DefaultDownloadIndicator.class);
+    private final static Logger LOG = LoggerFactory.getLogger(OutputController.class);
 
     /*
      * singleton instance

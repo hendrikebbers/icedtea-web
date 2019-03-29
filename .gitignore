@@ -2,3 +2,7 @@
 .idea
 *.iml
 */target/**
+ServerAccess-logs.xml
+icedtea-web/all.log
+icedtea-web/stderr.log
+icedtea-web/stdout.log

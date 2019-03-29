@@ -37,7 +37,6 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.testextensions.util.logging;
 
-import net.sourceforge.jnlp.testextensions.ServerAccess;
 import net.sourceforge.jnlp.util.logging.LogConfig;
 import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.jnlp.util.logging.PrintStreamLogger;
@@ -96,7 +95,7 @@ public class NoStdOutErrTest {
             invokeSetLogToStreams(false);
             removeStreams();
         } catch (Exception ex) {
-            ServerAccess.logException(ex);
+            LOG.error("ERROR", ex);
         }
     }
 
@@ -107,7 +106,7 @@ public class NoStdOutErrTest {
             invokeSetLogToStreams(origialStds);
             resetStreams();
         } catch (Exception ex) {
-            ServerAccess.logException(ex);
+            LOG.error("ERROR", ex);
         }
     }
 
@@ -117,7 +116,7 @@ public class NoStdOutErrTest {
             lcs.setAccessible(true);
             lcs.invoke(LogConfig.getLogConfig(), state);
         } catch (Exception ex) {
-            ServerAccess.logException(ex);
+            LOG.error("ERROR", ex);
         }
     }
     
@@ -132,7 +131,7 @@ public class NoStdOutErrTest {
             lcs1.set(OutputController.getInputOutputController(), new PrintStreamLogger(dummy));
             lcs2.set(OutputController.getInputOutputController(), new PrintStreamLogger(dummy));
         } catch (Exception ex) {
-            ServerAccess.logException(ex);
+            LOG.error("ERROR", ex);
         }
     }
     
@@ -145,7 +144,7 @@ public class NoStdOutErrTest {
             lcs1.set(OutputController.getInputOutputController(), origOut);
             lcs2.set(OutputController.getInputOutputController(), origErr);
         } catch (Exception ex) {
-            ServerAccess.logException(ex);
+            LOG.error("ERROR", ex);
         }
     }
 }
