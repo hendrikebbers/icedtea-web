@@ -38,17 +38,14 @@ exception statement from your version.
 package net.sourceforge.jnlp;
 
 import java.util.List;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import net.sourceforge.jnlp.util.logging.OutputController;
-import net.sourceforge.nanoxml.XMLElement;
+
+import net.sourceforge.jnlp.parser.Parser;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

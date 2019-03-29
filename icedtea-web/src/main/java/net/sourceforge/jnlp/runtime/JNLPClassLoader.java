@@ -70,7 +70,7 @@ import net.sourceforge.jnlp.LaunchDesc;
 import net.sourceforge.jnlp.LaunchException;
 import net.sourceforge.jnlp.NullJnlpFileException;
 import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.ResourcesDesc;
 import net.sourceforge.jnlp.SecurityDesc;

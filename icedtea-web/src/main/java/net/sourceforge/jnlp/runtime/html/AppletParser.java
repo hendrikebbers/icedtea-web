@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.jnlp.ParseException;
-import net.sourceforge.jnlp.Parser;
+import net.sourceforge.jnlp.parser.Parser;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.PluginParameters;
 import org.w3c.dom.Element;

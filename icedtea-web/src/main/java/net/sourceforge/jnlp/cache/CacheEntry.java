@@ -23,7 +23,6 @@ import java.net.URL;
 
 import net.sourceforge.jnlp.Version;
 import net.sourceforge.jnlp.util.PropertiesFile;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

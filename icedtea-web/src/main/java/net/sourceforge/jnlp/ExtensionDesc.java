@@ -22,7 +22,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +76,7 @@ public class ExtensionDesc {
      * @param part the part name in the main file
      * @param lazy whether to load the part before launching
      */
-    protected void addPart(String extPart, String part, boolean lazy) {
+    public void addPart(String extPart, String part, boolean lazy) {
         extToPart.put(extPart, part);
 
         if (!lazy || part == null || part.length() == 0)

@@ -24,14 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.UIManager;
-import net.sourceforge.jnlp.LaunchException;
-import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParserSettings;
-import net.sourceforge.jnlp.PropertyDesc;
+
+import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.about.AboutDialog;
 import net.sourceforge.jnlp.cache.CacheUtil;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.security.viewer.CertificateViewer;
 import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.docprovider.IcedTeaWebTextsProvider;
@@ -110,7 +109,7 @@ public final class Boot implements PrivilegedAction<Void> {
         // setup Swing EDT tracing:
         SwingUtils.setup();
 
-        optionParser = new OptionParser(argsIn, OptionsDefinitions.getJavaWsOptions());
+        optionParser = new OptionParser(argsIn, OptionsDefinitionsPrinter.getJavaWsOptions());
 
         if (optionParser.hasOption(OptionsDefinitions.OPTIONS.VERBOSE)) {
             JNLPRuntime.setDebug(true);

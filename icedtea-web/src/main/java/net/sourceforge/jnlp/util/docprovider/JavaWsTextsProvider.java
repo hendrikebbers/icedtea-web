@@ -39,6 +39,7 @@ package net.sourceforge.jnlp.util.docprovider;
 
 import java.io.IOException;
 import net.sourceforge.jnlp.OptionsDefinitions;
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.Translator;
 import static net.sourceforge.jnlp.runtime.Translator.R;
@@ -85,9 +86,9 @@ public class JavaWsTextsProvider extends TextsProvider {
         String add3 = Translator.R("JWSoptionsL3");
         String adds = getFormatter().wrapParagraph(add1 + getFormatter().getNewLine() + add2 + getFormatter().getNewLine() + add3);
         String runtime = getFormatter().getBold(Translator.R("JWSoptionsTitle1")) + getFormatter().getNewLine()
-                + optionsToString(OptionsDefinitions.getJavaWsRuntimeOptions());
+                + optionsToString(OptionsDefinitionsPrinter.getJavaWsRuntimeOptions());
         String control = getFormatter().getBold(Translator.R("JWSoptionsTitle2")) + getFormatter().getNewLine()
-                + optionsToString(OptionsDefinitions.getJavaWsControlOptions());
+                + optionsToString(OptionsDefinitionsPrinter.getJavaWsControlOptions());
         return title + adds + getFormatter().wrapParagraph(control) + getFormatter().wrapParagraph(runtime);
     }
 

@@ -43,6 +43,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.Defaults;
 import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
@@ -102,7 +104,7 @@ public class ItwebSettingsTextsProvider extends TextsProvider {
     @Override
     public String getCommands() {
         return super.getDescription()
-                + getFormatter().wrapParagraph(optionsToString(OptionsDefinitions.getItwsettingsCommands()));
+                + getFormatter().wrapParagraph(optionsToString(OptionsDefinitionsPrinter.getItwsettingsCommands()));
     }
 
     @Override

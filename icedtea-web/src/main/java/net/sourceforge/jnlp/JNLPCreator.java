@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.parser.ParserSettings;
 
 public class JNLPCreator {
     public JNLPFile create(URL location, Version version, ParserSettings settings,

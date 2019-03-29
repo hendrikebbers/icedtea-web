@@ -31,9 +31,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.jar.Attributes;
 
-import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
 import net.sourceforge.jnlp.cache.ResourceTracker;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.parser.MissingTitleException;
+import net.sourceforge.jnlp.parser.MissingVendorException;
+import net.sourceforge.jnlp.parser.Parser;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.ClasspathMatcher;
@@ -1100,12 +1103,12 @@ public class JNLPFile {
             String s = getAttribute(PERMISSIONS);
             if (s == null) {
                 return ManifestBoolean.UNDEFINED;
-            } else if (s.trim().equalsIgnoreCase(SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString())) {
+            } else if (s.trim().equalsIgnoreCase(RequestedPermissionLevel.SANDBOX.toHtmlString())) {
                 return ManifestBoolean.TRUE;
-            } else if (s.trim().equalsIgnoreCase(SecurityDesc.RequestedPermissionLevel.ALL.toHtmlString())) {
+            } else if (s.trim().equalsIgnoreCase(RequestedPermissionLevel.ALL.toHtmlString())) {
                 return ManifestBoolean.FALSE;
             } else {
-                throw new IllegalArgumentException("Unknown value of " + PERMISSIONS + " attribute " + s + ". Expected "+SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString()+" or "+SecurityDesc.RequestedPermissionLevel.ALL.toHtmlString());
+                throw new IllegalArgumentException("Unknown value of " + PERMISSIONS + " attribute " + s + ". Expected "+ RequestedPermissionLevel.SANDBOX.toHtmlString()+" or "+ RequestedPermissionLevel.ALL.toHtmlString());
             }
 
 
@@ -1118,9 +1121,9 @@ public class JNLPFile {
             String s = getAttribute(PERMISSIONS);
             if (s == null) {
                 return "Not defined";
-            } else if (s.trim().equalsIgnoreCase(SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString())) {
+            } else if (s.trim().equalsIgnoreCase(RequestedPermissionLevel.SANDBOX.toHtmlString())) {
                 return s.trim();
-            } else if (s.trim().equalsIgnoreCase(SecurityDesc.RequestedPermissionLevel.ALL.toHtmlString())) {
+            } else if (s.trim().equalsIgnoreCase(RequestedPermissionLevel.ALL.toHtmlString())) {
                 return s.trim();
             } else {
                 return "illegal";

@@ -43,7 +43,7 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.ParseException;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import org.junit.Assert;
 import org.junit.Test;
 

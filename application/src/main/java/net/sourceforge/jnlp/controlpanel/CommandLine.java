@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.ConfiguratonValidator;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.OptionsDefinitions;
@@ -506,7 +507,7 @@ public class CommandLine {
         SwingUtils.setup();
 
         try {
-            OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getItwsettingsCommands());
+            OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getItwsettingsCommands());
             if (optionParser.hasOption(OptionsDefinitions.OPTIONS.DETAILS) || optionParser.hasOption(OptionsDefinitions.OPTIONS.VERBOSE)){
                 JNLPRuntime.setDebug(true);
             }

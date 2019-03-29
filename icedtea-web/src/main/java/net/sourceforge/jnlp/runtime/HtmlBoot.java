@@ -47,17 +47,15 @@ import java.util.Map;
 import javax.swing.JFrame;
 import net.sourceforge.jnlp.JNLPSplashScreen;
 import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParserSettings;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.PluginBridge;
 import net.sourceforge.jnlp.runtime.html.AppletExtractor;
 import net.sourceforge.jnlp.runtime.html.AppletParser;
 import net.sourceforge.jnlp.runtime.html.AppletsFilter;
 import net.sourceforge.jnlp.util.ScreenFinder;
-import net.sourceforge.jnlp.util.logging.OutputController;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
 
-import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;

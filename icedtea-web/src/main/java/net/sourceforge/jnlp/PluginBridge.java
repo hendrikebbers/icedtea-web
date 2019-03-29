@@ -36,8 +36,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.jnlp.SecurityDesc.RequestedPermissionLevel;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.StreamUtils;
 import net.sourceforge.jnlp.util.UrlUtils;
@@ -278,11 +278,11 @@ public final class PluginBridge extends JNLPFile {
         final String level = params.getPermissions();
         if (level == null) {
             return RequestedPermissionLevel.NONE;
-        } else if (level.equals(SecurityDesc.RequestedPermissionLevel.DEFAULT.toHtmlString())) {
+        } else if (level.equals(RequestedPermissionLevel.DEFAULT.toHtmlString())) {
             return RequestedPermissionLevel.NONE;
-        } else if (level.equals(SecurityDesc.RequestedPermissionLevel.SANDBOX.toHtmlString())) {
+        } else if (level.equals(RequestedPermissionLevel.SANDBOX.toHtmlString())) {
             return RequestedPermissionLevel.SANDBOX;
-        } else if (level.equals(SecurityDesc.RequestedPermissionLevel.ALL.toHtmlString())) {
+        } else if (level.equals(RequestedPermissionLevel.ALL.toHtmlString())) {
             return RequestedPermissionLevel.ALL;
         } else {
             return RequestedPermissionLevel.NONE;

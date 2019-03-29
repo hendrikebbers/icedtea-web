@@ -268,7 +268,7 @@ public class InformationDesc {
      * @param key key to place value to
      * @param value value to be placed to key
      */
-    protected void addItem(String key, Object value) {
+    public void addItem(String key, Object value) {
         if (info == null)
             info = new ArrayList<>();
 

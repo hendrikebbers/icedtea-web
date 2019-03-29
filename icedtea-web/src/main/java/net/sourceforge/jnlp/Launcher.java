@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.util.JarFile;
 
 import net.sourceforge.jnlp.cache.CacheUtil;
@@ -43,7 +45,6 @@ import net.sourceforge.jnlp.services.ServiceUtil;
 import javax.swing.text.html.parser.ParserDelegator;
 import net.sourceforge.jnlp.splashscreen.SplashUtils;
 import net.sourceforge.jnlp.util.StreamUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import net.sourceforge.swing.SwingUtils;
 
 import org.slf4j.Logger;

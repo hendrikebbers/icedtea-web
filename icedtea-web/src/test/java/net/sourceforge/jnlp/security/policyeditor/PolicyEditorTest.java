@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.jnlp.OptionsDefinitions;
+import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.util.optionparser.OptionParser;
 import net.sourceforge.jnlp.util.optionparser.UnevenParameterException;
@@ -290,7 +291,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentMainArg() {
         String[] args = new String[] { "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals("foo"));
     }
@@ -298,7 +299,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentMainArg2() {
         String[] args = new String[] { "-codebase", "http://example.com", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals("foo"));
     }
@@ -306,7 +307,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentFileSwitch() {
         String[] args = new String[] { "-file", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals("foo"));
     }
@@ -314,7 +315,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentFileSwitch2() {
         String[] args = new String[] { "-codebase", "http://example.com", "-file", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals("foo"));
     }
@@ -322,7 +323,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentDefaultFileSwitch() throws URISyntaxException {
         String[] args = new String[] { "-defaultfile" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals(new File(new URI(PathsAndFiles.JAVA_POLICY.getFullPath())).getAbsolutePath()));
     }
@@ -330,7 +331,7 @@ public class PolicyEditorTest {
     @Test
     public void testFilePathArgumentDefaultFileSwitch2() throws URISyntaxException {
         String[] args = new String[] { "-codebase", "http://example.com", "-defaultfile" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getFilePathArgument(optionParser);
         assertTrue(result.equals(new File(new URI(PathsAndFiles.JAVA_POLICY.getFullPath())).getAbsolutePath()));
     }
@@ -338,49 +339,49 @@ public class PolicyEditorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testMainArgAndFileSwitch() {
         String[] args = new String[] { "-file", "foo", "bar" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMainArgAndFileSwitch2() {
         String[] args = new String[] { "bar", "-file", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultFileSwitchAndMainArg() {
         String[] args = new String[] { "-defaultfile", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultFileSwitchAndMainArg2() {
         String[] args = new String[] { "foo", "-defaultfile" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultFileSwitchAndMainArgAndFileSwitch() {
         String[] args = new String[] { "-defaultfile", "-file", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultFileSwitchAndMainArgAndFileSwitch2() {
         String[] args = new String[] { "-file", "foo", "-defaultfile" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getFilePathArgument(optionParser);
     }
 
     @Test
     public void testGetCodebaseArgument() {
         String[] args = new String[] { "-codebase", "http://example.com" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getCodebaseArgument(optionParser);
         assertTrue(result.equals("http://example.com"));
     }
@@ -388,28 +389,28 @@ public class PolicyEditorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetCodebaseArgument2() {
         String[] args = new String[] { "-codebase", "" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getCodebaseArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetCodebaseArgument3() {
         String[] args = new String[] { "-codebase", "example.com" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getCodebaseArgument(optionParser);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetCodebaseArgumentWhenNotProvided() {
         String[] args = new String[] { "-codebase" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getCodebaseArgument(optionParser);
     }
 
     @Test
     public void testGetPrincipalsArgument() {
         String[] args = new String[] { "-principals", "aa=bb" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         Set<PolicyParser.PrincipalEntry> result = PolicyEditor.getPrincipalsArgument(optionParser);
         assertTrue(result.size() == 1);
         assertTrue(result.contains(new PolicyParser.PrincipalEntry("aa", "bb")));
@@ -418,7 +419,7 @@ public class PolicyEditorTest {
     @Test
     public void testGetPrincipalsArgument2() {
         String[] args = new String[] { "-principals", "aa", "bb" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         Set<PolicyParser.PrincipalEntry> result = PolicyEditor.getPrincipalsArgument(optionParser);
         assertTrue(result.size() == 1);
         assertTrue(result.contains(new PolicyParser.PrincipalEntry("aa", "bb")));
@@ -427,14 +428,14 @@ public class PolicyEditorTest {
     @Test(expected = UnevenParameterException.class)
     public void testGetPrincipalsArgumentWhenUnevenArgumentsProvided() {
         String[] args = new String[] { "-principals", "aa=bb", "cc" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getPrincipalsArgument(optionParser);
     }
 
     @Test
     public void testGetPrincipalsArgumentWhenNotProvided() {
         String[] args = new String[] { "-principals" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         Set<PolicyParser.PrincipalEntry> result = PolicyEditor.getPrincipalsArgument(optionParser);
         assertTrue(result.isEmpty());
     }
@@ -442,7 +443,7 @@ public class PolicyEditorTest {
     @Test
     public void testGetSignedByArgument() {
         String[] args = new String[] { "-signedby", "foo" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         String result = PolicyEditor.getSignedByArgument(optionParser);
         assertTrue(result.equals("foo"));
     }
@@ -450,7 +451,7 @@ public class PolicyEditorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetSignedByArgumentWhenNotProvided() {
         String[] args = new String[] { "-signedby" };
-        OptionParser optionParser = new OptionParser(args, OptionsDefinitions.getPolicyEditorOptions());
+        OptionParser optionParser = new OptionParser(args, OptionsDefinitionsPrinter.getPolicyEditorOptions());
         PolicyEditor.getSignedByArgument(optionParser);
     }
 }

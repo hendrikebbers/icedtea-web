@@ -43,10 +43,8 @@ import javax.naming.ConfigurationException;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.jnlp.runtime.JNLPRuntime;
-import net.sourceforge.jnlp.tools.JarCertVerifier;
 import net.sourceforge.jnlp.tools.ico.IcoSpi;
 import net.sourceforge.jnlp.util.FileUtils;
-import net.sourceforge.jnlp.util.logging.OutputController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

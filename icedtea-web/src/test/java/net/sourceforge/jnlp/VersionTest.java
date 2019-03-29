@@ -128,19 +128,19 @@ public class VersionTest {
     public void jreVersionTestOk() {
         //no exception occures
         //head support jdk 7+, so this statements should be always true
-        Version.JreVersion jreVersion = new Version.JreVersion("1.4 1.5+", true, true);
-        Version.JreVersion jreVersion1 = new Version.JreVersion("1.6+", true, true);
+        JreVersion jreVersion = new JreVersion("1.4 1.5+", true, true);
+        JreVersion jreVersion1 = new JreVersion("1.6+", true, true);
     }
 
     @Test(expected = RuntimeException.class)
     public void jreVersionTestFails1() {
         //head support jdk 7+, so this statements should be always false
-        Version.JreVersion jreVersion = new Version.JreVersion("2", true, true);
+        JreVersion jreVersion = new JreVersion("2", true, true);
     }
 
     @Test(expected = RuntimeException.class)
     public void jreVersionTestFails2() {
         //head support jdk 7+, so this statements should be always false
-        Version.JreVersion jreVersion = new Version.JreVersion("1.4", true, true);
+        JreVersion jreVersion = new JreVersion("1.4", true, true);
     }
 }
