@@ -362,10 +362,6 @@ public class JNLPClassLoader extends URLClassLoader {
         }
     }
 
-    public boolean isStrict() {
-        return strict;
-    }
-
     /**
      * Install JVM shutdown hooks to clean up resources allocated by this
      * ClassLoader.
@@ -1149,22 +1145,6 @@ public class JNLPClassLoader extends URLClassLoader {
         }
     }
 
-    /*
-     * Sets whether applets are to be run sandboxed, regardless of JAR
-     * signing. This MUST be called before any call to initializeResources,
-     * setSecurity, activateJars, or any other method that sets the value
-     * of this.security or adds entries into this.jarLocationSecurityMap.
-     * @throws LaunchException if security settings have been initialized before
-     * this method is called
-     */
-    public void setRunInSandbox() throws LaunchException {
-        securityDelegate.setRunInSandbox();
-    }
-
-    public boolean userPromptedForSandbox() {
-        return securityDelegate.getRunInSandbox();
-    }
-
     /**
      * Add applet's codebase URL. This allows compatibility with applets that
      * load resources from their codebase instead of through JARs, but can slow
@@ -1913,16 +1893,6 @@ public class JNLPClassLoader extends URLClassLoader {
     }
 
     /**
-     * Returns if the specified resource is available locally from a cached jar
-     *
-     * @param s The name of the resource
-     * @return Whether or not the resource is available locally
-     */
-    public boolean resourceAvailableLocally(String s) {
-        return jarEntries.contains(s);
-    }
-
-    /**
      * Adds whatever resources have already been downloaded in the background.
      */
     protected void addAvailable() {
@@ -2378,7 +2348,6 @@ public class JNLPClassLoader extends URLClassLoader {
             promptedForSandbox = false;
         }
 
-        @Override
         public boolean isPluginApplet() {
             return classLoader.file instanceof PluginBridge;
         }
@@ -2501,26 +2470,12 @@ public class JNLPClassLoader extends URLClassLoader {
         }
 
         @Override
-        public boolean userPromptedForPartialSigning() {
-            return this.promptedForPartialSigning;
-        }
-
-        @Override
         public boolean userPromptedForSandbox() {
             return this.promptedForSandbox;
         }
 
-        @Override
         public void addPermission(final Permission perm) {
             classLoader.addPermission(perm);
-        }
-
-        @Override
-        public void addPermissions(final PermissionCollection perms) {
-            Enumeration<Permission> e = perms.elements();
-            while (e.hasMoreElements()) {
-                addPermission(e.nextElement());
-            }
         }
 
         @Override

@@ -303,10 +303,6 @@ public class PathsAndFiles {
     public static List<InfrastructureFileDescriptor> getAllFiles() {
         return getAllFiles(null);
     }
-    
-    public static List<InfrastructureFileDescriptor> getAllSecurityFiles() {
-        return getAllFiles(null, UserSecurityConfigFileDescriptor.class);
-    }
 
     private static List<InfrastructureFileDescriptor> getAllFiles(Target desired) {
         return getAllFiles(desired, InfrastructureFileDescriptor.class);

@@ -1319,20 +1319,6 @@ public class SplinesDefs {
         return polygonizeControlPoints(redLeaf, scalex, scaley);
     }
 
-//    public static Polygon getMainLeafCurve(Double scalex, double scaley) {
-//        return getNatCubicClosed(getMainLeaf(scalex, scaley));
-//    }
-//
-//  
-//    public static Polygon getSecondLeafCurve(Double scalex, double scaley) {
-//        return getNatCubicClosed(getSecondLeaf(scalex, scaley));
-//    }
-    static Polygon getNatCubicClosed(Polygon p) {
-        NatCubicClosed c = new NatCubicClosed();
-        c.setSourcePolygon(p);
-        return c.calcualteResult();
-    }
-
     /**
      * Small program to vectorize leaves
      *

@@ -46,20 +46,9 @@ package net.sourceforge.jnlp.testextensions.awt.imagesearch;
  *
  */
 public class ComponentNotFoundException extends Exception {
-    
-    public ComponentNotFoundException() { 
-        super(); 
-    }
-    
-    public ComponentNotFoundException(String s) { 
+
+    public ComponentNotFoundException(String s) {
         super(s); 
     }
-    
-    public ComponentNotFoundException(String s, Throwable throwable) { 
-        super(s, throwable); 
-    }
-    
-    public ComponentNotFoundException(Throwable throwable) {
-        super(throwable); 
-    }
+
 }

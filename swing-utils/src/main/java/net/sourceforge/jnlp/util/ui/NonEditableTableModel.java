@@ -34,7 +34,6 @@ statement from your version.
 package net.sourceforge.jnlp.util.ui;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.Vector;
 
 /**
  * A table model that in effect is a {@link DefaultTableModel} except for no
@@ -43,36 +42,6 @@ import java.util.Vector;
  * @since IcedTea-Web 1.5
  */
 public class NonEditableTableModel extends DefaultTableModel {
-    /**
-     * Constructs a {@link javax.swing.table.TableModel} that serves only one
-     * purpose: make cells of certificate tables not editable.
-     * @see DefaultTableModel#DefaultTableModel()
-     */
-    public NonEditableTableModel() {
-        super();
-    }
-
-    /**
-     * Constructs a {@link javax.swing.table.TableModel} that serves only one
-     * purpose: make cells of certificate tables not editable.
-     * @param rowCount the number of rows the table holds
-     * @param columnCount the number of columns the table holds
-     * @see DefaultTableModel#DefaultTableModel(int,int)
-     */
-    public NonEditableTableModel(final int rowCount, final int columnCount) {
-        super(rowCount, columnCount);
-    }
-
-    /**
-     * Constructs a {@link javax.swing.table.TableModel} that serves only one
-     * purpose: make cells of certificate tables not editable.
-     * @param data the data of the table
-     * @param columnNames the names of the columns
-     * @see DefaultTableModel#DefaultTableModel(Object[][],Object[])
-     */
-    public NonEditableTableModel(final Object[][] data, final Object[] columnNames) {
-        super(data, columnNames);
-    }
 
     /**
      * Constructs a {@link javax.swing.table.TableModel} that serves only one
@@ -84,30 +53,6 @@ public class NonEditableTableModel extends DefaultTableModel {
      */
     public NonEditableTableModel(final Object[] columnNames, final int rowCount) {
         super(columnNames, rowCount);
-    }
-
-    /**
-     * Constructs a {@link javax.swing.table.TableModel} that serves only one
-     * purpose: make cells of certificate tables not editable.
-     * @param columnNames {@code vector} containing the names of the new columns;
-     * if this is {@code null} then the model has no columns
-     * @param rowCount the number of rows the table holds
-     * @see DefaultTableModel#DefaultTableModel(Vector,int)
-     */
-    public NonEditableTableModel(final Vector columnNames, final int rowCount) {
-        super(columnNames, rowCount);
-    }
-
-    /**
-     * Constructs a {@link javax.swing.table.TableModel} that serves only one
-     * purpose: make cells of certificate tables not editable.
-     * @param data the data of the table, a {@code Vector} of {@code Vector}s
-     * of {@code Object} values
-     * @param columnNames {@code vector} containing the names of the new columns
-     * @see DefaultTableModel#DefaultTableModel(Vector,Vector)
-     */
-    public NonEditableTableModel(final Vector data, final Vector columnNames) {
-        super(data, columnNames);
     }
 
     /**

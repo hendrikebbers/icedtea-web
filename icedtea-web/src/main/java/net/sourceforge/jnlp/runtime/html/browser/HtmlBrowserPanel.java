@@ -227,15 +227,15 @@ public class HtmlBrowserPanel extends JPanel {
     private final JToggleButton viewSourceButton = new JToggleButton(Translator.R("BrowserSource"));
     private final JCheckBox socketCheckbox = new JCheckBox(Translator.R("BrowserSocket"));
     private final JComboBox<Charset> encodingBox = new JComboBox<>(new Charset[]{
-        null,
-        Charset.forName("US-ASCII"),
-        Charset.forName("UTF-8"),
-        Charset.forName("ISO-8859-1"),
-        Charset.forName("UTF-16"),
-        Charset.forName("UTF-16BE"),
-        Charset.forName("UTF-16LE")
-    
-});
+            null,
+            Charset.forName("US-ASCII"),
+            Charset.forName("UTF-8"),
+            Charset.forName("ISO-8859-1"),
+            Charset.forName("UTF-16"),
+            Charset.forName("UTF-16BE"),
+            Charset.forName("UTF-16LE")
+
+    });
 
     private static final String TEXTPLAIN = "text/plain";
     private static final String TEXTHTML = "text/html";
@@ -307,7 +307,7 @@ public class HtmlBrowserPanel extends JPanel {
         if (isUseSocket()) {
             LOG.debug("Using socket connection");
             Charset ch = (Charset)(encodingBox.getSelectedItem());
-            if (ch == null) { 
+            if (ch == null) {
                 result = UrlUtils.loadUrlWithInvalidHeader(url);
             } else {
                 result = UrlUtils.loadUrlWithInvalidHeader(url, ch);
@@ -316,7 +316,7 @@ public class HtmlBrowserPanel extends JPanel {
             LOG.debug("Using URLconnection");
             String s;
             Charset ch = (Charset)(encodingBox.getSelectedItem());
-            if (ch == null) { 
+            if (ch == null) {
                 s = UrlUtils.loadUrl(url);
             } else {
                 s = UrlUtils.loadUrl(url, ch);
@@ -453,15 +453,6 @@ public class HtmlBrowserPanel extends JPanel {
     public static void warn() {
         LOG.debug(Translator.R("BrowserWarningLine1"));
         LOG.debug(Translator.R("BrowserWarningLine2"));
-    }
-
-    public static void showStandAloneWindow(String url, boolean socket) {
-        warn();
-        JFrame f = new JFrame();
-        f.add(new HtmlBrowserPanel(url, socket));
-        f.pack();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
     }
 
     public String getCurrentSource() {

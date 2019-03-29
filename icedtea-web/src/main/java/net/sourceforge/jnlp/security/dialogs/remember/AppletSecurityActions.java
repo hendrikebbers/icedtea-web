@@ -214,15 +214,6 @@ public class AppletSecurityActions implements Iterable<SavedRememberAction> {
         return toShortString();
     }
 
-    public String toLongString() {
-        StringBuilder sb = new StringBuilder();
-        Collection<Entry<String, SavedRememberAction>> l = getEntries();
-        for (Entry<String, SavedRememberAction> a : l) {
-            sb.append(a.getKey()).append(":").append(a.getValue().toLongString());
-        }
-        return sb.toString();
-    }
-
     public String toShortString() {
         StringBuilder sb = new StringBuilder();
         Collection<Entry<String, SavedRememberAction>> l = getEntries();

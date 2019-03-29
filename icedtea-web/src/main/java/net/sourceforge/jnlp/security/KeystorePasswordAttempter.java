@@ -108,10 +108,6 @@ class KeystorePasswordAttempter {
             this(null, ks, alias, key, certChain, null);
         }
 
-        public KeystoreOperation(KeyStore ks, String alias, Key key, Certificate[] certChain, File f) {
-            this(null, ks, alias, key, certChain, f);
-        }
-
         public KeystoreOperation(KeyManagerFactory kmf, KeyStore ks) {
             this(kmf, ks, null, null, null, null);
         }

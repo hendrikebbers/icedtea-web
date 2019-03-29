@@ -87,14 +87,6 @@ public class JnlpRuntimeState {
         return offlineForced;
     }
 
-    /**
-     * Used by java-abrt-connector via reflection
-     * @return history
-     */
-    private static String getHistory() {
-        return history;
-    }
-
     public static void saveHistory(String documentBase) {
         history += " " + documentBase + " ";
     }

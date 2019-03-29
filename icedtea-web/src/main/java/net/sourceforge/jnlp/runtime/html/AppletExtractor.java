@@ -88,10 +88,6 @@ public class AppletExtractor {
         this.ps = ps;
     }
 
-    public URL getHtml() {
-        return html;
-    }
-
     private InputStream cleanStreamIfPossible(InputStream is) {
         try {
             if (ps != null && ps.isMalformedXmlAllowed()){

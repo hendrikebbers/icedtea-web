@@ -36,7 +36,6 @@ exception statement from your version.
  */
 package net.sourceforge.jnlp.testextensions.awt;
 
-import net.sourceforge.jnlp.testextensions.awt.awtactions.KeyboardActions;
 import net.sourceforge.jnlp.testextensions.awt.awtactions.MouseActions;
 import net.sourceforge.jnlp.testextensions.awt.imagesearch.ComponentFinder;
 import net.sourceforge.jnlp.testextensions.awt.imagesearch.ComponentNotFoundException;
@@ -44,11 +43,8 @@ import net.sourceforge.jnlp.testextensions.awt.imagesearch.ImageSeeker;
 import net.sourceforge.jnlp.testextensions.closinglisteners.Rule;
 import net.sourceforge.jnlp.testextensions.closinglisteners.RulesFolowingClosingListener;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public abstract class AWTHelper extends RulesFolowingClosingListener implements Runnable{
 
@@ -162,23 +158,7 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
         this.appletHeight = appletHeight;
         this.appletDimensionGiven = true;
     }
-    
-    public AWTHelper(String initString, int appletWidth, int appletHeight){
-        this(appletWidth, appletHeight);
-        this.initStr = initString;
-    }
-    
-    /**
-     * refers to AWTHelper functioning as RulesFolowingClosingListener
-     * 
-     * @param strs array of strings to be added as contains rules
-     */
-    public void addClosingRulesFromStringArray(String [] strs){
-        for(String s : strs){
-            this.addContainsRule(s);
-        }
-    }
-    
+
     /**
      * override of method charReaded (from RulesFolowingClosingListener)
      * 
@@ -207,17 +187,6 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
         }
         //is all the wanted output in stdout?
         super.charReaded(ch);
-    }
-    
-    /**
-     * method runAWTHelper - we can call run and declared the action as started
-     * without finding out if initStr is in the output, if this method is
-     * called
-     * 
-     */
-    public void runAWTHelper(){
-        actionStarted = true;
-        this.run();
     }
 
     /**
@@ -265,59 +234,8 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
     protected boolean appletIsReady(String content) {
         return this.getInitStrAsRule().evaluate(content);
     }
-    
-    public boolean isActionStarted() {
-        return actionStarted;
-    }
-    
-    public boolean isAppletColorGiven(){
-        return appletColorGiven;
-    }
-    
-    public boolean isAppletDimensionGiven(){
-        return appletDimensionGiven;
-    }
-    
-    public boolean isMarkerGiven(){
-        return markerGiven;
-    }
-    
+
     //setters
-    /**
-     * method setDefaultWaitForApplet sets the time (in ms) for which the method
-     * captureScreenAndFindApplet will wait (for the applet to load) before it
-     * gets the screenshot the default time is 1000ms
-     * 
-     * @param defaultWaitForApplet
-     */
-    public void setDefaultWaitForApplet(int defaultWaitForApplet) {
-        this.defaultWaitForApplet = defaultWaitForApplet;
-    }
-
-    public void setTryKTimes(int tryKTimes) {
-        this.tryKTimes = tryKTimes;
-    }
-
-    public void setAppletColor(Color appletColor) {
-        this.appletColor = appletColor;
-        this.appletColorGiven = true;
-    }
-
-    public void setInitStr(String initStr) {
-        this.initStr = initStr;
-    }
-       
-    public void setMarker(BufferedImage marker, Point markerPosition) {
-        this.marker = marker;
-        this.markerPosition = markerPosition;
-        this.markerGiven = true;
-    }
-    
-    public void setAppletDimension(int width, int height){
-        this.appletWidth = width;
-        this.appletHeight = height;
-        this.appletDimensionGiven = true;
-    }
 
 
     //creating screenshots, searching for applet
@@ -397,19 +315,7 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
         }
     }
 
-    
-    /**
-     * auxiliary method writeAppletScreen for writing Buffered image into png
-     * 
-     * @param appletScreen
-     * @param filename
-     * @throws IOException
-     */
-    private void writeAppletScreen(BufferedImage appletScreen, String filename) throws IOException {// into png file
-            ImageIO.write(appletScreen, "png", new File(filename+".png"));
-    }
 
-    
     /**
      * method findAndActivateApplet finds the applet by icon 
      * and clicks in the middle of applet area
@@ -432,119 +338,6 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
     public void clickInTheMiddleOfApplet() {
         MouseActions.clickInside(this.actionArea, this.robot);
     }
-    
-    /**
-     * Method clickOnIconExact - click in the middle of a rectangle with 
-     * given pattern (icon) using specified mouse key.
-     * If the applet has not been found yet, the search includes whole screen.
-     * 
-     * @param icon
-     * @param mouseKey
-     * @throws ComponentNotFoundException
-     */
-    public void clickOnIconExact(BufferedImage icon, int mouseKey) throws ComponentNotFoundException{
-        Rectangle areaOfSearch;
-        if(!appletFound){//searching whole screen, less effective
-            areaOfSearch = new Rectangle(0, 0, this.screenshot.getWidth(), this.screenshot.getHeight());
-        }else{
-            areaOfSearch = this.actionArea;
-        }
-        Rectangle iconRectangle = ImageSeeker.findExactImage(icon, this.screenshot, areaOfSearch);
-
-        if (ImageSeeker.isRectangleValid(iconRectangle)) {
-            MouseActions.clickInside(mouseKey, iconRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Exact icon not found!");
-        }
-    }
-
-    /**
-     * Method clickOnIconBlurred - click in the middle of a rectangle with 
-     * given pattern (icon) using specified mouse key.
-     * If the applet has not been found yet, the search includes whole screen.
-     *  
-     * @param icon
-     * @param mouseKey
-     * @param precision tolerated minimal correlation (see ImageSeeker methods)
-     * @throws ComponentNotFoundException
-     */
-    public void clickOnIconBlurred(BufferedImage icon, int mouseKey, double precision) throws ComponentNotFoundException{
-        Rectangle areaOfSearch;
-        if(!appletFound){//searching whole screen, less effective
-            areaOfSearch = new Rectangle(0, 0, this.screenshot.getWidth(), this.screenshot.getHeight());
-        }else{
-            areaOfSearch = this.actionArea;
-        }    
-        Rectangle iconRectangle = ImageSeeker.findBlurredImage(icon, this.screenshot, precision, areaOfSearch);
-
-        if (ImageSeeker.isRectangleValid(iconRectangle)) {
-            MouseActions.clickInside(mouseKey, iconRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Blurred icon not found!");
-        }
-    }
-    
-    /**
-     * Method clickOnColoredRectangle - click in the middle of a rectangle with
-     * given color (appletColor must be specified as the background) using
-     * specified mouse key.
-     * 
-     * @param c
-     * @param mouseKey
-     * @throws ComponentNotFoundException
-     * @throws AWTFrameworkException 
-     * 
-     */
-    public void clickOnColoredRectangle(Color c, int mouseKey) throws ComponentNotFoundException, AWTFrameworkException {
-        Rectangle buttonRectangle = findColoredRectangle(c);
-
-        if (ImageSeeker.isRectangleValid(buttonRectangle)) {
-            MouseActions.clickInside(mouseKey, buttonRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Colored rectangle not found!");
-        }
-    }
-
-    public void moveToMiddleOfColoredRectangle(Color c) throws ComponentNotFoundException, AWTFrameworkException {
-
-        Rectangle buttonRectangle = findColoredRectangle(c);
-
-        if (ImageSeeker.isRectangleValid(buttonRectangle)) {
-            MouseActions.moveMouseToMiddle(buttonRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Colored rectangle not found!");
-        }
-    }
-
-    public void moveOutsideColoredRectangle(Color c) throws ComponentNotFoundException, AWTFrameworkException {
-        Rectangle buttonRectangle = findColoredRectangle(c);
-
-        if (ImageSeeker.isRectangleValid(buttonRectangle)) {
-            MouseActions.moveMouseOutside(buttonRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Colored rectangle not found!");
-        }
-    }
-
-    public void moveInsideColoredRectangle(Color c) throws ComponentNotFoundException, AWTFrameworkException {
-        Rectangle buttonRectangle = findColoredRectangle(c);
-
-        if (ImageSeeker.isRectangleValid(buttonRectangle)) {
-            MouseActions.moveInsideRectangle(buttonRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Colored rectangle not found!");
-        }
-    }
-
-    public void dragFromColoredRectangle(Color c) throws ComponentNotFoundException, AWTFrameworkException {
-        Rectangle buttonRectangle = findColoredRectangle(c);
-
-        if (ImageSeeker.isRectangleValid(buttonRectangle)) {
-            MouseActions.dragFromRectangle(buttonRectangle, this.robot);
-        }else{
-            throw new ComponentNotFoundException("Colored rectangle not found!");
-        }
-    }
 
     public Rectangle findColoredRectangle(Color c) throws AWTFrameworkException {
         if(!appletColorGiven || !appletFound){
@@ -559,24 +352,4 @@ public abstract class AWTHelper extends RulesFolowingClosingListener implements 
         return result;
     }
 
-    /**
-     * method writeText writes string containing small letters and numbers and
-     * spaces like the keyboard input (using KeyboardActions so delays are
-     * inserted)
-     * 
-     * @param text
-     */
-    public void writeText(String text) {
-        KeyboardActions.writeText(this.robot, text);
-    }
-
-    /**
-     * method typeKey writes one key on the keyboard (again using
-     * KeyboardActions)
-     * 
-     * @param key
-     */
-    public void typeKey(int key) {
-        KeyboardActions.typeKey(this.robot, key);
-    }
- }
+}

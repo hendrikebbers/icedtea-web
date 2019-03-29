@@ -237,18 +237,4 @@ public final class JNLPMatcher {
             }
     }
 
-    /***
-     * Closes an output stream
-     * 
-     * @param stream
-     *            The output stream that will be closed
-     */
-    private void closeOutputStream(OutputStream stream) {
-        if (stream != null)
-            try {
-                stream.close();
-            } catch (Exception e) {
-                LOG.error("ERROR", e);
-            }
-    }
 }

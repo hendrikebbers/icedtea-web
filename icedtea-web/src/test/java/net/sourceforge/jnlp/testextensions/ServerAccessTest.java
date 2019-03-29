@@ -229,16 +229,4 @@ public class ServerAccessTest {
         Assert.assertArrayEquals(b3, bb[2]);
     }
 
-    private void printArrays(byte[][] bb) {
-        System.out.println("[][] l=" + bb.length);
-        for (int i = 0; i < bb.length; i++) {
-            byte[] bs = bb[i];
-            System.out.println(i + ": l=" + bs.length);
-            for (int j = 0; j < bs.length; j++) {
-                byte c = bs[j];
-                System.out.print(" " + j + ":" + c + " ");
-            }
-            System.out.println("");
-        }
-    }
 }

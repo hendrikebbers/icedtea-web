@@ -60,11 +60,6 @@ public class SecurityUtil {
     private final static Logger LOG = LoggerFactory.getLogger(SecurityUtil.class);
 
 
-    public static String getTrustedCertsFilename() throws Exception {
-        return KeyStores.getKeyStoreLocation(Level.USER, Type.CERTS).getFullPath();
-    }
-
-
     /**
      * Extracts the CN field from a Certificate principal string. Or, if it
      * can't find that, return the principal unmodified.
@@ -167,128 +162,7 @@ public class SecurityUtil {
         return ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'F') || (ch >= 'a' && ch <= 'f'));
     }
 
-    /**
-     * Checks the user's home directory to see if the trusted.certs file exists.
-     * If it does not exist, it tries to create an empty keystore.
-     * @return true if the trusted.certs file exists or a new trusted.certs
-     * was created successfully, otherwise false.
-     * @throws java.lang.Exception if check goes wrong
-     */
-    public static boolean checkTrustedCertsFile() throws Exception {
-
-        File certFile = new File(getTrustedCertsFilename());
-
-        //file does not exist
-        if (!certFile.isFile()) {
-            File dir = certFile.getAbsoluteFile().getParentFile();
-            boolean madeDir = false;
-            if (!dir.isDirectory()) {
-                madeDir = dir.mkdirs();
-            }
-
-            //made directory, or directory exists
-            if (madeDir || dir.isDirectory()) {
-                KeyStore ks = KeyStore.getInstance("JKS");
-                loadKeyStore(ks, null);
-                storeKeyStore(ks, certFile);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * @return the keystore associated with the user's trusted.certs file,
-     * or null otherwise.
-     * @throws java.lang.Exception if getting fails
-     */
-    public static KeyStore getUserKeyStore() throws Exception {
-
-        KeyStore ks = null;
-        FileInputStream fis = null;
-
-        if (checkTrustedCertsFile()) {
-
-            try {
-                File file = new File(getTrustedCertsFilename());
-                if (file.exists()) {
-                    ks = KeyStore.getInstance("JKS");
-                    loadKeyStore(ks, file);
-                }
-            } catch (Exception e) {
-                LOG.error("ERROR", e);
-                throw e;
-            } finally {
-                if (fis != null)
-                    fis.close();
-            }
-        }
-        return ks;
-    }
-
-    /**
-     * @return the keystore associated with the JDK cacerts file,
-     * or null otherwise.
-     * @throws java.lang.Exception if get fails
-     */
-    public static KeyStore getCacertsKeyStore() throws Exception {
-
-        KeyStore caks = null;
-        FileInputStream fis = null;
-
-        try {
-            File file = new File(System.getProperty("java.home")
-                                + "/lib/security/cacerts");
-            if (file.exists()) {
-                fis = new FileInputStream(file);
-                caks = KeyStore.getInstance("JKS");
-                caks.load(fis, null);
-            }
-        } catch (Exception e) {
-            caks = null;
-        } finally {
-            if (fis != null)
-                fis.close();
-        }
-
-        return caks;
-    }
-
-    /**
-     * @return the keystore associated with the system certs file,
-     * or null otherwise.
-     * @throws java.lang.Exception if get goes wrong
-     */
-    public static KeyStore getSystemCertStore() throws Exception {
-
-        KeyStore caks = null;
-        FileInputStream fis = null;
-
-        try {
-            File file = new File(System.getProperty("javax.net.ssl.trustStore"));
-            String type = System.getProperty("javax.net.ssl.trustStoreType");
-            //String provider = "SUN";
-            char[] password = System.getProperty(
-                                "javax.net.ssl.trustStorePassword").toCharArray();
-            if (file.exists()) {
-                fis = new FileInputStream(file);
-                caks = KeyStore.getInstance(type);
-                caks.load(fis, password);
-            }
-        } catch (Exception e) {
-            caks = null;
-        } finally {
-            if (fis != null)
-                fis.close();
-        }
-
-        return caks;
-    }
-    
-     public static void initKeyManagerFactory(KeyManagerFactory kmf, KeyStore ks) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
+    public static void initKeyManagerFactory(KeyManagerFactory kmf, KeyStore ks) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
         try {
             KeystorePasswordAttempter.INSTANCE.unlockKeystore(
                     new KeystorePasswordAttempter.KeystoreOperation(kmf, ks) {

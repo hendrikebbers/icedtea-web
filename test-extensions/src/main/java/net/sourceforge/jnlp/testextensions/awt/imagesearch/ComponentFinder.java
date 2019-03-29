@@ -53,48 +53,8 @@ public class ComponentFinder {
             throw new RuntimeException("ComponentFinder - problem initializing defaultIcon",e);
         }
     }
-    
-    /**
-     * method findColoredRectangle determines coordinates of a rectangle colored
-     * by rectangleColor surrounded by a neighbourhood of surroundingColor
-     * 
-     * @param rectangleColor
-     * @param surroundingColor
-     * @param screenshot
-     * @return
-     */
-    public static Rectangle findColoredRectangle(Color rectangleColor, Color surroundingColor, BufferedImage screenshot) {
 
-        Rectangle r = ImageSeeker.findColoredAreaGap(screenshot, rectangleColor, surroundingColor, 0, screenshot.getHeight(), 0);
-        if( ImageSeeker.isRectangleValid(r)){
-            return r;
-        }else{
-            return null;
-        }
-    }
 
-    /**
-     * method findColoredRectangle determines coordinates of a rectangle colored
-     * by rectangleColor surrounded by a neighbourhood of surroundingColor with
-     * possible gap of several pixels
-     * 
-     * @param rectangleColor
-     * @param surroundingColor
-     * @param screenshot
-     * @param gap
-     * @return
-     */
-    public static Rectangle findColoredRectangle(Color rectangleColor, Color surroundingColor, BufferedImage screenshot, int gap) {
-
-        Rectangle r = ImageSeeker.findColoredAreaGap(screenshot, rectangleColor, surroundingColor, 0, screenshot.getHeight(), gap);
-        if( ImageSeeker.isRectangleValid(r)){
-            return r;
-        }else{
-            return null;
-        }
-    }
-
-    
     /**
      * Method findWindowByIcon finds the application area assuming there is a
      * given icon in given position on the application window 
@@ -116,15 +76,6 @@ public class ComponentFinder {
         }
     }
 
-    public static Rectangle findWindowByIconBlurred(BufferedImage icon, Point iconPosition, int windowWidth, int windowHeight, BufferedImage screenshot, double minCorrelation) {
-        Rectangle r = ImageSeeker.findBlurredImage(icon, screenshot, minCorrelation);
-        if( ImageSeeker.isRectangleValid(r)){
-            return windowPositionFromIconPosition(r.getLocation(), iconPosition, windowWidth, windowHeight);
-        }else{
-            return null;
-        }    
-    }
-    
     public static Rectangle windowPositionFromIconPosition(Point iconAbsolute, Point iconRelative, int windowWidth, int windowHeight){
         return new Rectangle( iconAbsolute.x - iconRelative.x, iconAbsolute.y - iconRelative.y,
                             windowWidth, windowHeight);

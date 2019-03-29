@@ -384,10 +384,6 @@ public class JEditorPaneBasedExceptionDialog extends JDialog implements Hyperlin
         return sb.toString();
     }
 
-    Throwable getException() {
-        return exception;
-    }
-
     String getMessage() {
         return message;
     }

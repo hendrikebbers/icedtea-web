@@ -78,10 +78,6 @@ public class ServerLauncher implements Runnable, Authentication511Requester {
         return supportingHeadRequest;
     }
 
-    public void setServerNaming(ServerNaming naming) {
-        this.serverNaming = naming;
-    }
-
     public String getServerName() {
         if (serverNaming == ServerNaming.HOSTNAME) {
             try {
@@ -97,19 +93,11 @@ public class ServerLauncher implements Runnable, Authentication511Requester {
         return serverName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
-    }
-
     public ServerLauncher(Integer port, File dir) {
         this.port = port;
         this.dir = dir;
         System.err.println("port: " + port);
         System.err.println("dir: " + dir);
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 
     public Integer getPort() {
@@ -142,22 +130,9 @@ public class ServerLauncher implements Runnable, Authentication511Requester {
      */
     private int redirectCode = 302;
 
-    public void setRedirect(ServerLauncher redirect) {
-        this.redirect = redirect;
-
-    }
-
-    public void setRedirectCode(int redirectPort) {
-        this.redirectCode = redirectPort;
-    }
-
     //resoource -> request -> number of requests on of this rsource on this server
     // eg   simpletest1.jnlp -> GET -> 3
     private Map<String, Map<String, Integer>> requestsCounter;
-
-    public void setRequestsCounter(Map<String, Map<String, Integer>> requestsCounter) {
-        this.requestsCounter = requestsCounter;
-    }
 
     @Override
     public void run() {
@@ -206,17 +181,6 @@ public class ServerLauncher implements Runnable, Authentication511Requester {
 
     public URL getUrlHostName(String resource) throws MalformedURLException, UnknownHostException {
         return new URL(protocol, InetAddress.getLocalHost().getHostName(), getPort(), sanitizeResource(resource));
-    }
-
-    public List<URL> getUrlAliases(String resource) throws MalformedURLException, UnknownHostException {
-        List<URL> l = new ArrayList<>(3);
-        l.add(getUrlLocalhost(resource));
-        l.add(getUrlLocalhostIp(resource));
-        l.add(getUrlHostName(resource));
-        if (l.size() != ServerNaming.values().length) {
-            throw new RuntimeException("Not all aliases returned! (returned " + l.size() + " expected " + ServerNaming.values().length + ")");
-        }
-        return l;
     }
 
     public URL getUrl() throws MalformedURLException {

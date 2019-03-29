@@ -125,30 +125,12 @@ public class PluginParameters {
         return getDefaulted("cache_version", "");
     }
 
-    public String getCode() {
-        return getDefaulted("code", "");
-    }
-
     public String getJNLPHref() {
         return get("jnlp_href");
     }
 
     public String getJNLPEmbedded() {
         return get("jnlp_embedded");
-    }
-
-    public String getJarFiles() {
-        return getDefaulted("archive", "");
-    }
-
-    public int getWidth() {
-        String widthStr = getDefaulted("width", "0");
-        return Integer.valueOf(widthStr);
-    }
-
-    public int getHeight() {
-        String heightStr = getDefaulted("height", "0");
-        return Integer.valueOf(heightStr);
     }
 
     public String getPermissions() {

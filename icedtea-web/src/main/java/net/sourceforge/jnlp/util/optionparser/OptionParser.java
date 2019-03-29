@@ -203,11 +203,4 @@ public class OptionParser {
         return parsedOptions.size();
     }
 
-    public void addOption(OptionsDefinitions.OPTIONS options, String... params) {
-        ParsedOption x = new ParsedOption(options);
-        for (String string : params) {
-            x.addParam(string);
-        }
-        parsedOptions.add(x);
-    }
 }

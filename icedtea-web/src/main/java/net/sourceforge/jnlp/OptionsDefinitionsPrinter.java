@@ -45,8 +45,6 @@ import java.util.List;
 
 import static net.sourceforge.jnlp.OptionsDefinitions.OPTIONS;
 
-import static net.sourceforge.jnlp.runtime.Translator.R;
-
 public class OptionsDefinitionsPrinter {
 
     public static List<OPTIONS> getItwsettingsCommands() {

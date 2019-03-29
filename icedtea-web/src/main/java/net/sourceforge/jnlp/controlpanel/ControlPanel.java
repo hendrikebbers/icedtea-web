@@ -313,10 +313,6 @@ public class ControlPanel extends JFrame {
         return p;
     }
 
-    private JPanel createClassLoaderSettingsPanel() {
-        return createNotImplementedPanel();
-    }
-
     private JPanel createDebugSettingsPanel() {
         return new DebuggingPanel(this.config);
     }
@@ -329,10 +325,6 @@ public class ControlPanel extends JFrame {
         return new NetworkSettingsPanel(this.config);
     }
 
-    private JPanel createRuntimesSettingsPanel() {
-        return new JREPanel();
-    }
-
     private JPanel createSecuritySettingsPanel() {
         return new SecuritySettingsPanel(this.config);
     }
@@ -343,35 +335,6 @@ public class ControlPanel extends JFrame {
 
     private JPanel createJVMSettingsPanel() {
         return new JVMPanel(this.config);
-    }
-
-    /**
-     * This is a placeholder panel.
-     * 
-     * @return a placeholder panel
-     * @see JPanel
-     */
-    private JPanel createNotImplementedPanel() {
-
-        JPanel notImplementedPanel = new NamedBorderPanel("Unimplemented");
-        notImplementedPanel.setLayout(new BorderLayout());
-
-        ClassLoader cl = getClass().getClassLoader();
-        if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
-        }
-
-        URL imgUrl = cl.getResource("net/sourceforge/jnlp/resources/warning.png");
-        Image img;
-        try {
-            img = ImageIO.read(imgUrl);
-            ImageIcon icon = new ImageIcon(img);
-            JLabel label = new JLabel("Not Implemented", icon, SwingConstants.CENTER);
-            notImplementedPanel.add(label);
-        } catch (IOException e) {
-            LOG.error("ERROR", e);
-        }
-        return notImplementedPanel;
     }
 
     /**

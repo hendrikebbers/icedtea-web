@@ -44,7 +44,6 @@ public class WindowsDesktopEntry implements GenericDesktopEntry {
         this.file = file;
     }
 
-    @Override
     public String getDesktopIconFileName() {
         return XDesktopEntry.getDesktopIconName(file) + ".lnk";
     }

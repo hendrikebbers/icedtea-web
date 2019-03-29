@@ -157,14 +157,6 @@ public class BasePainter implements Observer {
     }
     //enabling end
 
-    private int scaleAvarage(double origValue) {
-        return (int) (avarageRatio() * origValue);
-    }
-
-    private int scaleMax(double origValue) {
-        return (int) (maxRatio() * origValue);
-    }
-
     private int scaleMin(double origValue) {
         return (int) (minRatio() * origValue);
     }
@@ -203,14 +195,6 @@ public class BasePainter implements Observer {
 
     private static double scaleX(double currentSize, double origValue) {
         return scale(DefaultSplashScreen2012.ORIGINAL_W, currentSize, origValue);
-    }
-
-    private static double getRatioY(double currentSize) {
-        return getRatio(DefaultSplashScreen2012.ORIGINAL_H, currentSize);
-    }
-
-    private static double getRatioX(double currentSize) {
-        return getRatio(DefaultSplashScreen2012.ORIGINAL_W, currentSize);
     }
 
     public static double scale(double origSize, double currentSize, double origValue) {
@@ -563,10 +547,6 @@ public class BasePainter implements Observer {
                 }
             }
         });
-    }
-
-    public BasicComponentSplashScreen getMaster() {
-        return master;
     }
 
     public Point getAboutOfset() {

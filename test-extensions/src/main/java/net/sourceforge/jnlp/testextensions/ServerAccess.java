@@ -40,8 +40,6 @@ import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.testextensions.browsertesting.Browser;
 import net.sourceforge.jnlp.testextensions.browsertesting.BrowserFactory;
 import net.sourceforge.jnlp.testextensions.browsertesting.Browsers;
-import net.sourceforge.jnlp.testextensions.closinglisteners.AutoErrorClosingListener;
-import net.sourceforge.jnlp.testextensions.closinglisteners.AutoOkClosingListener;
 import net.sourceforge.jnlp.util.DebugUtils;
 import net.sourceforge.jnlp.util.FileUtils;
 
@@ -55,7 +53,6 @@ import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -234,18 +231,6 @@ public class ServerAccess {
         return getIndependentInstance(dir, port, true);
     }
 
-    public static ServerLauncher getIndependentInstance(String dir) throws IOException {
-        return getIndependentInstance(dir, findFreePort(), true);
-    }
-
-    public static ServerLauncher getIndependentInstanceOnTmpDir() throws IOException {
-        File f = File.createTempFile("itwReproducers_", "_anotherDeployDir");
-        f.delete();
-        f.mkdir();
-        f.deleteOnExit();
-        return getIndependentInstance(f.getAbsolutePath(), findFreePort(), true);
-    }
-
     public static ServerLauncher getIndependentInstance(String dir, int port, boolean daemon) {
 
 
@@ -309,16 +294,6 @@ public class ServerAccess {
         }
     }
 
-    public void setCurrentBrowser(Browser currentBrowser) {
-        this.currentBrowser = currentBrowser;
-        if (this.currentBrowser == null) {
-            LoggingBottleneck.getDefaultLoggingBottleneck().setLoggedBrowser(UNSET_BROWSER);
-        } else {
-            LoggingBottleneck.getDefaultLoggingBottleneck().setLoggedBrowser(this.currentBrowser.getID().toString());
-        }
-    }
-
-
 
     /**
      *
@@ -326,34 +301,6 @@ public class ServerAccess {
      */
     public File getJavawsFile() {
         return new File(System.getProperty(JAVAWS_BUILD_BIN));
-    }
-
-    /**
-     *
-     * @return - file pointing to itweb-settings deducted from passed inside
-     * javaws binary location (JAVAWS_BUILD_BIN)
-     */
-    public File getItwebSettingsFile() {
-        String itwebSettings = "itweb-settings";
-        return getFileInJavawsDir(itwebSettings);
-    }
-
-        /**
-     *
-     * @return - file pointing to itweb-settings deducted from passed inside
-     * javaws binary location (JAVAWS_BUILD_BIN)
-     */
-    public File getIPolicyEditorFile() {
-        String policyeditor = "policyeditor";
-        return getFileInJavawsDir(policyeditor);
-    }
-
-    private File getFileInJavawsDir(String file) {
-        String javawsNameRoot = "javaws";
-        File dir = getJavawsFile().getParentFile();
-        String name = getJavawsFile().getName();
-        String nwName = name.replace(javawsNameRoot, file);
-        return new File(dir, nwName);
     }
 
     /**
@@ -393,29 +340,6 @@ public class ServerAccess {
         }
         //if (!server.isRunning()) throw new RuntimeException("Server mysteriously died");
         return server.getUrl(resource);
-    }
-
-    /**
-     *
-     * @return url pointing to cached server . If non singleton instance is running, new is created.
-     * @throws MalformedURLException
-     */
-    public URL getUrl() throws MalformedURLException {
-        return getUrl("");
-
-    }
-
-    /**
-     *
-     * @return whether cached server is alive. If non singleton instance is running, new is created.
-     */
-    public boolean isRunning() {
-        if (server == null) {
-            getInstance();
-        }
-        //if (!server.isRunning()) throw new RuntimeException("Server mysteriously died");
-        return server.isRunning();
-
     }
 
     /**
@@ -543,52 +467,6 @@ public class ServerAccess {
     public static void saveFile(String content, File f) throws IOException {
         FileUtils.saveFile(content, f);
     }
-    
-    /**
-     * helping dummy  method to save String as file in specified encoding/.
-     * 
-     * @param content which will be saved as it is saved in this String
-     * @param f file to be saved. No warnings provided
-     * @param encoding of output byte representation
-     * @throws IOException
-     */
-    public static void saveFile(String content, File f,String encoding) throws IOException {
-        FileUtils.saveFile(content, f, encoding);
-    }
-
-    /**
-     * wrapping method to executeProcess (eg: javaws -headless http://localhost:port/resource)
-     * will execute default javaws (@see JAVAWS_BUILD_BIN) upon default url upon cached server (@see SERVER_NAME @see getPort(), @see getInstance())
-     * with parameter -headless (no gui, no asking)
-     * @param resource  name of resource
-     * @return result what left after running this process
-     * @throws Exception
-     */
-    public ProcessResult executeJavawsHeadless(String resource) throws Exception {
-        return executeJavawsHeadless(null, resource);
-    }
-    public ProcessResult executeJavawsHeadless(String resource,ContentReaderListener stdoutl,ContentReaderListener stderrl) throws Exception {
-        return executeJavawsHeadless(null, resource,stdoutl,stderrl,null);
-    }
-    public ProcessResult executeJavawsClearCache() throws Exception {
-         return executeProcess(Arrays.asList(new String[]{getJavawsLocation(), OptionsDefinitions.OPTIONS.CLEARCACHE.option,  ServerAccess.HEADLES_OPTION}));
-    }
-     
-    /**
-     * wrapping method to executeProcess (eg: javaws arg arg -headless http://localhost:port/resource)
-     * will execute default javaws (@see JAVAWS_BUILD_BIN) upon default url upon cached server (@see SERVER_NAME @see getPort(), @see getInstance())
-     * with parameter -headless (no gui, no asking)
-     * @param resource  name of resource
-     * @param otherargs other arguments to be added to headless one
-     * @return result what left after running this process
-     * @throws Exception
-     */
-    public ProcessResult executeJavawsHeadless(List<String> otherargs, String resource) throws Exception {
-         return executeJavawsHeadless(otherargs, resource,null,null,null);
-     }
-    public ProcessResult executeJavawsHeadless(List<String> otherargs, String resource, String[] vars) throws Exception {
-         return executeJavawsHeadless(otherargs, resource,null,null,vars);
-     }
 
     public ProcessResult executeJavawsHeadless(List<String> otherargs, String resource,ContentReaderListener stdoutl,ContentReaderListener stderrl,String[] vars) throws Exception {
         if (otherargs == null) {
@@ -600,32 +478,6 @@ public class ServerAccess {
     }
 
 
-    /**
-     * wrapping method to executeProcess (eg: javaws  http://localhost:port/resource)
-     * will execute default javaws (@see JAVAWS_BUILD_BIN) upon default url upon cached server (@see SERVER_NAME @see getPort(), @see getInstance())
-     * @param resource  name of resource
-     * @return result what left after running this process
-     * @throws Exception
-     */
-    public ProcessResult executeJavaws(String resource) throws Exception {
-        return executeJavaws(null, resource);
-    }
-    public ProcessResult executeJavaws(String resource,ContentReaderListener stdoutl,ContentReaderListener stderrl) throws Exception {
-        return executeJavaws(null, resource,stdoutl,stderrl);
-    }
-
-    public net.sourceforge.jnlp.testextensions.ProcessResult executeBrowser(String string, AutoClose autoClose) throws Exception {
-        ClosingListener errClosing = null;
-        ClosingListener outClosing = null;
-        if (autoClose == AutoClose.CLOSE_ON_BOTH || autoClose == AutoClose.CLOSE_ON_EXCEPTION){
-            errClosing=new AutoErrorClosingListener();
-        }
-        if (autoClose == AutoClose.CLOSE_ON_BOTH || autoClose == AutoClose.CLOSE_ON_CORRECT_END){
-            outClosing=new AutoOkClosingListener();
-        }
-        return executeBrowser(string, outClosing, errClosing);
-    }
-    
     /**
      *
      * @param resource relative resource to be opened in browser for current server instance.
@@ -648,32 +500,6 @@ public class ServerAccess {
         return executeBrowser(getBrowserParams(), resource, stdoutl, stderrl);
     }
 
-     /**
-     *
-     * @param resource elative resource to be opened in browser for current server instance.
-     * @param stdoutl listeners for stdout
-     * @param stderrl listeners for stderr
-     * @return result of browser run
-     *
-     */
-    public ProcessResult executeBrowser(String resource, List<ContentReaderListener> stdoutl, List<ContentReaderListener> stderrl) throws Exception {
-        return executeBrowser(getBrowserParams(), resource, stdoutl, stderrl);
-    }
-
-    /**
-     *  wrapping method to executeProcess (eg: javaws arg arg http://localhost:port/resource)
-     * will execute default javaws (@see JAVAWS_BUILD_BIN) upon default url upon cached server (@see SERVER_NAME @see getPort(), @see getInstance()))
-     * @param resource  name of resource
-     * @param otherargs other arguments to be added
-     * @return result what left after running this process
-     * @throws Exception
-     */
-    public ProcessResult executeJavaws(List<String> otherargs, String resource) throws Exception {
-        return executeProcessUponURL(getJavawsLocation(), otherargs, getUrlUponThisInstance(resource));
-    }
-    public ProcessResult executeJavaws(List<String> otherargs, String resource,ContentReaderListener stdoutl,ContentReaderListener stderrl) throws Exception {
-        return executeProcessUponURL(getJavawsLocation(), otherargs, getUrlUponThisInstance(resource),stdoutl,stderrl);
-    }
     public ProcessResult executeJavaws(List<String> otherargs, String resource,ContentReaderListener stdoutl,ContentReaderListener stderrl,String[] vars) throws Exception {
         return executeProcessUponURL(getJavawsLocation(), otherargs, getUrlUponThisInstance(resource),stdoutl,stderrl,vars);
     }
@@ -691,36 +517,6 @@ public class ServerAccess {
     public ProcessResult executeBrowser(List<String> otherargs, String resource, ContentReaderListener stdoutl, ContentReaderListener stderrl) throws Exception {
         ProcessWrapper rpw = new ProcessWrapper(getBrowserLocation(), otherargs, getUrlUponThisInstance(resource), stdoutl, stderrl, null);
         rpw.setReactingProcess(getCurrentBrowser());//current browser may be null, but it does not metter
-        return rpw.execute();
-    }
-    
-    public ProcessResult executeBrowser(List<String> otherargs, URL url, ContentReaderListener stdoutl, ContentReaderListener stderrl) throws Exception {
-        ProcessWrapper rpw = new ProcessWrapper(getBrowserLocation(), otherargs, url, stdoutl, stderrl, null);
-        rpw.setReactingProcess(getCurrentBrowser());//current browser may be null, but it does not metter
-        return rpw.execute();
-    }
-
-    public ProcessResult executeBrowser(List<String> otherargs,    String resource, List<ContentReaderListener> stdoutl, List<ContentReaderListener> stderrl) throws Exception {
-        ProcessWrapper rpw = new ProcessWrapper(getBrowserLocation(), otherargs, getUrlUponThisInstance(resource), stdoutl, stderrl, null);
-        rpw.setReactingProcess(getCurrentBrowser());// current browser may be null, but it does not matter
-        return rpw.execute();
-    }
-
-    public ProcessResult executeBrowser(Browser b, List<String> otherargs, String resource) throws Exception {
-        ProcessWrapper rpw = new ProcessWrapper(b.getBin(), otherargs, getUrlUponThisInstance(resource));
-        rpw.setReactingProcess(b);
-        return rpw.execute();
-    }
-
-    public ProcessResult executeBrowser(Browser b, List<String> otherargs, String resource, ContentReaderListener stdoutl, ContentReaderListener stderrl) throws Exception {
-        ProcessWrapper rpw = new ProcessWrapper(b.getBin(), otherargs, getUrlUponThisInstance(resource), stdoutl, stderrl, null);
-        rpw.setReactingProcess(b);
-        return rpw.execute();
-    }
-
-    public ProcessResult executeBrowser(Browser b, List<String> otherargs, String resource, List<ContentReaderListener> stdoutl, List<ContentReaderListener> stderrl) throws Exception {
-        ProcessWrapper rpw = new ProcessWrapper(b.getBin(), otherargs, getUrlUponThisInstance(resource), stdoutl, stderrl, null);
-        rpw.setReactingProcess(b);
         return rpw.execute();
     }
 
@@ -744,21 +540,6 @@ public class ServerAccess {
      */
     public static URL getUrlUponInstance(ServerLauncher instance,String resource) throws MalformedURLException {
        return instance.getUrl(resource);
-    }
-
-    /**
-     * wrapping method to executeProcess (eg: javaws arg arg arg url)
-     * will execute default javaws (@see JAVAWS_BUILD_BIN) upon any server
-     * @param otherargs - commandline arguments  for javaws process
-     * @param u url of resource upon any server
-     * @return result what left after running this process
-     * @throws Exception
-     */
-    public ProcessResult executeJavawsUponUrl(List<String> otherargs, URL u) throws Exception {
-        return executeProcessUponURL(getJavawsLocation(), otherargs, u);
-    }
-    public ProcessResult executeJavawsUponUrl(List<String> otherargs, URL u,ContentReaderListener stdoutl,ContentReaderListener stderrl) throws Exception {
-        return executeProcessUponURL(getJavawsLocation(), otherargs, u,stdoutl,stderrl);
     }
 
     /**
@@ -786,12 +567,7 @@ public class ServerAccess {
      public static ProcessResult executeProcess(final List<String> args) throws Exception {
          return  executeProcess(args, null);
      }
-      public static ProcessResult executeProcess(final List<String> args,ContentReaderListener stdoutl,ContentReaderListener stderrl) throws Exception {
-         return  executeProcess(args, null,stdoutl,stderrl);
-     }
-      public static ProcessResult executeProcess(final List<String> args,ContentReaderListener stdoutl,ContentReaderListener stderrl,String[] vars) throws Exception {
-         return  executeProcess(args, null,stdoutl,stderrl,vars);
-     }
+
     /**
      * utility method to lunch process, get its stdout/stderr, its return value and to kill it if running to long (@see PROCESS_TIMEOUT)
      *

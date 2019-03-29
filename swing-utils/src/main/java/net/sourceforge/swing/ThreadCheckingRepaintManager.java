@@ -32,39 +32,6 @@ public final class ThreadCheckingRepaintManager extends RepaintManager {
         super();
     }
 
-    /**
-     * Creates ThreadCheckingRepaintManager. You can create one and set it using RepaintManager.setCurrentManager(new
-     * ThreadCheckingRepaintManager()).
-     *
-     * @param checkIsShowing true to only check showing components.
-     */
-    public ThreadCheckingRepaintManager(boolean checkIsShowing) {
-        super();
-        this.checkIsShowing = checkIsShowing;
-    }
-
-    /**
-     * Initially there was a rule that it is safe to create and use Swing components until they are realized but this
-     * rule is not valid any more, and now it is recommended to interact with Swing from EDT only.
-     * 
-     * That's why completeCheck flag is used - if you test the old program switch it to false, but new applications
-     * should be tested with completeCheck set to true*
-     *
-     * @return true or false. By default, it is false.
-     */
-    public boolean isCompleteCheck() {
-        return completeCheck;
-    }
-
-    /**
-     * @param completeCheck true or false.
-     *
-     * @see #isCompleteCheck()
-     */
-    public void setCompleteCheck(boolean completeCheck) {
-        this.completeCheck = completeCheck;
-    }
-
     @Override
     public synchronized void addInvalidComponent(JComponent jComponent) {
         checkThreadViolations(jComponent);

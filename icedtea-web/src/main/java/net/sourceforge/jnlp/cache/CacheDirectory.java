@@ -87,27 +87,6 @@ public final class CacheDirectory {
     }
 
     /**
-     * Removes empty folders in the current directory.
-     * 
-     * @param root File pointing at the beginning of directory.
-     * @return True if something was deleted.
-     */
-    public static boolean cleanDir(File root) {
-        boolean delete = true;
-        for (File f : root.listFiles()) {
-            if (f.isDirectory())
-                cleanDir(f);
-            else
-                delete = false;
-        }
-        if (delete){
-            LOG.debug("Delete -- " + root);
-        }
-        //            root.delete();
-        return true;
-    }
-
-    /**
      * This will recursively remove the parent folders if they are empty. 
      * 
      * @param fileNode node of file which parent is going to be cleaned

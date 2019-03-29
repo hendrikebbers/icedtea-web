@@ -146,11 +146,4 @@ public class GuiLaunchHandler extends AbstractLaunchHandler {
         return true;
     }
 
-    @Override
-    public boolean validationError(LaunchException error) {
-        closeSplashScreen();
-        printMessage(error);
-        return true;
-    }
-
 }

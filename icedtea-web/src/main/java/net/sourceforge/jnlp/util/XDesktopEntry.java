@@ -270,27 +270,10 @@ public class XDesktopEntry implements GenericDesktopEntry {
         return input.split("\n")[0];
     }
 
-    /**
-     * @return the size of the icon (in pixels) for the desktop shortcut
-     */
-    private int getIconSize() {
-        return iconSize;
-    }
-
     File getShortcutTmpFile() {
         String userTmp = PathsAndFiles.TMP_DIR.getFullPath();
         File shortcutFile = new File(userTmp + File.separator + getDesktopIconFileName());
         return shortcutFile;
-    }
-
-    /**
-     * Set the icon size to use for the desktop shortcut
-     *
-     * @param size the size (in pixels) of the icon to use. Commonly used sizes
-     *        are of 16, 22, 32, 48, 64 and 128
-     */
-    private void setIconSize(int size) {
-        iconSize = size;
     }
 
     /**
@@ -579,7 +562,6 @@ public class XDesktopEntry implements GenericDesktopEntry {
         return new File(findAndVerifyJavawsMenuDir() + "/" + getDesktopIconFileName());
     }
     
-    @Override
     public String getDesktopIconFileName() {
         return getDesktopIconName() + ".desktop";
     }

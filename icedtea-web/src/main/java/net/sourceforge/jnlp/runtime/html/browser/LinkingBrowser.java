@@ -52,14 +52,6 @@ public class LinkingBrowser extends JTabbedPane {
     private final HtmlBrowserPanel browser;
     private final LinksPanel linksPanel = new LinksPanel();
 
-    public LinkingBrowser(final URL url) {
-        this(url, false);
-    }
-
-    public LinkingBrowser(final String url) {
-        this(url, false);
-    }
-
     public LinkingBrowser(final URL url, boolean socket) {
         super();
         browser = new HtmlBrowserPanel(url, socket);

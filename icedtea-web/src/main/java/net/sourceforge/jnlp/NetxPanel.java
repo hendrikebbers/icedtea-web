@@ -58,7 +58,7 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
     // We use this so that we can create exactly one thread group
     // for all panels with the same uKey.
     private static final Map<String, ThreadGroup> uKeyToTG =
-        new HashMap<>();
+            new HashMap<>();
     private static final Object TGMapMutex = new Object();
 
     // This map is actually a set (unfortunately there is no ConcurrentSet
@@ -67,9 +67,9 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
     // so we avoid creating it a second time for panels with the same uKey.
     // Because it's a set, only the keys matter. However, we can't insert
     // null values in because if we did, we couldn't use null checks to see
-    // if a key was absent before a putIfAbsent. 
+    // if a key was absent before a putIfAbsent.
     private static final ConcurrentMap<String, Boolean> appContextCreated =
-        new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
 
     public NetxPanel(URL documentURL, PluginParameters params, PluginBridge bridge) {
         super(documentURL, params.getUnderlyingMap());
@@ -94,7 +94,7 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
     protected void showAppletException(Throwable t) {
         /*
          * Log any exceptions thrown while loading, initializing, starting,
-         * and stopping the applet. 
+         * and stopping the applet.
          */
         LOG.error("ERROR", t); //new logger
         super.showAppletException(t);
@@ -227,6 +227,6 @@ public class NetxPanel extends AppletViewerPanelAccess implements SplashControll
             validate();
         }
 
-    }        
+    }
 
 }

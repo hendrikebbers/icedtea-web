@@ -133,33 +133,6 @@ public class ResourcesDesc {
     }
 
     /**
-     * @return the Packages.
-     */
-    public PackageDesc[] getPackages() {
-        List<PackageDesc> lresources = getResources(PackageDesc.class);
-        return lresources.toArray(new PackageDesc[lresources.size()]);
-    }
-
-    /**
-     * Returns the Packages that match the specified class name.
-     *
-     * @param className the fully qualified class name
-     * @return the PackageDesc objects matching the class name
-     */
-    public PackageDesc[] getPackages(String className) {
-        List<PackageDesc> lresources = getResources(PackageDesc.class);
-
-        for (int i = lresources.size(); i-- > 0;) {
-            PackageDesc pk = lresources.get(i);
-
-            if (!pk.matches(className))
-                lresources.remove(i);
-        }
-
-        return lresources.toArray(new PackageDesc[lresources.size()]);
-    }
-
-    /**
      * @return the Properties as a list.
      */
     public PropertyDesc[] getProperties() {

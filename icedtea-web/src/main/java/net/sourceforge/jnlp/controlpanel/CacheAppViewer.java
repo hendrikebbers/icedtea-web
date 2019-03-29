@@ -42,9 +42,7 @@ import java.util.List;
  */
 public class CacheAppViewer extends JDialog {
 
-    private boolean initialized = false;
     private static final String dialogTitle = Translator.R("CVCPDialogTitle");
-    private final DeploymentConfiguration config; // Configuration file which contains all the settings.
 
     /**
      * Creates a new instance of the cache viewer.
@@ -55,7 +53,6 @@ public class CacheAppViewer extends JDialog {
         super((Frame) null, dialogTitle, true); // Don't need a parent.
         this.setName("CacheViewer");
         SwingUtils.info(this);
-        this.config = config;
         if (config == null) {
             throw new IllegalArgumentException("config: " + config);
         }

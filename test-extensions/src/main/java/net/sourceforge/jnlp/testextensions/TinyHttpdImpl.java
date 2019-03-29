@@ -88,10 +88,6 @@ public class TinyHttpdImpl extends Thread {
         }
     }
 
-    public void setCanRun(boolean canRun) {
-        this.canRun = canRun;
-    }
-
     public void setSupportingHeadRequest(boolean supportsHead) {
         this.supportingHeadRequest = supportsHead;
     }
@@ -102,14 +98,6 @@ public class TinyHttpdImpl extends Thread {
 
     public void setSupportLastModified(boolean supportLastModified) {
         this.supportLastModified = supportLastModified;
-    }
-
-    public boolean isSupportingLastModified() {
-        return this.supportLastModified;
-    }
-
-    public int getPort() {
-        return this.socket.getPort();
     }
 
     private String extractMemory(String filePath) throws UnsupportedEncodingException {

@@ -88,10 +88,6 @@ public class CertificateViewer extends JFrame {
         initialized = true;
     }
 
-    public boolean isInitialized() {
-        return initialized;
-    }
-
     private void centerDialog() {
         ScreenFinder.centerWindowsToCurrentScreen(this);
     }

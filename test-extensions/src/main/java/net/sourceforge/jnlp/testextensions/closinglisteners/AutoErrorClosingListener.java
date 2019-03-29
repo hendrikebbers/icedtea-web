@@ -44,13 +44,4 @@ public class AutoErrorClosingListener extends StringBasedClosingListener {
         super(MAGICAL_ERROR_CLOSING_STRING);
     }
 
-    @Override
-    public void lineReaded(String s) {
-        if (s.contains("FAILED ASSERTION")) {
-            //dont terminate if it is rhino's org.mozilla.javascript.Kit 
-        } else {
-            super.lineReaded(s);
-        }
-    }
-
 }

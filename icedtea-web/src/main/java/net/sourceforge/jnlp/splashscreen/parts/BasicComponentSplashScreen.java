@@ -60,7 +60,6 @@ public abstract class BasicComponentSplashScreen extends JComponent implements S
         return this;
     }
 
-    @Override
     public boolean isAnimationRunning() {
         return animationRunning;
     }
@@ -74,7 +73,6 @@ public abstract class BasicComponentSplashScreen extends JComponent implements S
         this.content = content;
     }
 
-    @Override
     public InformationElement getInformationElement() {
         return content;
     }
@@ -123,7 +121,6 @@ public abstract class BasicComponentSplashScreen extends JComponent implements S
     /**
      * @param splashReason the splashReason to set
      */
-    @Override
     public void setSplashReason(SplashReason splashReason) {
         this.splashReason = splashReason;
     }
@@ -131,7 +128,6 @@ public abstract class BasicComponentSplashScreen extends JComponent implements S
     /**
      * @return the version
      */
-    @Override
     public String getVersion() {
         return version;
     }

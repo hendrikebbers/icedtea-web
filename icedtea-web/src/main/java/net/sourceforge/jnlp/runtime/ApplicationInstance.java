@@ -111,22 +111,6 @@ public class ApplicationInstance {
     }
 
     /**
-     * Add an Application listener
-     * @param listener listener to be added
-     */
-    public void addApplicationListener(ApplicationListener listener) {
-        listeners.add(ApplicationListener.class, listener);
-    }
-
-    /**
-     * Remove an Application Listener
-     * @param listener to be removed
-     */
-    public void removeApplicationListener(ApplicationListener listener) {
-        listeners.remove(ApplicationListener.class, listener);
-    }
-
-    /**
      * Notify listeners that the application has been terminated.
      */
     protected void fireDestroyed() {
@@ -355,14 +339,6 @@ public class ApplicationInstance {
      */
     public String getTitle() {
         return file.getTitle();
-    }
-
-    /**
-     * Returns whether the application is running.
-     * @return state of application
-     */
-    public boolean isRunning() {
-        return !stopped;
     }
 
     /**

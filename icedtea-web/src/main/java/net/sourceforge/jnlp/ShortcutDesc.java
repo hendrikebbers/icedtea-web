@@ -65,12 +65,6 @@ public final class ShortcutDesc {
     }
 
     /**
-     * @return whether the shortcut requires being online
-     */
-    public boolean isOnline() {
-        throw new RuntimeException("icedtea-web is not saving  online-enforcing attribute. See Xoffline impelmentations if needed.");
-    }
-     /**
       * For testing purposes. Verify if it have been parsed out correctly.
      * @return whether the shortcut requires being online.
      */

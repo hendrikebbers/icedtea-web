@@ -168,21 +168,6 @@ public class Resource {
     }
 
     /**
-     * Returns the tracker that first created or monitored the
-     * resource, or null if no trackers are monitoring the resource.
-     */
-    ResourceTracker getTracker() {
-        synchronized (trackers) {
-            List<ResourceTracker> t = trackers.hardList();
-            if (t.size() > 0) {
-                return t.get(0);
-            }
-
-            return null;
-        }
-    }
-    
-    /**
      * @return the local file currently being downloaded
      */
     public File getLocalFile() {
@@ -348,16 +333,6 @@ public class Resource {
     public void setStatusFlags(Collection<Status> flags) {
         synchronized (status) {
             status.addAll(flags);
-        }
-    }
-
-    /**
-     * Unset flags
-     * @param flags a collection of flags to unset
-     */
-    public void unsetStatusFlag(Collection<Status> flags) {
-        synchronized (status) {
-            status.removeAll(flags);
         }
     }
 

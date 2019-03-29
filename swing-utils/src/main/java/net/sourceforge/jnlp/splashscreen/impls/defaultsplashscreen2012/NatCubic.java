@@ -97,18 +97,6 @@ public class NatCubic extends ControlCurve {
     }
     final int STEPS = 12;
 
-    /* draw a cubic spline */
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        if (pts.npoints >= 2) {
-            if (getResult() == null) {
-                calcualteAndSaveResult();
-            }
-            g.drawPolyline(result.xpoints, result.ypoints, result.npoints);
-        }
-    }
-
     @Override
     public Polygon calcualteResult() {
         Cubic[] X = calcNaturalCubic(pts.npoints - 1, pts.xpoints);

@@ -98,10 +98,6 @@ public class PolicyFileModel {
         return file;
     }
 
-    synchronized PolicyParser getParser() {
-        return parser;
-    }
-
     /**
      * Open the file pointed to by the filePath field. This is either provided by the
      * "-file" command line flag, or if none given, comes from DeploymentConfiguration.
@@ -209,10 +205,6 @@ public class PolicyFileModel {
 
     synchronized SortedSet<PolicyIdentifier> getIdentifiers() {
         return new TreeSet<>(permissionsMap.keySet());
-    }
-
-    synchronized KeystoreInfo getKeystoreInfo() {
-        return keystoreInfo;
     }
 
     /**

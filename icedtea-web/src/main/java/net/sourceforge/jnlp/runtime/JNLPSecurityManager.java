@@ -17,8 +17,6 @@
 package net.sourceforge.jnlp.runtime;
 
 import net.sourceforge.jnlp.JnlpRuntimeState;
-import net.sourceforge.jnlp.security.AccessType;
-import net.sourceforge.jnlp.services.ServiceUtil;
 import net.sourceforge.jnlp.util.WeakList;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
@@ -27,7 +25,6 @@ import sun.awt.AWTSecurityManager;
 import sun.awt.AppContext;
 
 import java.awt.*;
-import java.net.SocketPermission;
 import java.security.AccessControlException;
 import java.security.Permission;
 
@@ -152,46 +149,11 @@ class JNLPSecurityManager extends AWTSecurityManager {
     }
 
     /**
-     * Set the exit class, which is the only class that can exit the
-     * JVM; if not set then any class can exit the JVM.
-     *
-     * @param exitClass the exit class
-     * @throws IllegalStateException if the exit class is already set
-     */
-    public void setExitClass(Class<?> exitClass) throws IllegalStateException {
-        if (this.exitClass != null) {
-            throw new IllegalStateException(R("RExitTaken"));
-        }
-
-        this.exitClass = exitClass;
-    }
-
-    /**
      * Return the current Application, or null if none can be
      * determined.
      */
     protected ApplicationInstance getApplication() {
         return getApplication(Thread.currentThread(), getClassContext(), 0);
-    }
-
-    /**
-     * Return the application the opened the specified window (only
-     * call from event dispatch thread).
-     */
-    protected ApplicationInstance getApplication(Window window) {
-        for (int i = weakWindows.size(); i-- > 0;) {
-            Window w = weakWindows.get(i);
-            if (w == null) {
-                weakWindows.remove(i);
-                weakApplications.remove(i);
-            }
-
-            if (w == window) {
-                return weakApplications.get(i);
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -301,49 +263,6 @@ class JNLPSecurityManager extends AWTSecurityManager {
     }
 
     /**
-     * Asks the user whether or not to grant permission.
-     * @param perm the permission to be granted
-     * @return true if the permission was granted, false otherwise.
-     */
-    private boolean askPermission(Permission perm) {
-
-        ApplicationInstance app = getApplication();
-        if (app != null && !app.isSigned()) {
-            if (perm instanceof SocketPermission
-                                && ServiceUtil.checkAccess(AccessType.NETWORK, perm.getName())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Adds a permission to the JNLPClassLoader.
-     * @param perm the permission to add to the JNLPClassLoader
-     */
-    private void addPermission(Permission perm) {
-        if (JNLPRuntime.getApplication().getClassLoader() instanceof JNLPClassLoader) {
-
-            JNLPClassLoader cl = (JNLPClassLoader) JNLPRuntime.getApplication().getClassLoader();
-            cl.addPermission(perm);
-            if (JNLPRuntime.isDebug()) {
-                if (cl.getSecurity() == null) {
-                    if (cl.getPermissions(null).implies(perm)){
-                        LOG.debug("Added permission: " + perm.toString());
-                    } else {
-                        LOG.debug("Unable to add permission: " + perm.toString());
-                    }
-                } else {
-                    LOG.debug("Cannot get permissions for null codesource when classloader security is not null");
-                }
-            }
-        } else {
-            LOG.debug("Unable to add permission: " + perm + ", classloader not JNLP.");
-        }
-    }
-
-    /**
      * Checks whether the window can be displayed without an applet
      * warning banner, and adds the window to the list of windows to
      * be disposed when the calling application exits.
@@ -421,10 +340,6 @@ class JNLPSecurityManager extends AWTSecurityManager {
         app.destroy();
 
         throw closeAppEx;
-    }
-
-    protected void disableExit() {
-        exitAllowed = false;
     }
 
     /**

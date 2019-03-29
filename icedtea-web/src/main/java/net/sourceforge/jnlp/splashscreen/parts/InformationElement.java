@@ -173,14 +173,6 @@ public class InformationElement {
         return Collections.unmodifiableList(descriptions);
     }
 
-    public String getDescription() {
-        InfoItem i = getBestMatchingDescriptionForSplash();
-        if (i == null) {
-            return null;
-        }
-        return i.toNiceString();
-    }
-
     public List<String> getHeader() {
         List<String> r = new ArrayList<String>(4);
         String t = getTitle();

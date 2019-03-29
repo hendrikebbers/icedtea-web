@@ -72,26 +72,4 @@ public class PackageDesc {
         return false;
     }
 
-    /**
-     * @return the package name.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the part name.
-     */
-    public String getPart() {
-        return part;
-    }
-
-    /**
-     * @return whether subpackages should be matched by this
-     * package.
-     */
-    public boolean isRecursive() {
-        return recursive;
-    }
-
 }

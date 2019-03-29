@@ -70,14 +70,6 @@ public enum ExecuteAppletAction {
         throw new RuntimeException("Unknown UnsignedAppletAction");
     }
 
-    public static ExecuteAppletAction fromString(String s) {
-        if (s.length() == 0) {
-            throw new RuntimeException("Undefined zero-length ExecuteAppletAction String representatio");
-        }
-        return fromChar(s.charAt(0));
-
-    }
-
     public static ExecuteAppletAction fromChar(char s) {
         switch (s) {
             case 'A':

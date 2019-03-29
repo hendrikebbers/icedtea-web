@@ -149,62 +149,6 @@ public class ProcessWrapper {
 
     }
 
-    /**
-     * @return the args
-     */
-    public List<String> getArgs() {
-        return args;
-    }
-
-    /**
-     * @param args the args to set
-     */
-    public void setArgs(List<String> args) {
-        this.args = args;
-    }
-
-    /**
-     * @return the dir
-     */
-    public File getDir() {
-        return dir;
-    }
-
-    /**
-     * @param dir the dir to set
-     */
-    public void setDir(File dir) {
-        this.dir = dir;
-    }
-
-    /**
-     * @return the stdoutl
-     */
-    public List<ContentReaderListener> getStdoutListeners() {
-        return stdoutl;
-    }
-
-    /**
-     * @return the stderrl
-     */
-    public List<ContentReaderListener> getStderrListeners() {
-        return stderrl;
-    }
-
-    /**
-     * @return the vars
-     */
-    public String[] getVars() {
-        return vars;
-    }
-
-    /**
-     * @param vars the vars to set
-     */
-    public void setVars(String[] vars) {
-        this.vars = vars;
-    }
-
     public ProcessResult execute() throws Exception {
         if (reactingProcess !=null ){
             reactingProcess.beforeProcess("");
@@ -281,8 +225,5 @@ public class ProcessWrapper {
     public void setWriter(InputStream writer) {
         this.writer = writer;
     }
-     
-     public void setWriter(String writer) {
-        setWriter(new ByteArrayInputStream(writer.getBytes(StandardCharsets.UTF_8)));
-    }
+
 }

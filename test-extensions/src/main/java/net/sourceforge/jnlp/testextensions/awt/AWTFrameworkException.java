@@ -48,19 +48,8 @@ package net.sourceforge.jnlp.testextensions.awt;
 
 public class AWTFrameworkException extends Exception {
 
-    public AWTFrameworkException() { 
-        super(); 
-    }
-    
-    public AWTFrameworkException(String s) { 
+    public AWTFrameworkException(String s) {
         super(s); 
     }
-    
-    public AWTFrameworkException(String s, Throwable throwable) { 
-        super(s, throwable); 
-    }
-    
-    public AWTFrameworkException(Throwable throwable) { 
-        super(throwable); 
-    }
+
 }

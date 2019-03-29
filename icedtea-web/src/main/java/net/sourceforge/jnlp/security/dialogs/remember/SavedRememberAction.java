@@ -60,11 +60,6 @@ public class SavedRememberAction {
         return toShortString();
     }
 
-    public String toLongString() {
-        String s=sanitizeSavedValue();
-        return action.toString()+"{"+s+"}";
-    }
-
     private String sanitizeSavedValue() {
         String s=savedValue;
         if (savedValue==null || savedValue.trim().isEmpty()){

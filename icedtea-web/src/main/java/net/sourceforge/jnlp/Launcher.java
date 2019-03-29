@@ -142,44 +142,6 @@ public class Launcher {
     }
 
     /**
-     * Sets the update policy used by launched applications.
-     * @param policy to be used for resources
-     */
-    public void setUpdatePolicy(UpdatePolicy policy) {
-        if (policy == null) {
-            throw new IllegalArgumentException(R("LNullUpdatePolicy"));
-        }
-
-        this.updatePolicy = policy;
-    }
-
-    /**
-     * @return the update policy used when launching applications.
-     */
-    public UpdatePolicy getUpdatePolicy() {
-        return updatePolicy;
-    }
-
-    /**
-     * Sets whether to launch the application in a new AppContext
-     * (a separate event queue, look and feel, etc).  If the
-     * sun.awt.SunToolkit class is not present then this method
-     * has no effect.  The default value is true.
-     * @param context appcontext to be set
-     */
-    public void setCreateAppContext(boolean context) {
-        this.context = context;
-    }
-
-    /**
-     * @return whether applications are launched in their own
-     * AppContext.
-     */
-    public boolean isCreateAppContext() {
-        return this.context;
-    }
-
-    /**
      * @param settings  the parser settings to use when the Launcher initiates parsing of
      * a JNLP file.
      */
@@ -370,47 +332,6 @@ public class Launcher {
         }
     }
 
-  
-    /**
-     * Launches the JNLP file in a new JVM instance. 
-     * All streams are properly redirected.
-     *
-     * @param vmArgs the arguments to pass to the new JVM. Can be empty but
-     *        must not be null.
-     * @param file the JNLP file to launch
-     * @param javawsArgs the arguments to pass to the javaws command. Can be
-     *        an empty list but must not be null.
-     * @throws LaunchException if there was an exception
-     */
-    public void launchExternal(List<String> vmArgs, JNLPFile file, List<String> javawsArgs) throws LaunchException {
-        List<String> updatedArgs = new LinkedList<String>(javawsArgs);
-
-        if (file.getFileLocation() != null) {
-            updatedArgs.add(file.getFileLocation().toString());
-        }
-        else if (file.getSourceLocation() != null) {
-            updatedArgs.add(file.getFileLocation().toString());
-        }
-        else {
-            launchError(new LaunchException(file, null, R("LSFatal"), R("LCExternalLaunch"), R("LNullLocation"), R("LNullLocationInfo")));
-        }
-
-        launchExternal(vmArgs, updatedArgs);
-
-    }
-
-    /**
-     * Launches the JNLP file in a new JVM instance.
-     * All streams are properly redirected.
-     *
-     * @param url the URL of the JNLP file to launch
-     * @throws LaunchException if there was an exception
-     */
-    public void launchExternal(URL url) throws LaunchException {
-        List<String> javawsArgs = new LinkedList<String>();
-        javawsArgs.add(url.toString());
-        launchExternal(new LinkedList<String>(), javawsArgs);
-    }
 
     /**
      * Launches the JNLP file at the specified location in a new JVM
@@ -772,35 +693,6 @@ public class Launcher {
             return appletInstance;
         } catch (Exception ex) {
             throw launchError(new LaunchException(file, ex, R("LSFatal"), R("LCInit"), R("LInitApplet"), R("LInitAppletInfo")), appletInstance);
-        }
-    }
-
-    /**
-     * Creates an Applet object from a JNLPFile. This is mainly to be used with
-     * gcjwebplugin.
-     * @param file the PluginBridge to be used.
-     * @param enableCodeBase whether to add the code base URL to the classloader.
-     * @param cont container where to put applet
-     * @return applet
-     * @throws net.sourceforge.jnlp.LaunchException if deploy unrecoverably dien
-     */
-    protected Applet createAppletObject(JNLPFile file, boolean enableCodeBase, Container cont) throws LaunchException {
-        try {
-            JNLPClassLoader loader = JNLPClassLoader.getInstance(file, updatePolicy, enableCodeBase);
-
-            if (enableCodeBase) {
-                loader.enableCodeBase();
-            } else if (file.getResources().getJARs().length == 0) {
-                throw new ClassNotFoundException("Can't do a codebase look up and there are no jars. Failing sooner rather than later");
-            }
-
-            String appletName = file.getApplet().getMainClass();
-            Class<?> appletClass = loader.loadClass(appletName);
-            Applet applet = (Applet) appletClass.newInstance();
-
-            return applet;
-        } catch (Exception ex) {
-            throw launchError(new LaunchException(file, ex, R("LSFatal"), R("LCInit"), R("LInitApplet"), R("LInitAppletInfo")));
         }
     }
 

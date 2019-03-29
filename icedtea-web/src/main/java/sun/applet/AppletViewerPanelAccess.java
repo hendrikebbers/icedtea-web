@@ -39,8 +39,6 @@ import org.slf4j.LoggerFactory;
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
@@ -48,7 +46,6 @@ import java.util.Map;
 public abstract class AppletViewerPanelAccess extends AppletViewerPanel {
 
     private final static Logger LOG = LoggerFactory.getLogger(AppletViewerPanelAccess.class);
-
 
     public AppletViewerPanelAccess(URL documentURL, Map<String, String> atts) {
         // note, this is copy.
@@ -95,22 +92,6 @@ public abstract class AppletViewerPanelAccess extends AppletViewerPanel {
             return super.getAppletContext();
         }
         return ((NetxPanel)this).getAppInst().getAppletEnvironment();
-    }
-    
-    /**
-     * NOTE. We cannot override private method, and this call is unused and useless.
-     * But kept for record of troubles to run on any openjdk.
-     * upstream patch posted http://mail.openjdk.java.net/pipermail/awt-dev/2014-May/007828.html
-     */
-    private void superRunLoader() {
-        try {
-            Class klazz = AppletPanel.class;
-            Method runLoaderMethod = klazz.getDeclaredMethod("runLoader");
-            runLoaderMethod.setAccessible(true);
-            runLoaderMethod.invoke(getApplet());
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
 

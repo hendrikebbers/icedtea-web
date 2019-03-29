@@ -93,15 +93,6 @@ public class AdvancedProxySettingsDialog extends JDialog {
     }
 
     /**
-     * Check whether the dialog has finished being created.
-     * 
-     * @return True if dialog is ready to be displayed.
-     */
-    public boolean isInitialized() {
-        return initialized;
-    }
-
-    /**
      * Center the dialog box.
      */
     private void centerDialog() {

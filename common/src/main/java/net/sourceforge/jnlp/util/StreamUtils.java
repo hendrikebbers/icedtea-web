@@ -89,11 +89,7 @@ public class StreamUtils {
     public static String readStreamAsString(InputStream stream)  throws IOException {
         return readStreamAsString(stream, false);
     }
-    
-    public static String readStreamAsString(InputStream stream, String encoding)  throws IOException {
-        return readStreamAsString(stream, false, encoding);
-    }
-    
+
     public static String readStreamAsString(InputStream stream, boolean includeEndOfLines) throws IOException {
         return readStreamAsString(stream, includeEndOfLines, "UTF-8");
     }

@@ -96,12 +96,4 @@ public class UpdateDesc {
         this.policy = policy;
     }
 
-    public Check getCheck() {
-        return this.check;
-    }
-
-    public Policy getPolicy() {
-        return this.policy;
-    }
-
 }

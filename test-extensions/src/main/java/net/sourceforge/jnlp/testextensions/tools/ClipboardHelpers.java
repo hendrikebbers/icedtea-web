@@ -46,19 +46,4 @@ import java.io.IOException;
 
 public class ClipboardHelpers {
 
-    public static void putToClipboard(String str) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
-        StringSelection strSel = new StringSelection(str);
-        clipboard.setContents(strSel, null);
-    }
-
-    public static String pasteFromClipboard() throws UnsupportedFlavorException, IOException {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
-        Transferable clipData = clipboard.getContents(clipboard);
-        String s = (String) (clipData.getTransferData(
-                DataFlavor.stringFlavor));
-        return s;
-    }
 }

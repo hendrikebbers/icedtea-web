@@ -125,10 +125,6 @@ public class InfrastructureFileDescriptor {
         return new File(getDefaultFullPath());
     }
 
-    public String getDefaultDir() {
-        return clean(systemPathStub + File.separator + pathStub);
-    }
-
     public String getDefaultFullPath() {
         return clean(systemPathStub + File.separator + pathStub + File.separator + fileName);
     }

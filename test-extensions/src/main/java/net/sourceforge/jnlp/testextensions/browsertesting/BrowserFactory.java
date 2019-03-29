@@ -189,39 +189,4 @@ public class BrowserFactory {
 
     }
 
-    /**
-     *
-     * @param tib
-     * @return all matching browser, if browser do not exists, exception is thrown
-     */
-    public List<Browser> translateAnnotationLaudly(TestInBrowsers tib) {
-        return translateAnnotationLaudly(tib.testIn());
-    }
-    public List<Browser> translateAnnotationLaudly(Browsers[] testIn) {
-        List<Browser> r = new ArrayList<Browser>(configuredBrowsers.size());
-        for (Browsers b :testIn) {
-            if (b == Browsers.all) {
-                if (getAllBrowsers().isEmpty()) {
-                    throw new IllegalStateException("You try to add all browsers, but there is none");
-                }
-                r.addAll(getAllBrowsers());
-            } else if (b == Browsers.one) {
-                Browser bb = getRandom();
-                if (bb == null) {
-                    throw new IllegalStateException("You try to add random browser, but there is none");
-                }
-                r.add(bb);
-            } else {
-                Browser bb = getBrowser(b);
-                if (bb == null) {
-                    throw new IllegalStateException("You try to add " + b.toString() + " browser, but it do not exists");
-                }
-                r.add(bb);
-
-            }
-        }
-
-        return r;
-
-    }
 }

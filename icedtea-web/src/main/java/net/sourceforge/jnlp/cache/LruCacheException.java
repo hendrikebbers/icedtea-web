@@ -42,11 +42,4 @@ class LruCacheException extends RuntimeException {
         super();
     }
 
-    public LruCacheException(String string) {
-        super(string);
-    }
-
-    public LruCacheException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -43,11 +43,4 @@ public class ApplicationEvent extends EventObject {
         this.application = source;
     }
 
-    /**
-     * @return  the application instance.
-     */
-    public ApplicationInstance getApplication() {
-        return application;
-    }
-
 }

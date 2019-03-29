@@ -88,7 +88,6 @@ public class CertsInfoPane extends SecurityDialogPanel {
     protected JTree tree;
     private JTable table;
     private JTextArea output;
-    private ListSelectionModel listSelectionModel;
     private ListSelectionModel tableSelectionModel;
     protected String[] certNames;
     private String[] columnNames = { R("Field"), R("Value") };

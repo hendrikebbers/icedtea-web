@@ -1428,13 +1428,6 @@ public class PolicyEditor extends JPanel {
         policyEditorController.clear();
     }
 
-    /**
-     * @return whether this PolicyEditor is currently opening or saving a policy file to disk
-     */
-    public boolean isPerformingIO() {
-        return policyEditorController.isPerformingIO();
-    }
-
     public void openPolicyFileSynchronously() {
         if (getFile() == null) {
             return;
@@ -1809,16 +1802,6 @@ public class PolicyEditor extends JPanel {
         } else {
             return filepath;
         }
-    }
-
-    /**
-     * Create a new PolicyEditor instance without passing argv. The returned instance is not
-     * yet set visible.
-     * @param filepath a policy file to open at start, or null if no file to load
-     * @return a reference to a new PolicyEditor instance
-     */
-    public static PolicyEditor createInstance(final String filepath) {
-        return new PolicyEditor(filepath);
     }
 
 }

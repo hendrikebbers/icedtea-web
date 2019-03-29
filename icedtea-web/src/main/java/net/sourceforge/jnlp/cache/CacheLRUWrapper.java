@@ -324,16 +324,6 @@ public class CacheLRUWrapper {
         getRecentlyUsedPropertiesFile().unlock();
     }
 
-    /**
-     * Return the value of given key.
-     * 
-     * @param key key of property
-     * @return value of given key, null otherwise.
-     */
-    public synchronized String getValue(String key) {
-        return getRecentlyUsedPropertiesFile().getProperty(key);
-    }
-
     public synchronized boolean containsKey(String key) {
         return getRecentlyUsedPropertiesFile().containsKey(key);
     }

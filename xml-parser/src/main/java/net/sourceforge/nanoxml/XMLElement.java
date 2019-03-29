@@ -358,17 +358,6 @@ public class XMLElement {
     }
 
     /**
-     * @return the number of child elements of the element.
-     *
-     * <dl><dt><b>Postconditions:</b></dt><dd>
-     * <ul><li>{@code result >= 0}</li>
-     * </ul></dd></dl>
-     */
-    public int countChildren() {
-        return this.children.size();
-    }
-
-    /**
      * @return Enumeration of the attribute names.
      *
      * <dl><dt><b>Postconditions:</b></dt><dd>
@@ -396,18 +385,6 @@ public class XMLElement {
      */
     public String getContent() {
         return this.contents;
-    }
-
-    /**
-     * @return the line nr in the source data on which the element is found.
-     * This method returns {@code 0} there is no associated source data.
-     *
-     * <dl><dt><b>Postconditions:</b></dt><dd>
-     * <ul><li>{@code result >= 0}</li>
-     * </ul></dd></dl>
-     */
-    public int getLineNr() {
-        return this.lineNr;
     }
 
     /**
@@ -1105,64 +1082,12 @@ public class XMLElement {
     }
 
     /**
-     * Creates a parse exception for when an invalid valueset is given to
-     * a method.
-     *
-     * @param name The name of the entity.
-     *
-     * <dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li>{@code name != null}</li>
-     * </ul></dd></dl>
-     * @return exception to be thrown
-     */
-    protected XMLParseException invalidValueSet(String name) {
-        String msg = "Invalid value set (entity name = \"" + name + "\")";
-        return new XMLParseException(this.getName(), this.parserLineNr, msg);
-    }
-
-    /**
-     * Creates a parse exception for when an invalid value is given to a
-     * method.
-     *
-     * @param name  The name of the entity.
-     * @param value The value of the entity.
-     *
-     * <dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li>{@code name != null}</li>
-     *     <li>{@code value != null}</li>
-     * </ul></dd></dl>
-     * @return exception to be used
-     */
-    protected XMLParseException invalidValue(String name,
-                                             String value) {
-        String msg = "Attribute \"" + name + "\" does not contain a valid "
-                   + "value (\"" + value + "\")";
-        return new XMLParseException(this.getName(), this.parserLineNr, msg);
-    }
-
-    /**
      * Creates a parse exception for when the end of the data input has been
      * reached.
      * @return  exception to be used
      */
     protected XMLParseException unexpectedEndOfData() {
         String msg = "Unexpected end of data reached";
-        return new XMLParseException(this.getName(), this.parserLineNr, msg);
-    }
-
-    /**
-     * Creates a parse exception for when a syntax error occured.
-     *
-     * @param context The context in which the error occured.
-     *
-     * <dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li>{@code context != null}</li>
-     *     <li>{@code context.length() &gt; 0}</li>
-     * </ul></dd></dl>
-     * @return exception to be used
-     */
-    protected XMLParseException syntaxError(String context) {
-        String msg = "Syntax error while parsing " + context;
         return new XMLParseException(this.getName(), this.parserLineNr, msg);
     }
 
@@ -1329,10 +1254,5 @@ public class XMLElement {
         }
     }
 
-    public boolean isBOM() {
-        return BOM;
-    }
-    
-    
-    
+
 }

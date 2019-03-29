@@ -47,8 +47,6 @@ import java.util.List;
 import java.util.Map;
 
 import static net.sourceforge.jnlp.runtime.Translator.R;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Maintains information about a CertPath that has signed at least one of the
@@ -233,14 +231,6 @@ public class CertInformation {
         hasExpiringCert = true;
         details.add(Detail.RUN_WITHOUT_RESTRICTIONS);
         details.add(Detail.EXPIRING);
-    }
-
-    /**
-     * Get whether or not this cert will expire within 6 months.
-     * @return {@code true} if the cert will be expired after 6 months.
-     */
-    public boolean hasExpiringCert() {
-        return hasExpiringCert;
     }
 
     /**

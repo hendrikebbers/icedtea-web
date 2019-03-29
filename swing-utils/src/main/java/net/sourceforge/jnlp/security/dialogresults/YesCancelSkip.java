@@ -48,10 +48,6 @@ public class YesCancelSkip extends YesCancel {
         return new YesCancelSkip(BasicDialogValue.Primitive.CANCEL);
     }
 
-    public static YesCancelSkip skip() {
-        return new YesCancelSkip(BasicDialogValue.Primitive.SKIP);
-    }
-
     public static YesCancelSkip readValue(String s) {
         return new YesCancelSkip(BasicDialogValue.Primitive.valueOf(s));
     }

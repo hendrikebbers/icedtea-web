@@ -74,12 +74,6 @@ public class ProcessAssasin extends Thread {
         this.timeout = timeout;
     }
 
-    public ProcessAssasin(ThreadedProcess p, long timeout, boolean skipInstedOfDesroy) {
-        this.p = (p);
-        this.timeout = timeout;
-        this.skipInstedOfDesroy = skipInstedOfDesroy;
-    }
-
     public void setCanRun(boolean canRun) {
         this.canRun = canRun;
         if (p != null) {
@@ -93,20 +87,8 @@ public class ProcessAssasin extends Thread {
         }
     }
 
-    public boolean isCanRun() {
-        return canRun;
-    }
-
     public boolean wasTerminated() {
         return wasTerminated;
-    }
-
-    public void setSkipInstedOfDesroy(boolean skipInstedOfDesroy) {
-        this.skipInstedOfDesroy = skipInstedOfDesroy;
-    }
-
-    public boolean isSkipInstedOfDesroy() {
-        return skipInstedOfDesroy;
     }
 
     void setTimeout(long timeout) {
@@ -192,16 +174,8 @@ public class ProcessAssasin extends Thread {
         return killing;
     }
 
-    public void setUseKill(boolean useKill) {
-        this.useKill = useKill;
-    }
-
     public boolean isUseKill() {
         return useKill;
-    }
-
-    public static void destroyProcess(ThreadedProcess pp, ReactingProcess reactingProcess) {
-        destroyProcess(pp, reactingProcess, false);
     }
 
     public static void destroyProcess(ThreadedProcess pp, ReactingProcess reactingProcess, boolean mercielessKill) {
@@ -227,10 +201,6 @@ public class ProcessAssasin extends Thread {
                 reactingProcess.afterKill("");
             }
         }
-    }
-
-    public static void sigInt(String pid) throws Exception {
-        kill(pid, "SIGINT");
     }
 
     public static void sigKill(String pid) throws Exception {

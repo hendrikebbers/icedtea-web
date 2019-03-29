@@ -108,13 +108,6 @@ public class UnsignedAppletTrustConfirmation {
             return userEntry;
         }
     }
-    public static ExecuteAppletAction getStoredAction(JNLPFile file, Class<? extends RememberableDialog> id) {
-        UnsignedAppletActionEntry x = getStoredEntry(file, id);
-        if (x != null) {
-            return x.getAppletSecurityActions().getAction(id);
-        }
-        return null;
-    }
 
     private static UnsignedAppletActionEntry getMatchingItem(UnsignedAppletActionStorage actionStorage, JNLPFile file, Class<? extends RememberableDialog> id) {
         return actionStorage.getMatchingItem(

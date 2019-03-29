@@ -152,24 +152,6 @@ public abstract class LockingReaderWriter {
     }
 
     /**
-     * Reads contents from the file, first acquring a lock.
-     * @throws IOException
-     */
-    protected synchronized void readContentsLocked() throws IOException {
-        doLocked(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    readContents();
-                } catch (IOException ex) {
-                    throw new StorageIoException(ex);
-                }
-            }
-        });
-    }
-
-    /**
      * Write contents to the file, first acquring a lock.
      * @throws IOException
      */

@@ -47,10 +47,6 @@ import java.util.Date;
 
 public class UnsignedAppletActionStorageExtendedImpl extends UnsignedAppletActionStorageImpl {
 
-    public UnsignedAppletActionStorageExtendedImpl(String location) {
-        this(new File(location));
-    }
-
     public UnsignedAppletActionStorageExtendedImpl(File location) {
         super(location);
     }

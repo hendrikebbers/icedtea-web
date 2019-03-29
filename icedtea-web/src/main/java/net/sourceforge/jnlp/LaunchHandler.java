@@ -46,15 +46,6 @@ public interface LaunchHandler {
      */
     public boolean launchWarning(LaunchException warning);
 
-    /**
-     * Called when a security validation error occurs while
-     * launching the application.
-     *
-     * @param error to be rethrown as launch error
-     * @return true to allow the application to continue, false to stop it.
-     */
-    public boolean validationError(LaunchException error);
-
     // this method will probably be replaced when real security
     // controller is in place.
 

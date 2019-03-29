@@ -63,50 +63,7 @@ public class MouseActions {
         robot.delay(delayMs);
         robot.mouseRelease(mouseKeyMask);
     }
-    
-    public static void click(int mouseKeyMask, Robot robot){
-        robot.delay(defaultDelay);
-        robot.mousePress(mouseKeyMask);
-        robot.delay(defaultDelay);
-        robot.mouseRelease(mouseKeyMask);
-    }
-    
-    /**
-     * method doubleClick presses and releases given mouse keys
-     * two times with reasonable delays
-     * 
-     * @param mouseKeyMask
-     * @param robot
-     * @param delayMs
-     */
-     
-    public static void doubleClick(int mouseKeyMask, Robot robot, int delayMs){
-        click(mouseKeyMask, robot, delayMs);
-        click(mouseKeyMask, robot, delayMs);
-    }
-    
-    public static void doubleClick(int mouseKeyMask, Robot robot){
-        click(mouseKeyMask, robot, defaultDelay);
-        click(mouseKeyMask, robot, defaultDelay);
-    }
 
-    /**
-     * method drag presses the right mouse key,
-     * drags the mouse to a point, and releases the mouse key  
-     * with reasonable delays
-     * 
-     * @param xTo
-     * @param yTo
-     * @param robot
-     * @param delayMs
-     */
-    public static void drag(int xTo, int yTo, Robot robot, int delayMs){
-        robot.delay(delayMs);
-        robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.delay(delayMs);
-        robot.mouseMove(xTo, yTo);
-    }
-    
     public static void drag(int xTo, int yTo, Robot robot){
         robot.delay(defaultDelay);
         robot.mousePress(InputEvent.BUTTON1_MASK);

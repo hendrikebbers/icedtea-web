@@ -71,15 +71,6 @@ public class ClasspathMatcher {
             return false;
         }
 
-        private boolean and(URL s) {
-            for (ClasspathMatcher classpathMatcher : matchers) {
-                if (!classpathMatcher.match(s, includePath)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -210,10 +201,6 @@ public class ClasspathMatcher {
     
     public boolean matchWithPath(URL url) {
         return match(url, true);
-    }
-
-    public boolean matchWithoutPath(URL url) {
-        return match(url, false);
     }
 
     static boolean hasProtocol(final String source) {

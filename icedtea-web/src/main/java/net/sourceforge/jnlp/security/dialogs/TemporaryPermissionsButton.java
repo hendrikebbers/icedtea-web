@@ -72,7 +72,6 @@ public class TemporaryPermissionsButton extends JButton {
     private final JButton linkedButton;
     private PolicyEditorWindow policyEditorWindow = null;
     private final JNLPFile file;
-    private final SecurityDelegate securityDelegate;
     private final Collection<Permission> temporaryPermissions = new HashSet<>();
 
     public TemporaryPermissionsButton(final JNLPFile file, final SecurityDelegate securityDelegate, final JButton linkedButton) {
@@ -85,7 +84,6 @@ public class TemporaryPermissionsButton extends JButton {
         this.menu = createPolicyPermissionsMenu();
         this.linkedButton = linkedButton;
         this.file = file;
-        this.securityDelegate = securityDelegate;
 
         if (file == null || securityDelegate == null || linkedButton == null) {
             this.setEnabled(false);

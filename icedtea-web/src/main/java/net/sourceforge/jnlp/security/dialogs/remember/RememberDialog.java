@@ -70,14 +70,6 @@ public class RememberDialog {
         UnsignedAppletTrustConfirmation.updateAppletAction(found.getFile(), action, wholeCodebase, (Class<RememberableDialog>) found.getClass());
     }
 
-    public SavedRememberAction getRememberedState(SecurityDialog dialog) {
-        RememberableDialog found = findRememberablePanel(dialog.getSecurityDialogPanel());
-        if (found != null) {
-            return getRememberedState(found);
-        }
-        return null;
-    }
-
     public SavedRememberAction getRememberedState(RememberableDialog found) {
         UnsignedAppletActionEntry entry = UnsignedAppletTrustConfirmation.getStoredEntry(found.getFile(), (found.getClass()));
         //was saved for this class of found

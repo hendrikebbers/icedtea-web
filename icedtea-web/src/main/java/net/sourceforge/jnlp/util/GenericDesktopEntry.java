@@ -45,8 +45,5 @@ public interface GenericDesktopEntry {
 
     public void createWindowsMenu() throws IOException;
 
-    //shared!
-    public String getDesktopIconFileName();
-
     public File getDesktopIconFile();
 }

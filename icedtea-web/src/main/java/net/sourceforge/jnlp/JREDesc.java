@@ -85,15 +85,6 @@ public class JREDesc {
     }
 
     /**
-     * @return true if the JRE version is a Java platform version
-     * (java.specification.version property) or false if it is a
-     * product version (java.version property).
-     */
-    public boolean isPlatformVersion() {
-        return getLocation() == null;
-    }
-
-    /**
      * @return the JRE version string.
      */
     public URL getLocation() {

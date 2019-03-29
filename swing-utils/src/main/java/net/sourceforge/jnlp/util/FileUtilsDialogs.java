@@ -18,8 +18,6 @@ package net.sourceforge.jnlp.util;
 
 import net.sourceforge.jnlp.util.FileUtils.OpenFileResult;
 import net.sourceforge.swing.SwingUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,8 +32,6 @@ import static net.sourceforge.jnlp.runtime.Translator.R;
  */
 
 public final class FileUtilsDialogs {
-
-    private final static Logger LOG = LoggerFactory.getLogger(FileUtilsDialogs.class);
 
     /**
      * Show a dialog informing the user that the file is currently read-only

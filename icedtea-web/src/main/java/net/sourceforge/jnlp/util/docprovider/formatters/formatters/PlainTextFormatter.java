@@ -67,14 +67,6 @@ public class PlainTextFormatter extends ReplacingTextFormatter {
         this.maxLineLength = maxLineLength;
     }
 
-    public PlainTextFormatter(String pargraohIndentation) {
-        this(pargraohIndentation, Integer.MAX_VALUE);
-    }
-    
-    public PlainTextFormatter(int maxLineLength) {
-        this(DEFAULT_INDENT, maxLineLength);
-    }
-    
     public PlainTextFormatter() {
         this.pargraohIndentation = DEFAULT_INDENT;
         this.maxLineLength = Integer.MAX_VALUE;

@@ -67,16 +67,6 @@ public class JarFile extends java.util.jar.JarFile implements Closeable {
         verifyZipHeader(file);
     }
 
-    public JarFile(File file, boolean verify) throws IOException {
-        super(file, verify);
-        verifyZipHeader(file);
-    }
-
-    public JarFile(File file, boolean verify, int mode) throws IOException {
-        super(file, verify, mode);
-        verifyZipHeader(file);
-    }
-
     /**
      * The ZIP specification requires that the zip header for all entries in a
      * zip-compressed archive must start with a well known "PK" which is

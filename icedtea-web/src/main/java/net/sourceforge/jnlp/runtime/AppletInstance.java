@@ -87,28 +87,6 @@ public class AppletInstance extends ApplicationInstance {
     }
 
     /**
-     * Sets whether the applet is resizable or not.  Applets default
-     * to being not resizable.
-     * @param resizable boolean to allwo resizing
-     */
-    public void setResizable(boolean resizable) {
-        Container c = environment.getAppletFrame();
-        if (c instanceof Frame)
-            ((Frame) c).setResizable(resizable);
-    }
-
-    /**
-     * @return whether the applet is resizable.
-     */
-    public boolean isResizable() {
-        Container c = environment.getAppletFrame();
-        if (c instanceof Frame)
-            return ((Frame) c).isResizable();
-
-        return false;
-    }
-
-    /**
      * @return the application title.
      */
     @Override

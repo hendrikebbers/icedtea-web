@@ -36,7 +36,6 @@ exception statement from your version.
 */
 package net.sourceforge.jnlp.util.docprovider;
 
-import net.sourceforge.jnlp.OptionsDefinitions;
 import net.sourceforge.jnlp.OptionsDefinitionsPrinter;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.Translator;

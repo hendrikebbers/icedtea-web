@@ -96,13 +96,6 @@ public class LogConfig {
         return LogConfigHolder.INSTANCE;
     }
 
-    /**
-     * For testing only: throw away the previous config
-     */
-    static synchronized void resetLogConfig() {
-        LogConfigHolder.INSTANCE = new LogConfig();
-    }
-
     public String getIcedteaLogDir() {
         return icedteaLogDir;
     }
@@ -127,45 +120,12 @@ public class LogConfig {
         return enableHeaders;
     }
 
-    //package private setters for testing
-    void setEnableHeaders(boolean enableHeaders) {
-        this.enableHeaders = enableHeaders;
-    }
-
-    void setEnableLogging(boolean enableLogging) {
-        this.enableLogging = enableLogging;
-    }
-
-    void setIcedteaLogDir(String icedteaLogDir) {
-        this.icedteaLogDir = icedteaLogDir;
-    }
-
-    void setLogToFile(boolean logToFile) {
-        this.logToFile = logToFile;
-    }
-
-    void setLogToStreams(boolean logToStreams) {
-        this.logToStreams = logToStreams;
-    }
-
-    void setLogToSysLog(boolean logToSysLog) {
-        this.logToSysLog = logToSysLog;
-    }
-
     boolean isLogToConsole() {
         return JavaConsole.isEnabled();
     }
 
     boolean isLegacyLogBasedFileLog() {
         return legacyLogaAsedFileLog;
-    }
-
-    boolean setLegacyLogBasedFileLog(boolean b) {
-        return legacyLogaAsedFileLog = b;
-    }
-
-    void serLogToFileForClientApp(boolean b) {
-        logClientAppToFile = b;
     }
 
     boolean isLogToFileForClientApp() {

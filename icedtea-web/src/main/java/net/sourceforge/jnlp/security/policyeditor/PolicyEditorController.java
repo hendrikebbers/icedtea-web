@@ -68,10 +68,6 @@ public class PolicyEditorController {
         changesMade = b;
     }
 
-    boolean isPerformingIO() {
-        return performingIO;
-    }
-
     void setPerformingIO(final boolean b) {
         performingIO = b;
     }
@@ -162,11 +158,6 @@ public class PolicyEditorController {
             setPermission(policyEntry.getPolicyIdentifier(), permission, true);
         }
         addCustomPermissions(policyEntry.getPolicyIdentifier(), policyEntry.getCustomPermissions());
-    }
-
-    public void clearCustomPermissions() {
-        setChangesMade(true);
-        policyFile.clearCustomPermissions();
     }
 
     public void clearCustomIdentifier(final PolicyIdentifier identifier) {

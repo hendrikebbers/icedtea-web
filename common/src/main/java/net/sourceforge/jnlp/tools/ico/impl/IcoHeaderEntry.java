@@ -69,22 +69,6 @@ public class IcoHeaderEntry {
         fileOffset = src.readInt();
     }
 
-    private IcoHeaderEntry(int width, int height, int colorCount, int planes, int bitCount, int sizeInBytes, int fileOffset) {
-        this.width = width;
-        this.height = height;
-        this.colorCount = colorCount;
-        this.reserved = 0;
-        this.planes = planes;
-        this.bitCount = bitCount;
-        this.sizeInBytes = sizeInBytes;
-        this.fileOffset = fileOffset;
-    }
-
-    private IcoHeaderEntry provideMonochromeHeader() {
-        //each bit in byte stores 8 pixels values
-        return new IcoHeaderEntry(width, height, 1, planes, 1, width * height / 8, fileOffset + sizeInBytes);
-    }
-
     private void isIcoHeader() throws IcoException {
         if (reserved != 0 || (planes != 1 && planes != 0)) {
             throw new IcoException("Invalid header. Expected 0 and 1(0?), got " + reserved + " and " + planes);

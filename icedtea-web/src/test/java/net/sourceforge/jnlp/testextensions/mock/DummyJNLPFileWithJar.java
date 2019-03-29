@@ -61,10 +61,6 @@ public class DummyJNLPFileWithJar extends JNLPFile {
     public URL getJarLocation() {
             return jarFiles[0];
     }
-    
-    public URL getJarLocation(int i) {
-            return jarFiles[i];
-    }
 
     public JARDesc[] getJarDescs() {
         return jarDescs;
@@ -74,11 +70,7 @@ public class DummyJNLPFileWithJar extends JNLPFile {
         return jarDescs[0];
     }
 
-    public JARDesc getJarDesc(int i) {
-        return jarDescs[i];
-    }
-    
-        
+
     @Override
     public ResourcesDesc getResources() {
         ResourcesDesc localResources = new ResourcesDesc(null, new Locale[0], new String[0], new String[0]);

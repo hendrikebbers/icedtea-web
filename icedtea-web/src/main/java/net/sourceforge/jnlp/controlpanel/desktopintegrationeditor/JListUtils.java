@@ -69,10 +69,6 @@ public class JListUtils {
             this.source = source;
         }
 
-        public InfrastructureFileDescriptor getSource() {
-            return source;
-        }
-
         @Override
         protected File getFile() {
             return source.getFile();

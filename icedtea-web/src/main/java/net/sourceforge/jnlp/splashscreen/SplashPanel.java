@@ -41,7 +41,6 @@ import net.sourceforge.jnlp.splashscreen.parts.InformationElement;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentListener;
 
 public interface SplashPanel {
 
@@ -55,8 +54,6 @@ public interface SplashPanel {
 
   
     public void setInformationElement(InformationElement content);
-
-    public InformationElement getInformationElement();
 
     /** Width of the plugin window */
     public void setSplashWidth(int pluginWidth);
@@ -72,11 +69,6 @@ public interface SplashPanel {
 
     public void adjustForSize();
 
-    // Add a new listener for resizes
-    public void addComponentListener(ComponentListener cl);
-
-    public boolean isAnimationRunning();
-
     /**
      * Methods to start the animation in the splash panel.
      *
@@ -89,8 +81,6 @@ public interface SplashPanel {
 
     void paintTo(Graphics g);
 
-    public void setSplashReason(SplashReason splashReason);
-
     public SplashReason getSplashReason();
 
     /**
@@ -98,8 +88,6 @@ public interface SplashPanel {
      * @param version
      */
     public void setVersion(String version);
-
-    String getVersion();
 
     /**
      * how mny percentage loaded  is shown in progress bar (if any)

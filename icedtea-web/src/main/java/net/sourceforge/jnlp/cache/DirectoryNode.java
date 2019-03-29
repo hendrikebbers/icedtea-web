@@ -50,17 +50,6 @@ public class DirectoryNode {
      * Create a new instance of DirectoryNode.
      * 
      * @param name Name representing this node.
-     * @param absPathToNode Absolute path to this node given as a String.
-     * @param parent The parent node.
-     */
-    public DirectoryNode(String name, String absPathToNode, DirectoryNode parent) {
-        this(name, new File(absPathToNode), parent);
-    }
-
-    /**
-     * Create a new instance of DirectoryNode.
-     * 
-     * @param name Name representing this node.
      * @param absPathToNode Absolute path to this node as a File.
      * @param parent The parent node.
      */

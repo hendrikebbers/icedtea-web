@@ -53,15 +53,8 @@ public  class StringBasedClosingListener extends ClosingListener {
 
     @Override
     public void lineReaded(String s) {
-           if (s.contains(condition)){
-           terminate();
-       }
+        if (s.contains(condition)){
+            terminate();
+        }
     }
-
-
-    public String getCondition() {
-        return condition;
-    }
-
-
 }

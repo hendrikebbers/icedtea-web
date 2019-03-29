@@ -267,11 +267,6 @@ public final class PluginBridge extends JNLPFile {
         return useJNLPHref;
     }
 
-    public PluginParameters getParams() {
-        return params;
-    }
-    
-    
 
     @Override
     public RequestedPermissionLevel getRequestedPermissionLevel() {
@@ -442,11 +437,6 @@ public final class PluginBridge extends JNLPFile {
     }
 
     @Override
-    public boolean isComponent() {
-        return false;
-    }
-
-    @Override
     public boolean isInstaller() {
         return false;
     }
@@ -457,10 +447,6 @@ public final class PluginBridge extends JNLPFile {
     static byte[] decodeBase64String(String encodedString) throws IOException {
         BASE64Decoder base64 = new BASE64Decoder();
         return base64.decodeBuffer(encodedString);
-    }
-
-    public String getDebugJnlp() {
-        return debugJnlp;
     }
 
     public boolean haveDebugJnlp() {

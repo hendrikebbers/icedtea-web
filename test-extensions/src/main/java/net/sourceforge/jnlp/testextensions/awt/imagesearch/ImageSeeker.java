@@ -92,11 +92,7 @@ public class ImageSeeker
             return null;
         }
     }
-    
-    public static Rectangle findBlurredImage(BufferedImage marker, BufferedImage testImage, double minCorrelation){
-        return findBlurredImage(marker, testImage, minCorrelation, new Rectangle(0,0,testImage.getWidth(), testImage.getHeight()));
-    }
-    
+
     public static Rectangle findBlurredImage(BufferedImage marker, BufferedImage testImage, double minCorrelation, Rectangle actionArea)
     {
         int maxX = actionArea.width - marker.getWidth() - 1;
@@ -238,20 +234,6 @@ public class ImageSeeker
         return correlation;
     }
 
-    public static int findHorizontalRule(BufferedImage screen,
-            Color ruleColor, Color bgColor, boolean fromTop) {
-        final int height = screen.getHeight();
-        int gap = 0;
-
-        if (!fromTop) {
-            return findHorizontalEdgeGap(screen, ruleColor,
-                    bgColor, 1, height - 1, gap);
-        } else {
-            return findHorizontalEdgeGap(screen, bgColor,
-                    ruleColor, 1, height - 1, gap);
-        }
-    }
-
     public static int findHorizontalEdgeGap(BufferedImage screen,
             Color area1Color, Color area2Color, int y1, int y2, int gap) {
         final int width = screen.getWidth(); 
@@ -332,23 +314,6 @@ public class ImageSeeker
         if (r == null) return false;
         
         return (r.width != 0)&&(r.height != 0)&&(r.x != Integer.MIN_VALUE)&&(r.y != Integer.MIN_VALUE);
-    }
-
-    public static BufferedImage getMaskImage(BufferedImage icon) {
-        int w = icon.getWidth();
-        int h = icon.getHeight();
-        boolean[][] b = getMask(icon);
-        BufferedImage mask = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
-        for (int y = 0; y < h; y++) {
-            for (int x = 0; x < w; x++) {
-                if (b[x][y]) {
-                    mask.setRGB(x, y, Color.white.getRGB());
-                } else {
-                    mask.setRGB(x, y, Color.black.getRGB());
-                }
-            }
-        }
-        return mask;
     }
 
     public static boolean[][] getMask(BufferedImage icon) {

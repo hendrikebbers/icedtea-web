@@ -83,11 +83,6 @@ public class AccessWarningPane extends SecurityDialogPanel implements Rememberab
     HtmlShortcutPanel htmlPanelMenu;
     RememberPanel rememberPanel;
 
-    public AccessWarningPane(SecurityDialog x, CertVerifier certVerifier) {
-        super(x, certVerifier);
-        addComponents();
-    }
-
     public AccessWarningPane(SecurityDialog x, Object[] extras, CertVerifier certVerifier) {
         super(x, certVerifier);
         this.extras = extras;

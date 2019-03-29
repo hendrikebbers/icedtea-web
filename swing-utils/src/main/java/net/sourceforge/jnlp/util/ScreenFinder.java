@@ -42,11 +42,6 @@ import java.awt.*;
 
 public class ScreenFinder {
 
-    public static GraphicsDevice getCurrentScreen() {
-        Point p = MouseInfo.getPointerInfo().getLocation();
-        return getScreenOnCoords(p);
-
-    }
     public static Rectangle  getCurrentScreenSizeWithoutBounds() {
         try {
             Point p = MouseInfo.getPointerInfo().getLocation();

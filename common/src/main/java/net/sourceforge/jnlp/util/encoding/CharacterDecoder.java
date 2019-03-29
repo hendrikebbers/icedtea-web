@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
-import java.nio.ByteBuffer;
 
 /**
  * This class defines the decoding half of character encoders.
@@ -196,28 +195,4 @@ public abstract class CharacterDecoder {
         return (outStream.toByteArray());
     }
 
-    /**
-     * Decode the contents of the inputstream into a buffer.
-     */
-    public byte decodeBuffer(InputStream in)[] throws IOException {
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        decodeBuffer(in, outStream);
-        return (outStream.toByteArray());
-    }
-
-    /**
-     * Decode the contents of the String into a ByteBuffer.
-     */
-    public ByteBuffer decodeBufferToByteBuffer(String inputString)
-        throws IOException {
-        return ByteBuffer.wrap(decodeBuffer(inputString));
-    }
-
-    /**
-     * Decode the contents of the inputStream into a ByteBuffer.
-     */
-    public ByteBuffer decodeBufferToByteBuffer(InputStream in)
-        throws IOException {
-        return ByteBuffer.wrap(decodeBuffer(in));
-    }
 }

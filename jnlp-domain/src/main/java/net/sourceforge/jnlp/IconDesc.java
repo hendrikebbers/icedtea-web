@@ -29,15 +29,6 @@ public class IconDesc {
     /** default icon */
     public static final Object DEFAULT = "default";
 
-    /** selected icon */
-    public static final Object SELECTED = "selected";
-
-    /** disabled icon */
-    public static final Object DISABLED = "disabled";
-
-    /** rollover icon */
-    public static final Object ROLLOVER = "rollover";
-
     /** splash icon */
     public static final Object SPLASH = "splash";
 
@@ -89,13 +80,6 @@ public class IconDesc {
     }
 
     /**
-     * @return the icon type.
-     */
-    public Object getKind() {
-        return kind;
-    }
-
-    /**
      * @return the icon width or -1 if not specified in the
      * JNLPFile.
      */
@@ -109,21 +93,6 @@ public class IconDesc {
      */
     public int getHeight() {
         return height;
-    }
-
-    /**
-     * @return the icon size or -1 if not specified in the JNLPFile.
-     */
-    public int getSize() {
-        return size;
-    }
-
-    /**
-     * @return the icon depth or -1 if not specified in the
-     * JNLPFile.
-     */
-    public int getDepth() {
-        return depth;
     }
 
 }

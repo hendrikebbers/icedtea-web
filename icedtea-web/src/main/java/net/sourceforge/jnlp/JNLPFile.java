@@ -467,13 +467,6 @@ public class JNLPFile {
     }
 
     /**
-     * @return the specification version required by the file.
-     */
-    public Version getSpecVersion() {
-        return specVersion;
-    }
-
-    /**
      * @return the codebase URL for the JNLP file.
      */
     public URL getCodeBase() {
@@ -571,13 +564,6 @@ public class JNLPFile {
                 return null;
             }
         };
-    }
-
-    /**
-     * @return the update section of the JNLP file.
-     */
-    public UpdateDesc getUpdate() {
-        return update;
     }
 
     /**
@@ -709,30 +695,6 @@ public class JNLPFile {
     }
 
     /**
-     * @return the launch information for a component.
-     *
-     * @throws UnsupportedOperationException if there is no component information
-     */
-    public ComponentDesc getComponent() {
-        if (!isComponent())
-            throw new UnsupportedOperationException(R("JNotComponent"));
-
-        return component;
-    }
-
-    /**
-     * @return the launch information for an installer.
-     *
-     * @throws UnsupportedOperationException if there is no installer information
-     */
-    public InstallerDesc getInstaller() {
-        if (!isInstaller())
-            throw new UnsupportedOperationException(R("NotInstaller"));
-
-        return (InstallerDesc) launchType;
-    }
-
-    /**
      * @return whether the lauch descriptor describes an Applet.
      */
     public boolean isApplet() {
@@ -747,32 +709,10 @@ public class JNLPFile {
     }
 
     /**
-     * @return whether the lauch descriptor describes a Component.
-     */
-    public boolean isComponent() {
-        return component != null;
-    }
-
-    /**
      * @return whether the lauch descriptor describes an Installer.
      */
     public boolean isInstaller() {
         return launchType instanceof InstallerDesc;
-    }
-
-    /**
-     * Sets the default view of the JNLP file returned by
-     * getInformation, getResources, etc.  If unset, the defaults
-     * are the properties os.name, os.arch, and the locale returned
-     * by Locale.getDefault().
-     * @param os preferred os of resource      
-     * @param arch preferred arch of resource
-     * @param locale preferred locale of resource
-     */
-    public void setDefaults(String os, String arch, Locale locale) {
-        defaultOS = os;
-        defaultArch = arch;
-        defaultLocale = locale;
     }
 
     /**

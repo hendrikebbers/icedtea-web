@@ -118,10 +118,6 @@ public class OptionsDefinitions {
             return R(decriptionKey);
         }
 
-        public boolean hasNoArguments() {
-            return numberOfArguments == NumberOfArguments.NONE;
-        }
-
         public boolean hasEvenNumberSupportingEqualsChar() {
             return numberOfArguments == NumberOfArguments.EVEN_NUMBER_SUPPORTS_EQUALS_CHAR;
         }

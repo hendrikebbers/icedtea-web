@@ -58,10 +58,6 @@ public class ParsedOption {
         params.add(param);
     }
 
-    public void setParams(List<String> params) {
-        this.params = new ArrayList<>(params);
-    }
-
     public OPTIONS getOption() {
         return option;
     }

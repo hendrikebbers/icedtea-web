@@ -6,7 +6,6 @@ import net.sourceforge.jnlp.SecurityDesc;
 
 import java.net.URL;
 import java.security.Permission;
-import java.security.PermissionCollection;
 import java.util.Collection;
 
 /**
@@ -23,10 +22,6 @@ import java.util.Collection;
  */
 public interface SecurityDelegate {
 
-    public boolean isPluginApplet();
-
-    public boolean userPromptedForPartialSigning();
-
     public boolean userPromptedForSandbox();
 
     public SecurityDesc getCodebaseSecurityDesc(final JARDesc jarDesc, final URL codebaseHost);
@@ -40,10 +35,6 @@ public interface SecurityDelegate {
     public void setRunInSandbox() throws LaunchException;
 
     public boolean getRunInSandbox();
-
-    public void addPermission(final Permission perm);
-
-    public void addPermissions(final PermissionCollection perms);
 
     public void addPermissions(final Collection<Permission> perms);
 }

@@ -132,7 +132,7 @@ public class RulesFolowingClosingListener extends CountingClosingListener {
         }
     }
 
-  
+
     /**
      *
      * @param rule
@@ -206,7 +206,7 @@ public class RulesFolowingClosingListener extends CountingClosingListener {
         this.rules = Arrays.asList(rules);
     }
 
-     final public RulesFolowingClosingListener addRules(List<Rule<?,String>> rules) {
+    final public RulesFolowingClosingListener addRules(List<Rule<?,String>> rules) {
         if (rules == null) {
             throw new NullPointerException("rules cant be null");
         }

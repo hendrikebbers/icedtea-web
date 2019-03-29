@@ -137,13 +137,6 @@ public class LaunchException extends Exception {
     }
 
     /**
-     * @return the JNLPFile being launched.
-     */
-    public JNLPFile getFile() {
-        return file;
-    }
-
-    /**
      * @return the category string, a short description of the
      * exception suitable for displaying in a window title.
      */
@@ -156,21 +149,6 @@ public class LaunchException extends Exception {
      */
     public String getSummary() {
         return summary;
-    }
-
-    /**
-     * @return a description of the exception and the action being
-     * performed when the exception occurred.
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @return a short description of the severity of the problem.
-     */
-    public String getSeverity() {
-        return severity;
     }
 
     private synchronized void saveLaunchException(LaunchException ex) {

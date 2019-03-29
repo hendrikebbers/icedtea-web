@@ -110,34 +110,6 @@ public class Version {
     }
 
     /**
-     * @return true if any of this version's version-ids match one
-     * or more of the specifed version's version-id.
-     *
-     * @param version a version string
-     */
-    public boolean matchesAny(String version) {
-        return matches(new Version(version));
-    }
-
-    /**
-     * @return true if any of this version's version-ids match one
-     * or more of the specifed version's version-id.
-     *
-     * @param version a Version object
-     */
-    public boolean matchesAny(Version version) {
-        List<String> versionStrings = version.getVersionStrings();
-
-        for (String versionString1 : versionStrings) {
-            if (this.matchesSingle(versionString1)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Returns whether a single version string is supported by this
      * Version.
      *

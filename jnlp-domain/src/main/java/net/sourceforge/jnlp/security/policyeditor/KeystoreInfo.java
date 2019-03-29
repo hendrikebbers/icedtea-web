@@ -53,22 +53,6 @@ public class KeystoreInfo {
         this.keyStorePasswordUrl = keyStorePasswordUrl;
     }
 
-    public String getKeyStoreUrl() {
-        return keyStoreUrl;
-    }
-
-    public String getKeyStoreType() {
-        return keyStoreType;
-    }
-
-    public String getKeyStoreProvider() {
-        return keyStoreProvider;
-    }
-
-    public String getKeyStorePasswordUrl() {
-        return keyStorePasswordUrl;
-    }
-
     @Override
     public String toString() {
         return "KeystoreInfo{" +

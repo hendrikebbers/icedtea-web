@@ -291,23 +291,8 @@ public class OutputController {
         return SystemLogHolder.INSTANCE;
     }
 
-    public void printErrorLn(String e) {
-        getErr().println(e);
-
-    }
-
     public void printOutLn(String e) {
         getOut().println(e);
-
-    }
-
-    public void printWarningLn(String e) {
-        printOutLn(e);
-        printErrorLn(e);
-    }
-
-    public void printError(String e) {
-        getErr().print(e);
 
     }
 
@@ -316,33 +301,8 @@ public class OutputController {
 
     }
 
-    public void printWarning(String e) {
-        printOut(e);
-        printError(e);
-    }
-    
-   //package private setters for testing
+    //package private setters for testing
 
-    void setErrLog(PrintStreamLogger errLog) {
-        this.errLog = errLog;
-    }
-
-    void setFileLog(SingleStreamLogger fileLog) {
-        FileLogHolder.INSTANCE = fileLog;
-    }
-    
-    void setAppFileLog(SingleStreamLogger fileLog) {
-        AppFileLogHolder.INSTANCE = fileLog;
-    }
-
-    void setOutLog(PrintStreamLogger outLog) {
-        this.outLog = outLog;
-    }
-
-    void setSysLog(SingleStreamLogger sysLog) {
-        SystemLogHolder.INSTANCE = sysLog;
-    }
-    
     public synchronized String readLine() throws IOException {
         if (br == null) {
             br = new BufferedReader(new InputStreamReader(System.in));

@@ -523,10 +523,6 @@ public class ResourceDownloader implements Runnable {
         public UrlRequestResult() {
         }
 
-        public UrlRequestResult(URL URL) {
-            this.URL = URL;
-        }
-
         URL getURL() {
             return URL;
         }
@@ -564,10 +560,6 @@ public class ResourceDownloader implements Runnable {
 
         public RedirectionException(String string) {
             super(string);
-        }
-
-        public RedirectionException(Throwable cause) {
-            super(cause);
         }
 
     }

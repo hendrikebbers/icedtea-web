@@ -85,14 +85,6 @@ public class ThreadedProcess extends Thread {
         return exitCode;
     }
 
-    public void setVariables(String[] variables) {
-        this.variables = variables;
-    }
-
-    public String[] getVariables() {
-        return variables;
-    }
-
     public void setWriter(InputStream writer) {
         this.writer = writer;
     }
@@ -109,12 +101,7 @@ public class ThreadedProcess extends Thread {
         this.dir = dir;
     }
 
-    public ThreadedProcess(List<String> args,String[] vars) {
-        this(args);
-        this.variables = vars;
-    }
-    
-     public ThreadedProcess(List<String> args, File dir,String[] vars) {
+    public ThreadedProcess(List<String> args, File dir,String[] vars) {
         this(args,dir);
         this.variables = vars;
     }

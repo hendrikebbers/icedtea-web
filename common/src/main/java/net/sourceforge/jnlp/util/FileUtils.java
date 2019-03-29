@@ -528,10 +528,6 @@ public final class FileUtils {
         return getContentOfStream(new FileInputStream(f));
     }
 
-    public static String loadFileAsString(File f, String encoding) throws IOException {
-        return getContentOfStream(new FileInputStream(f), encoding);
-    }
-
     public static byte[] getFileMD5Sum(final File file, final String algorithm) throws NoSuchAlgorithmException,
             FileNotFoundException, IOException {
         final MessageDigest md5;

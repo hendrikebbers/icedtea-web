@@ -51,8 +51,4 @@ public class StorageIoException extends RuntimeException {
         super(e);
     }
 
-     public StorageIoException(Exception e, LockingReaderWriter outer) {
-        super(e);
-        this.outer = outer;
-    }
 }

@@ -360,27 +360,6 @@ public class JNLPRuntime {
     }
 
     /**
-     * Set a class that can exit the JVM; if not set then any class
-     * can exit the JVM.
-     *
-     * @param exitClass a class that can exit the JVM
-     * @throws IllegalStateException if caller is not the exit class
-     */
-    public static void setExitClass(Class<?> exitClass) {
-        checkExitClass();
-        security.setExitClass(exitClass);
-    }
-
-    /**
-     * Disables applets from calling exit.
-     *
-     * Once disabled, exit cannot be re-enabled for the duration of the JVM instance
-     */
-    public static void disableExit() {
-        security.disableExit();
-    }
-
-    /**
      * @return the current Application, or null if none can be
      * determined.
      */
@@ -417,15 +396,6 @@ public class JNLPRuntime {
      */
     public static UpdatePolicy getDefaultUpdatePolicy() {
         return updatePolicy;
-    }
-
-    /**
-     * Sets the default launch handler.
-     * @param handler default handler
-     */
-    public static void setDefaultLaunchHandler(LaunchHandler handler) {
-        checkExitClass();
-        handler = handler;
     }
 
     /**

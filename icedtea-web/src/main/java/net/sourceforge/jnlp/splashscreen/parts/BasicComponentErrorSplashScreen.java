@@ -50,7 +50,6 @@ public abstract class BasicComponentErrorSplashScreen extends BasicComponentSpla
     /**
      * @return the loadingException
      */
-    @Override
     public Throwable getLoadingException() {
         return loadingException;
     }

@@ -81,20 +81,6 @@ public class ControlCurve {
         result = calcualteResult();
     }
 
-    /** paint this curve into g.*/
-    public void paint(Graphics g) {
-        if (isWithPoints()) {
-            FontMetrics fm = g.getFontMetrics(f);
-            g.setFont(f);
-            int h = fm.getAscent() / 2;
-
-            for (int i = 0; i < pts.npoints; i++) {
-                String s = Integer.toString(i);
-                int w = fm.stringWidth(s) / 2;
-                g.drawString(Integer.toString(i), pts.xpoints[i] - w, pts.ypoints[i] + h);
-            }
-        }
-    }
     static final int EPSILON = 36;  /* square of distance for picking */
 
 

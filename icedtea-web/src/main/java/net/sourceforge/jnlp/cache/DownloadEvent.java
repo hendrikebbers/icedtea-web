@@ -16,10 +16,6 @@
 
 package net.sourceforge.jnlp.cache;
 
-import net.sourceforge.jnlp.cache.Resource;
-import net.sourceforge.jnlp.cache.ResourceTracker;
-
-import java.net.URL;
 import java.util.EventObject;
 
 /**
@@ -49,20 +45,6 @@ public class DownloadEvent extends EventObject {
 
         this.tracker = source;
         this.resource = resource;
-    }
-
-    /**
-     * @return the tracker that owns the resource.
-     */
-    public ResourceTracker getTracker() {
-        return tracker;
-    }
-
-    /**
-     * @return the location of the resource being downloaded.
-     */
-    public URL getResourceLocation() {
-        return resource.getLocation();
     }
 
 }

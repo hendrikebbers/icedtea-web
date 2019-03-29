@@ -42,13 +42,6 @@ public class UpdatePolicy {
     private long timeDiff = -1;
 
     /**
-     * Create a new update policy; this policy always updates the
-     * entry unless the shouldUpdate method is overridden.
-     */
-    public UpdatePolicy() {
-    }
-
-    /**
      * Create an update policy that only checks a file for being
      * updated if it has not been checked for longer than the
      * specified time.

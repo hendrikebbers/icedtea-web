@@ -152,10 +152,6 @@ public class LinksPanel extends JPanel implements DocumentChangededListener {
         this.add(clear);
     }
 
-    public void setBaseUrl(URL baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
     public static final String URL_REGEX = "\\(?\\b(https://|http://|www[.])[-A-Za-z0-9+&;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
     public static final Pattern URL_REGEX_PATTERN = Pattern.compile(URL_REGEX);
 

@@ -168,14 +168,6 @@ public class SecurityDialog {
     }
 
     /**
-     * Returns if this dialog has been fully initialized yet.
-     * @return true if this dialog has been initialized, and false otherwise.
-     */
-    public boolean isInitialized() {
-        return initialized;
-    }
-
-    /**
      * Shows more information regarding jar code signing
      *
      * @param certVerifier the JarCertVerifier used to verify this application

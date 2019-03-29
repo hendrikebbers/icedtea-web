@@ -58,44 +58,10 @@ class ContentReader implements Runnable {
         return sb.toString();
     }
 
-    public ContentReader(InputStream is) throws IOException {
-        this.is = is;
-    }
-
-    public ContentReader(InputStream is, ContentReaderListener l) throws IOException {
-        this.is = is;
-        if (l != null) {
-            this.listeners.add(l);
-        }
-    }
-
     public ContentReader(InputStream is, List<ContentReaderListener> l) throws IOException {
         this.is = is;
         if (l != null) {
             this.listeners.addAll(l);
-        }
-    }
-
-    public void addListener(ContentReaderListener listener) {
-        this.listeners.add(listener);
-    }
-
-    public List<ContentReaderListener> getListener() {
-        return listeners;
-    }
-
-    /**
-     * Blocks until the copy is complete, or until the thread is interrupted
-     */
-    public synchronized void waitUntilDone() throws InterruptedException {
-        boolean interrupted = false;
-        // poll interrupted flag, while waiting for copy to complete
-        while (!(interrupted = Thread.interrupted()) && !done) {
-            wait(1000);
-        }
-        if (interrupted) {
-            ServerAccess.logNoReprint("Stream copier: throwing InterruptedException");
-            //throw new InterruptedException();
         }
     }
 

@@ -246,30 +246,6 @@ public class ResourceTracker {
     }
 
     /**
-     * Adds the listener to the list of objects interested in
-     * receivind DownloadEvents.
-     *
-     * @param listener the listener to add.
-     */
-    public void addDownloadListener(DownloadListener listener) {
-        synchronized (listeners) {
-            if (!listeners.contains(listener))
-                listeners.add(listener);
-        }
-    }
-
-    /**
-     * Removes a download listener.
-     *
-     * @param listener the listener to remove.
-     */
-    public void removeDownloadListener(DownloadListener listener) {
-        synchronized (listeners) {
-            listeners.remove(listener);
-        }
-    }
-
-    /**
      * Fires the download event corresponding to the resource's
      * state.  This method is typicall called by the Resource itself
      * on each tracker that is monitoring the resource.  Do not call
@@ -439,23 +415,6 @@ public class ResourceTracker {
     public boolean checkResource(URL location) {
         Resource resource = getResource(location);
         return resource.isSet(DOWNLOADED) || resource.isSet(ERROR);
-    }
-
-    /**
-     * Starts loading the resource if it is not already being
-     * downloaded or already cached.  Resources started downloading
-     * using this method may download faster than those prefetched
-     * by the tracker because the tracker will only prefetch one
-     * resource at a time to conserve system resources.
-     *
-     * @param location the resource location
-     * @return true if the resource is already downloaded (or an error occurred)
-     * @throws IllegalResourceDescriptorException if the resource is not being tracked
-     */
-    public boolean startResource(URL location) {
-        Resource resource = getResource(location);
-
-        return startResource(resource);
     }
 
     /**

@@ -138,15 +138,6 @@ public enum PolicyEditorPermissions implements Serializable {
             this.permissions = permissions;
         }
 
-        public static boolean anyContains(final PolicyEditorPermissions permission) {
-            for (final Group g : Group.values()) {
-                if (g.contains(permission)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public static boolean anyContains(final JCheckBox view, final Map<PolicyEditorPermissions, JCheckBox> checkboxMap) {
             for (final Map.Entry<PolicyEditorPermissions, JCheckBox> pairs : checkboxMap.entrySet()) {
                 if (pairs.getValue() == view) {

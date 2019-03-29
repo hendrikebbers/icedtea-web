@@ -55,10 +55,6 @@ public class YesNoSandboxLimited extends YesNoSandbox {
         return new YesNoSandboxLimited(BasicDialogValue.Primitive.NO);
     }
 
-    public static YesNoSandboxLimited sandbox() {
-        return new YesNoSandboxLimited(BasicDialogValue.Primitive.SANDBOX);
-    }
-
     public static YesNoSandboxLimited readValue(String s) {
         return new YesNoSandboxLimited(BasicDialogValue.Primitive.valueOf(s));
     }

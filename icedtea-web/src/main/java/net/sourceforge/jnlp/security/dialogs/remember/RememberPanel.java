@@ -119,14 +119,6 @@ public class RememberPanel extends JPanel implements RemeberActionProvider {
         };
     }
 
-    public boolean isAlwaysSelected() {
-        return permanencyCheckBox.isSelected();
-    }
-
-    public boolean isCodebaseSelected() {
-        return applyToCodeBaseButton.isSelected();
-    }
-
 
     private URL initCodebase(String codebase) {
         if (codebase != null) {

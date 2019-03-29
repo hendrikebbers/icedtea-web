@@ -36,35 +36,4 @@ public enum RequestedPermissionLevel {
         return this.htmlString;
     }
 
-    /**
-     * The JNLP permission level corresponding to the given String. If null is given, null comes
-     * back. If there is no permission level that can be granted in JNLP matching the given String,
-     * null is also returned.
-     * @param jnlpString the JNLP permission String
-     * @return the matching RequestedPermissionLevel
-     */
-    public RequestedPermissionLevel fromJnlpString(final String jnlpString) {
-        for (final RequestedPermissionLevel level : RequestedPermissionLevel.values()) {
-            if (level.jnlpString != null && level.jnlpString.equals(jnlpString)) {
-                return level;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * The HTML permission level corresponding to the given String. If null is given, null comes
-     * back. If there is no permission level that can be granted in HTML matching the given String,
-     * null is also returned.
-     * @param htmlString the JNLP permission String
-     * @return the matching RequestedPermissionLevel
-     */
-    public RequestedPermissionLevel fromHtmlString(final String htmlString) {
-        for (final RequestedPermissionLevel level : RequestedPermissionLevel.values()) {
-            if (level.htmlString != null && level.htmlString.equals(htmlString)) {
-                return level;
-            }
-        }
-        return null;
-    }
 }

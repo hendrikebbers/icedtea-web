@@ -63,29 +63,6 @@ public class XMLParseException
      * Creates an exception.
      *
      * @param name    The name of the element where the error is located.
-     * @param message A message describing what went wrong.
-     *
-     * <dl><dt><b>Preconditions:</b></dt><dd>
-     * <ul><li>{@code message != null}</li>
-     * </ul></dd></dl>
-     *
-     * <dl><dt><b>Postconditions:</b></dt><dd>
-     * <ul><li>{@code getLineNr() => NO_LINE}</li>
-     * </ul></dd></dl>
-     */
-    public XMLParseException(String name,
-                             String message) {
-        super("XML Parse Exception during parsing of "
-                + ((name == null) ? "the XML definition"
-                                : ("a " + name + " element"))
-                + ": " + message);
-        this.lineNr = XMLParseException.NO_LINE;
-    }
-
-    /**
-     * Creates an exception.
-     *
-     * @param name    The name of the element where the error is located.
      * @param lineNr  The number of the line in the input.
      * @param message A message describing what went wrong.
      *
@@ -108,14 +85,4 @@ public class XMLParseException
         this.lineNr = lineNr;
     }
 
-    /**
-     * Where the error occurred, or {@code NO_LINE} if the line number is
-     * unknown.
-     *
-     * @return  line in source where exception occurred
-     * @see net.sourceforge.nanoxml.XMLParseException#NO_LINE
-     */
-    public int getLineNr() {
-        return this.lineNr;
-    }
 }

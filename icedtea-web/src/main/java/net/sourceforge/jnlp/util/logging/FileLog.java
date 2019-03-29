@@ -40,7 +40,6 @@ import net.sourceforge.jnlp.util.OsUtil;
 import net.sourceforge.jnlp.util.docprovider.TextsProvider;
 import net.sourceforge.jnlp.util.logging.filelogs.LogBasedFileLog;
 import net.sourceforge.jnlp.util.logging.filelogs.WriterBasedFileLog;
-import net.sourceforge.jnlp.util.logging.headers.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,10 +53,6 @@ public final class FileLog  {
 
     private final static Logger LOG = LoggerFactory.getLogger(FileLog.class);
 
-
-    public static Header getHeadlineHeader() {
-        return new Header(MessageLevel.WARNING_ALL, Thread.currentThread().getStackTrace(), Thread.currentThread(), false);
-    }
 
     private static String getColon() {
         if (OsUtil.isWindows()) {
@@ -122,14 +117,6 @@ public final class FileLog  {
   
     public static String getStamp() {
         return fileLogNameFormatter.format(new Date());
-    }
-
-    public static SimpleDateFormat getFileLogNameFormatter() {
-        return fileLogNameFormatter;
-    }
-
-    public static SimpleDateFormat getPluginSharedFormatter() {
-        return pluginSharedFormatter;
     }
 
 }

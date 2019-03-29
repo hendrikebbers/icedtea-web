@@ -149,21 +149,6 @@ public class UrlUtils {
         return normalizeUrl(url, false);
     }
 
-    /* Ensure a URL is properly percent-encoded. Catch checked exceptions and log. */
-    public static URL normalizeUrlQuietly(URL url, boolean encodeFileUrls) {
-        try {
-            return normalizeUrl(url, encodeFileUrls);
-        } catch (MalformedURLException | UnsupportedEncodingException | URISyntaxException e) {
-            LOG.error("ERROR", e);
-        }
-        return url;
-    }
-
-    /* Ensure a URL is properly percent-encoded. Catch checked exceptions and log. */
-    public static URL normalizeUrlQuietly(URL url) {
-        return normalizeUrlQuietly(url, false);
-    }
-
     /* Decode a URL as a file, being tolerant of URLs with mixed encoded & decoded portions. */
     public static File decodeUrlAsFile(URL url) {
         return new File(decodeUrlQuietly(url).getFile());

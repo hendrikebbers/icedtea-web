@@ -572,24 +572,10 @@ public abstract class TextsProvider {
     }
 
     /**
-     * @param introduction the introduction to set
-     */
-    public void setIntroduction(boolean introduction) {
-        this.introduction = introduction;
-    }
-
-    /**
      * @return the synopsis
      */
     public boolean isSynopsis() {
         return synopsis;
-    }
-
-    /**
-     * @param synopsis the synopsis to set
-     */
-    public void setSynopsis(boolean synopsis) {
-        this.synopsis = synopsis;
     }
 
     /**
@@ -600,24 +586,10 @@ public abstract class TextsProvider {
     }
 
     /**
-     * @param description the description to set
-     */
-    public void setDescription(boolean description) {
-        this.description = description;
-    }
-
-    /**
      * @return the commands
      */
     public boolean isCommands() {
         return commands;
-    }
-
-    /**
-     * @param commands the commands to set
-     */
-    public void setCommands(boolean commands) {
-        this.commands = commands;
     }
 
     /**
@@ -628,24 +600,10 @@ public abstract class TextsProvider {
     }
 
     /**
-     * @param options the options to set
-     */
-    public void setOptions(boolean options) {
-        this.options = options;
-    }
-
-    /**
      * @return the examples
      */
     public boolean isExamples() {
         return examples;
-    }
-
-    /**
-     * @param examples the examples to set
-     */
-    public void setExamples(boolean examples) {
-        this.examples = examples;
     }
 
     /**
@@ -656,13 +614,6 @@ public abstract class TextsProvider {
     }
 
     /**
-     * @param files the files to set
-     */
-    public void setFiles(boolean files) {
-        this.files = files;
-    }
-
-    /**
      * @return the bugs
      */
     public boolean isBugs() {
@@ -670,24 +621,10 @@ public abstract class TextsProvider {
     }
 
     /**
-     * @param bugs the bugs to set
-     */
-    public void setBugs(boolean bugs) {
-        this.bugs = bugs;
-    }
-
-    /**
      * @return the authors
      */
     public boolean isAuthors() {
         return authors;
-    }
-
-    /**
-     * @param authors the authors to set
-     */
-    public void setAuthors(boolean authors) {
-        this.authors = authors;
     }
 
     public void setAuthorFilePath(File authorFilePath) {

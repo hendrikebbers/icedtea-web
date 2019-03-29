@@ -38,10 +38,5 @@ package net.sourceforge.jnlp.splashscreen;
 
 public interface SplashErrorPanel extends SplashPanel {
 
-    /**
-     * When applet loading fails, then dying stacktrace can be set, and is then shown to user on demand.
-     */
-    public Throwable getLoadingException();
-
     public void setLoadingException(Throwable loadingException);
 }

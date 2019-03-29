@@ -41,7 +41,6 @@ import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.ImageResources;
 import net.sourceforge.jnlp.util.logging.headers.MessageWithHeader;
 import net.sourceforge.jnlp.util.logging.headers.ObservableMessagesProvider;
-import net.sourceforge.jnlp.util.logging.headers.PluginMessage;
 import net.sourceforge.swing.SwingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,11 +54,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -375,10 +369,6 @@ public class JavaConsole implements ObservableMessagesProvider {
         initialized = true;
     }
 
-    public void showConsole() {
-        showConsole(false);
-    }
-
     public void showConsole(boolean modal) {
         if (!JNLPRuntime.isHeadless()) {
             if (consoleWindow == null || !consoleWindow.isVisible()) {
@@ -412,16 +402,6 @@ public class JavaConsole implements ObservableMessagesProvider {
         });
     }
 
-    public void hideConsoleLater() {
-        SwingUtils.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                JavaConsole.getConsole().hideConsole();
-            }
-        });
-    }
-
     protected void printSystemProperties() {
 
         LOG.debug(" ----");
@@ -434,10 +414,6 @@ public class JavaConsole implements ObservableMessagesProvider {
         }
 
         LOG.debug(" ----");
-    }
-
-    public void setClassLoaderInfoProvider(ClassLoaderInfoProvider clip) {
-        classLoaderInfoProvider = clip;
     }
 
     private void printClassLoaders() {
@@ -525,16 +501,6 @@ public class JavaConsole implements ObservableMessagesProvider {
         });
     }
 
-    /**
-     * parse plugin message and add it as header+message to data
-     *
-     * @param s string to be parsed
-     */
-    private void processPluginMessage(String s) {
-        PluginMessage pm = new PluginMessage(s);
-        LOG.debug(pm + "");
-    }
-
     @Override
     public List<MessageWithHeader> getData() {
         return rawData;
@@ -545,44 +511,4 @@ public class JavaConsole implements ObservableMessagesProvider {
         return observable;
     }
 
-    public void createPluginReader(final File file) {
-        LOG.debug("Starting processing of plugin-debug-to-console " + file.getAbsolutePath());
-        Thread t = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                BufferedReader br = null;
-                try {
-                    br = new BufferedReader(new InputStreamReader(new FileInputStream(file),
-                            Charset.forName("UTF-8")));
-                    //never ending loop
-                    while (true) {
-                        try {
-                            String s = br.readLine();
-                            if (s == null) {
-                                break;
-                            }
-                            processPluginMessage(s);
-                        } catch (Exception ex) {
-                            LOG.error("ERROR", ex);
-                        }
-                    }
-                } catch (Exception ex) {
-                    LOG.error("ERROR", ex);
-                    if (br != null) {
-                        try {
-                            br.close();
-                        } catch (Exception exx) {
-                            LOG.error("ERROR", exx);
-                        }
-                    }
-                }
-                LOG.debug("Ended processing of plugin-debug-to-console " + file.getAbsolutePath());
-            }
-        }, "plugin-debug-to-console reader thread");
-        t.setDaemon(true);
-        t.start();
-
-        LOG.debug("Started processing of plugin-debug-to-console " + file.getAbsolutePath());
-    }
 }

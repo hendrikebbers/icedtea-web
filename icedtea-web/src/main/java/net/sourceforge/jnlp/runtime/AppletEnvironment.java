@@ -147,15 +147,6 @@ public class AppletEnvironment implements AppletContext, AppletStub {
     }
 
     /**
-     * @return the frame that contains the applet.  Disposing this
-     * frame will destroy the applet.
-     */
-    public Container getAppletFrame() {
-        // TODO: rename this method to getAppletContainer ?
-        return cont;
-    }
-
-     /**
      * container must be SplashContoler.
      * @return container
      */

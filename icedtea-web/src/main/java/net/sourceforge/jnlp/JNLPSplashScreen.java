@@ -125,12 +125,6 @@ public class JNLPSplashScreen extends JDialog {
             splash.setInformationElement(InformationElement.createFromJNLP(file));
         }
     }
-    
-    
-
-    public boolean isSplashImageLoaded() {
-        return splashImageLoaded;
-    }
 
 
     public boolean isSplashScreenValid() {
