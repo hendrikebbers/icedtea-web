@@ -125,7 +125,7 @@ public final class PluginBridge extends JNLPFile {
 
                 if (params.getJNLPEmbedded() != null) {
                     InputStream jnlpInputStream = new ByteArrayInputStream(decodeBase64String(params.getJNLPEmbedded()));
-                    jnlpFile = new JNLPFile(jnlpInputStream, codeBase, defaultSettings);
+                    jnlpFile = new JNLPCreator().create(jnlpInputStream, codeBase, defaultSettings);
                     debugJnlp = new StreamProvider() {
 
                         @Override
@@ -143,7 +143,7 @@ public final class PluginBridge extends JNLPFile {
 
                         @Override
                         InputStream getStream() throws Exception {
-                            return JNLPFile.openURL(jnlp, null, UpdatePolicy.ALWAYS);
+                            return JNLPCreator.openURL(jnlp, null, UpdatePolicy.ALWAYS);
                         }
                     }.readStream();
                 }

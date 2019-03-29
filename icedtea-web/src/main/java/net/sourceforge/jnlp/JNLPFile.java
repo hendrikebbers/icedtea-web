@@ -16,28 +16,17 @@
 
 package net.sourceforge.jnlp;
 
-import net.sourceforge.jnlp.RequestedPermissionLevel;
-import net.sourceforge.jnlp.cache.ResourceTracker;
-import net.sourceforge.jnlp.cache.UpdatePolicy;
-import net.sourceforge.jnlp.parser.MissingTitleException;
-import net.sourceforge.jnlp.parser.MissingVendorException;
-import net.sourceforge.jnlp.parser.Parser;
 import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.runtime.JNLPClassLoader;
-import net.sourceforge.jnlp.runtime.JNLPRuntime;
 import net.sourceforge.jnlp.util.ClasspathMatcher;
 import net.sourceforge.jnlp.util.UrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -73,7 +62,7 @@ public class JNLPFile {
     public static enum ManifestBoolean {
         TRUE, FALSE, UNDEFINED;
     }
-   
+
 
     // todo: save the update policy, then if file was not updated
     // then do not check resources for being updated.
@@ -169,161 +158,48 @@ public class JNLPFile {
     protected JNLPFile() {
     }
 
-    /**
-     * Create a JNLPFile from a URL.
-     *
-     * @param location the location of the JNLP file
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(URL location) throws IOException, ParseException {
-        this(location, new ParserSettings());
-    }
-
-    /**
-     * Create a JNLPFile from a URL checking for updates using the
-     * default policy.
-     *
-     * @param location the location of the JNLP file
-     * @param settings the parser settings to use while parsing the file
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(URL location, ParserSettings settings) throws IOException, ParseException {
-        this(location, (Version) null, settings);
-    }
-
-    /**
-     * Create a JNLPFile from a URL and a Version checking for updates using
-     * the default policy.
-     *
-     * @param location the location of the JNLP file
-     * @param version the version of the JNLP file
-     * @param settings the parser settings to use while parsing the file
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(URL location, Version version, ParserSettings settings) throws IOException, ParseException {
-        this(location, version, settings, JNLPRuntime.getDefaultUpdatePolicy());
-    }
-
-    /**
-     * Create a JNLPFile from a URL and a version, checking for updates
-     * using the specified policy.
-     *
-     * @param location the location of the JNLP file
-     * @param version the version of the JNLP file
-     * @param settings the {@link ParserSettings} to use when parsing the {@code location}
-     * @param policy the update policy
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(URL location, Version version, ParserSettings settings, UpdatePolicy policy) throws IOException, ParseException {
-	    this(location, version, settings, policy, null);
-    }
-
-    /**
-     * Create a JNLPFile from a URL and a version, checking for updates
-     * using the specified policy.
-     *
-     * @param location the location of the JNLP file
-     * @param version the version of the JNLP file
-     * @param settings the parser settings to use while parsing the file
-     * @param policy the update policy
-     * @param forceCodebase codebase to use if not specified in JNLP file.
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    protected JNLPFile(URL location, Version version, ParserSettings settings, UpdatePolicy policy, URL forceCodebase) throws IOException, ParseException {
-        InputStream input = openURL(location, version, policy);
-        this.parserSettings = settings;
-        parse(input, location, forceCodebase);
-
-        //Downloads the original jnlp file into the cache if possible
-        //(i.e. If the jnlp file being launched exist locally, but it
-        //originated from a website, then download the one from the website
-        //into the cache).
-        if (sourceLocation != null && "file".equals(location.getProtocol())) {
-            openURL(sourceLocation, version, policy);
-        }
-
-        this.fileLocation = location;
-
-        this.uniqueKey = Calendar.getInstance().getTimeInMillis() + "-" +
-                         ((int)(Math.random()*Integer.MAX_VALUE)) + "-" +
-                         location;
-
-        LOG.error("UNIQUEKEY=" + this.uniqueKey);
-    }
-
-    /**
-     * Create a JNLPFile from a URL, parent URLm a version and checking for
-     * updates using the specified policy.
-     *
-     * @param location the location of the JNLP file
-     * @param uniqueKey A string that uniquely identifies connected instances
-     * @param version the version of the JNLP file
-     * @param settings the parser settings to use while parsing the file
-     * @param policy the update policy
-     * @throws IOException if an IO exception occurred
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(URL location, String uniqueKey, Version version, ParserSettings settings, UpdatePolicy policy) throws IOException, ParseException {
-        this(location, version, settings, policy);
+    public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
-
-        LOG.error("UNIQUEKEY (override) =" + this.uniqueKey);
     }
 
-    /**
-     * Create a JNLPFile from an input stream.
-     *
-     * @param input input stream from which create jnlp file
-     * @param settings settings of parser
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(InputStream input, ParserSettings settings) throws ParseException {
-        this.parserSettings = settings;
-        parse(input, null, null);
+    public void setSpecVersion(Version specVersion) {
+        this.specVersion = specVersion;
     }
 
-    /**
-     * Create a JNLPFile from an input stream.
-     *
-     * @param input input stream of JNLP file.
-     * @param codebase codebase to use if not specified in JNLP file..
-     * @param settings the {@link ParserSettings} to use when parsing
-     * @throws ParseException if the JNLP file was invalid
-     */
-    public JNLPFile(InputStream input, URL codebase, ParserSettings settings) throws ParseException {
-        this.parserSettings = settings;
-        parse(input, null, codebase);
+    public void setFileVersion(Version fileVersion) {
+        this.fileVersion = fileVersion;
     }
 
+    public void setCodeBase(URL codeBase) {
+        this.codeBase = codeBase;
+    }
 
-    /**
-     * Open the jnlp file URL from the cache if there, otherwise
-     * download to the cache. 
-     * Unless file is find in cache, this method blocks until it is downloaded.
-     * This is the best way in itw how to download and cache file
-     * @param location of resource to open
-     * @param version of resource
-     * @param policy update policy of resource
-     * @return  opened streamfrom given url
-     * @throws java.io.IOException  if something goes wrong
-     */
-    public static InputStream openURL(URL location, Version version, UpdatePolicy policy) throws IOException {
-        if (location == null || policy == null)
-            throw new IllegalArgumentException(R("NullParameter"));
+    public void setFileLocation(URL fileLocation) {
+        this.fileLocation = fileLocation;
+    }
 
-        try {
-            ResourceTracker tracker = new ResourceTracker(false); // no prefetch
-            tracker.addResource(location, version, null, policy);
-            File f = tracker.getCacheFile(location);
-            return new FileInputStream(f);
-        } catch (Exception ex) {
-            throw new IOException(ex);
-        }
+    public void setInfo(List<InformationDesc> info) {
+        this.info = info;
+    }
+
+    public void setUpdate(UpdateDesc update) {
+        this.update = update;
+    }
+
+    public void setResources(List<ResourcesDesc> resources) {
+        this.resources = resources;
+    }
+
+    public void setLaunchType(LaunchDesc launchType) {
+        this.launchType = launchType;
+    }
+
+    public void setComponent(ComponentDesc component) {
+        this.component = component;
+    }
+
+    public void setSecurity(SecurityDesc security) {
+        this.security = security;
     }
 
     /**
@@ -427,6 +303,10 @@ public class JNLPFile {
 
     private String getVendorImpl() {
         return getInformation().getVendor();
+    }
+
+    public void setParserSettings(ParserSettings parserSettings) {
+        this.parserSettings = parserSettings;
     }
 
     /**
@@ -797,43 +677,6 @@ public class JNLPFile {
         }
 
         return false;
-    }
-
-    /**
-     * Initialize the JNLPFile fields. Private because it's called
-     * from the constructor.
-     *
-     * @param location the file location or {@code null}
-     */
-    private void parse(InputStream input, URL location, URL forceCodebase) throws ParseException {
-        try {
-            //if (location != null)
-            //  location = new URL(location, "."); // remove filename
-
-            Node root = Parser.getRootNode(input, parserSettings);
-            Parser parser = new Parser(this, location, root, parserSettings, forceCodebase); // true == allow extensions
-
-            // JNLP tag information
-            specVersion = parser.getSpecVersion();
-            fileVersion = parser.getFileVersion();
-            codeBase = parser.getCodeBase();
-            sourceLocation = parser.getFileLocation() != null ? parser.getFileLocation() : location;
-            info = parser.getInfo(root);
-            parser.checkForInformation();
-            update = parser.getUpdate(root);
-            resources = parser.getResources(root, false); // false == not a j2se/java resources section
-            launchType = parser.getLauncher(root);
-            component = parser.getComponent(root);
-            security = parser.getSecurity(root);
-
-            checkForSpecialProperties();
-
-        } catch (ParseException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            LOG.error("ERROR", ex);
-            throw new RuntimeException(ex.toString());
-        }
     }
 
     /**

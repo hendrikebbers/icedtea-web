@@ -19,11 +19,14 @@ package net.sourceforge.jnlp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static net.sourceforge.jnlp.runtime.Translator.R;
 
 /**
  * The extension element.
@@ -104,4 +107,32 @@ public class ExtensionDesc {
         return location;
     }
 
+    /**
+     * Resolves the extension by creating a JNLPFile from the file
+     * specified by the extension's location property.
+     *
+     * @throws IOException if the extension JNLPFile could not be resolved.
+     * @throws ParseException if the extension JNLPFile could not be
+     * parsed or was not a component or installer descriptor.
+     */
+    public void resolve() throws ParseException, IOException {
+        if (file == null) {
+            file = new JNLPCreator().create(location);
+
+            LOG.debug("Resolve: {}", file.getInformation().getTitle());
+
+            // check for it being an extension descriptor
+            if (!file.isComponent() && !file.isInstaller())
+                throw new ParseException(R("JInvalidExtensionDescriptor", name, location));
+        }
+
+    }
+
+    /**
+     * @return a JNLPFile for the extension, or null if the JNLP
+     * file has not been resolved.
+     */
+    public JNLPFile getJNLPFile() {
+        return file;
+    }
 }

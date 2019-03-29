@@ -36,6 +36,7 @@ exception statement from your version.
 
 package net.sourceforge.jnlp.security.dialogs.apptrustwarningpanel;
 
+import net.sourceforge.jnlp.JNLPCreator;
 import net.sourceforge.jnlp.JNLPFile;
 import net.sourceforge.jnlp.security.SecurityDialog;
 import net.sourceforge.jnlp.security.appletextendedsecurity.UnsignedAppletActionEntry;
@@ -104,7 +105,7 @@ public class UnsignedAppletTrustWarningPanel extends AppTrustWarningPanel {
     }
     
     public static void main(String[] args) throws Exception {
-        UnsignedAppletTrustWarningPanel w = new UnsignedAppletTrustWarningPanel(null, new JNLPFile(new URL("http://www.geogebra.org/webstart/geogebra.jnlp")));
+        UnsignedAppletTrustWarningPanel w = new UnsignedAppletTrustWarningPanel(null, new JNLPCreator().create(new URL("http://www.geogebra.org/webstart/geogebra.jnlp")));
         JFrame f = new JFrame();
         f.setSize(600, 400);
         f.add(w, BorderLayout.CENTER);

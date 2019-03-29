@@ -36,10 +36,7 @@
  */
 package net.sourceforge.jnlp.runtime.html;
 
-import net.sourceforge.jnlp.JNLPFile;
-import net.sourceforge.jnlp.JnlpRuntimeState;
-import net.sourceforge.jnlp.OptionsDefinitions;
-import net.sourceforge.jnlp.ParseException;
+import net.sourceforge.jnlp.*;
 import net.sourceforge.jnlp.parser.Parser;
 import net.sourceforge.jnlp.parser.ParserSettings;
 import net.sourceforge.jnlp.cache.UpdatePolicy;
@@ -106,7 +103,7 @@ public class AppletExtractor {
 
     public List<Element> findAppletsOnPage() {
         try{
-        return findAppletsOnPageImpl(openDocument(cleanStreamIfPossible(JNLPFile.openURL(html, null, UpdatePolicy.ALWAYS))));
+        return findAppletsOnPageImpl(openDocument(cleanStreamIfPossible(JNLPCreator.openURL(html, null, UpdatePolicy.ALWAYS))));
         } catch (SAXException sex) {
             throw new RuntimeException(new ParseException(sex));
         } catch (IOException | ParserConfigurationException ex) {
