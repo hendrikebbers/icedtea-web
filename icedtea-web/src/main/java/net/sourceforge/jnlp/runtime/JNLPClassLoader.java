@@ -273,6 +273,17 @@ public class JNLPClassLoader extends URLClassLoader {
      * @param policy update policy of loader
      * @throws net.sourceforge.jnlp.LaunchException if app can not be loaded
      */
+    protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy) throws LaunchException {
+        this(file, policy, null, false, new ParserSettings());
+    }
+
+    /**
+     * Create a new JNLPClassLoader from the specified file.
+     *
+     * @param file the JNLP file
+     * @param policy update policy of loader
+     * @throws net.sourceforge.jnlp.LaunchException if app can not be loaded
+     */
     protected JNLPClassLoader(JNLPFile file, UpdatePolicy policy, ParserSettings parserSettings) throws LaunchException {
         this(file, policy, null, false, parserSettings);
     }
