@@ -17,6 +17,7 @@
 package net.sourceforge.jnlp.cache;
 
 import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.cache.directory.CacheDirectory;
 import net.sourceforge.jnlp.util.PropertiesFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -17,6 +17,7 @@
 package net.sourceforge.jnlp.cache;
 
 import net.sourceforge.jnlp.Version;
+import net.sourceforge.jnlp.cache.directory.CacheDirectory;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.controlpanel.CachePane;

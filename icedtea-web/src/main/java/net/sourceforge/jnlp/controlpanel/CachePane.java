@@ -17,10 +17,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 package net.sourceforge.jnlp.controlpanel;
 
-import net.sourceforge.jnlp.cache.CacheDirectory;
+import net.sourceforge.jnlp.cache.directory.CacheDirectory;
 import net.sourceforge.jnlp.cache.CacheEntry;
 import net.sourceforge.jnlp.cache.CacheUtil;
-import net.sourceforge.jnlp.cache.DirectoryNode;
+import net.sourceforge.jnlp.cache.directory.DirectoryNode;
 import net.sourceforge.jnlp.config.DeploymentConfiguration;
 import net.sourceforge.jnlp.config.PathsAndFiles;
 import net.sourceforge.jnlp.runtime.Translator;
